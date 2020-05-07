@@ -11,26 +11,30 @@
 @section('content')
     <div class="container pb-5 profile-container">
         <div class="row align-items-center">
-            <div class="col-4">
-                <div class="profile-img" style="background-image: url({{ $user[0]->usermeta->image ?? asset('img/default-avatar.png') }})"></div>
+            <div class="col-md-4">
+                <div class="profile-img"
+                     style="background-image: url({{ $user[0]->usermeta->image ?? asset('img/default-avatar.png') }})"></div>
 
-                <form class="profile-img__upload" action="/profile/uploadAvatar" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" value="{{ $user[0]->id }}" name="user_id">
-                    <div class="form-group">
-                        <input type="file" name="image" id="file" class="profile-img__input">
-                        <label for="file" class="btn btn-tertiary js-labelFile">
-                            <i class="icon fa fa-check"></i>
-                            <span class="js-fileName">Загрузить файл</span>
-                        </label>
-                    </div>
+                @if($user[0]->id == auth()->user()->id)
+                    <form class="profile-img__upload" action="/profile/uploadAvatar" method="post"
+                          enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" value="{{ $user[0]->id }}" name="user_id">
+                        <div class="form-group">
+                            <input type="file" name="image" id="file" class="profile-img__input">
+                            <label for="file" class="btn btn-tertiary js-labelFile">
+                                <i class="icon fa fa-check"></i>
+                                <span class="js-fileName">Загрузить фото</span>
+                            </label>
+                        </div>
 
-                    @error('image')
-                    <span class="error">{{ $message }}</span>
-                    @enderror
-                </form>
+                        @error('image')
+                        <span class="error">{{ $message }}</span>
+                        @enderror
+                    </form>
+                @endif
             </div>
-            <div class="col-7 offset-1">
+            <div class="col-md-7 offset-md-1">
                 <form class="profile-info" method="post">
                     @method('PUT')
                     @csrf
@@ -44,7 +48,7 @@
                         <div class="profile-age profile-block">Возраст:
                             <input name="age" type="text" disabled
                                    value="@if(!in_array($user[0]->usermeta->age, [null, ''])){{$user[0]->usermeta->age}}@endif"
-                                    placeholder="Не указан">
+                                   placeholder="Не указан">
                             <span class="error error-age"></span>
                         </div>
                         <div class="profile-phone profile-block">Телефон:
@@ -65,7 +69,7 @@
                                 <span class="placeholder">Ссылка не указана</span>
                             @else
                                 <a href="{{ $user[0]->usermeta->vk_link }}">{{ $user[0]->usermeta->vk_link }}</a>
-                        @endif
+                            @endif
                         </div>
                         @if($user[0]->id == auth()->user()->id)
                             <div class="profile-vk profile-block profile-block__showOnEdit">ВК:
@@ -86,7 +90,7 @@
                             <div class="profile-instagram profile-block profile-block__showOnEdit">Инстаграм:
                                 <input name="instagram_link" type="text"
                                        value="{{ $user[0]->usermeta->instagram_link }}"
-                                placeholder="Ссылка не указана">
+                                       placeholder="Ссылка не указана">
                                 <span class="error error-instagram_link"></span>
                             </div>
                         @endif
@@ -94,7 +98,7 @@
                         <div class="profile-about profile-block profile-block__hideOnEdit">
                             <p>О себе: @if(!in_array($user[0]->usermeta->about, [null, '']))
                                     <span>{{$user[0]->usermeta->about}}</span>
-                                        @else<span class="placeholder">{{'Нет информации'}}</span>@endif</p>
+                                @else<span class="placeholder">{{'Нет информации'}}</span>@endif</p>
                         </div>
                         <div class="profile-about profile-block profile-block__showOnEdit">
                             О себе:

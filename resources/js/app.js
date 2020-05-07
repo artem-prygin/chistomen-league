@@ -112,14 +112,6 @@ $(document).ready(function () {
         autoHeight: true
     })
 
-
-    $('.league-input').focusout(function () {
-        $('.leag-filter').submit();
-    });
-
-
-
-
 });
 
 

@@ -20,10 +20,21 @@ use App\Models\Post;
                         <div class="card post-card">
                             <h5 class="card-header">{{$post->title}}</h5>
                             <div class="card-body">
-                                {{$post->description}}
+                                <p>
+                                    {{$post->description}}
+                                </p>
                                 <div class="card-img" style="text-align: center">
                                     <img src="{{$post->photo}}" alt="{{$post->title}}">
                                 </div>
+
+                                <p>
+                                    Автор:
+                                    @if($post->user)
+                                        <a href="{{ route('profile.show', ['profile' => $post->user->nickname]) }}">{{$post->user->name}}</a>
+                                    @else
+                                        <span>Deleted</span>
+                                    @endif
+                                </p>
                                 <form @auth class="like" @endauth action="{{ route('like') }}" method="post">
                                     @csrf
                                     <input type="hidden" value="{{$post->id}}" name="id">

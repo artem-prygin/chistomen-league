@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\PasswordReset as PasswordReset;
+use App\Notifications\VerifyEmail;
 
 /**
  * App\Models\User
@@ -69,8 +71,28 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany('App\Models\Post');
     }
 
+    public function userPosts()
+    {
+        return $this->hasMany('App\Models\Post', 'author');
+    }
+
     public function usermeta()
     {
         return $this->hasOne('App\Models\UserMeta');
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordReset($token));
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail); // my notification
     }
 }

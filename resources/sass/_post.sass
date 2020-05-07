@@ -8,7 +8,6 @@
 
 .post-blocks
     &__title
-        text-decoration: underline
         margin-bottom: 25px
     &__arrow
         position: absolute
@@ -23,9 +22,22 @@
 
 .post-block
     &__img
+        display: flex
+        align-items: center
         height: 250px
         img
             display: block
             margin: auto
             width: auto!important
             max-height: 100%
+
+@media screen and (max-width: 625px)
+    .post-blocks
+        &__arrow
+            top: auto
+            bottom: -5px
+            font-size: 30px
+            &-left
+                left: 0
+            &-right
+                right: 0
