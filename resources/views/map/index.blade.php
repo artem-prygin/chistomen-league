@@ -36,8 +36,6 @@ use App\Models\Post;
             });
             @endforeach
 
-            console.log(window.events);
-
             ymaps.ready(init);
             function init() {
                 var myMap = new ymaps.Map("map", {
