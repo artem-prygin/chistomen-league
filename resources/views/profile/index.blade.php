@@ -39,26 +39,26 @@
                     @method('PUT')
                     @csrf
                     <h4 class="profile-name profile-block">
-                        <input type="text" name="name" value="{{ $user[0]->name ?? old('name') }}" disabled class="disabled">
+                        <input type="text" name="name" value="{{ $user[0]->name ?? old('name') }}" disabled>
                         <span class="error error-name"></span>
                     </h4>
                     <hr>
 
                     <div class="profile-info__meta">
                         <div class="profile-age profile-block">Возраст:
-                            <input name="age" type="text" disabled class="disabled"
+                            <input name="age" type="text" disabled
                                    value="@if(!in_array($user[0]->usermeta->age, [null, ''])){{$user[0]->usermeta->age}}@endif"
                                    placeholder="Не указан">
                             <span class="error error-age"></span>
                         </div>
                         <div class="profile-phone profile-block">Телефон:
-                            <input name="phone" type="text" disabled class="disabled"
+                            <input name="phone" type="text" disabled
                                    value="@if(!in_array($user[0]->usermeta->phone, [null, ''])){{$user[0]->usermeta->phone}}@endif"
                                    placeholder="Не указан">
                             <span class="error error-phone"></span>
                         </div>
                         <div class="profile-city profile-block">Город*:
-                            <input name="city" type="text" disabled class="disabled"
+                            <input name="city" type="text" disabled
                                    value="@if(!in_array($user[0]->usermeta->city, [null, ''])){{$user[0]->usermeta->city}}@endif"
                                    placeholder="Не указан">
                             <span class="error error-city"></span>

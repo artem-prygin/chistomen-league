@@ -62,10 +62,14 @@ main {
   display: block;
 }
 
-.profile-block input.disabled,
-.profile-block textarea.disabled {
+.profile-block input[disabled],
+.profile-block textarea[disabled],
+.profile-block input:disabled,
+.profile-block textarea:disabled {
   background: transparent;
   border: none;
+  opacity: 1;
+  -webkit-text-fill-color: #212529 !important;
   color: #212529 !important;
 }
 

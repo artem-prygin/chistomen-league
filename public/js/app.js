@@ -116,7 +116,7 @@ $(document).ready(function () {
   });
   var edit = false;
   $('.profile-settings').click(function () {
-    edit === false ? $('.profile-info input, .profile-info textarea').removeClass('disabled').removeAttr('disabled') : $('.profile-info input, .profile-info textarea').addClass('disabled').attr('disabled');
+    $('.profile-info input, .profile-info textarea').attr('disabled', edit);
     edit = !edit;
     $('.profile-block__showOnEdit, .profile-block__hideOnEdit').toggle();
   });
