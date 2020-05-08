@@ -128,9 +128,15 @@
     <div class="container pt-5">
         <div class="row">
             <div class="col-12">
-                <h3 class="post-blocks__title">Посты</h3>
+                <div class="post-blocks__title-wrapper">
+                    <h3 class="post-blocks__title">Посты</h3>
+                    @if($user[0]->id == auth()->user()->id)
+                        <a href="{{ route('posts.create') }}" class="btn btn-primary">Добавить пост</a>
+                    @endif
+                </div>
+                <hr>
                 <div class="post-blocks @if(count($posts)>1){{'post-blocks__slider owl-carousel'}}@endif">
-                    @foreach($posts as $post)
+                    @forelse($posts as $post)
                         <div class="post-block">
                             <div class="post-block__title">
                                 <h5>{{ $post->title }}</h5></div>
@@ -138,11 +144,15 @@
                                 <p>{{ $post->description }}</p>
                             </div>
                             <div class="post-block__img">
-                                <img src="{{$post->photo}}" alt="{{ $post->title }}">
+                                <a href="{{$post->photo}}" data-fancybox="gallery">
+                                    <img src="{{$post->photo}}" alt="{{$post->title}}">
+                                </a>
                             </div>
 
                         </div>
-                    @endforeach
+                    @empty
+                        <p>Постов нет</p>
+                    @endforelse
                 </div>
             </div>
         </div>

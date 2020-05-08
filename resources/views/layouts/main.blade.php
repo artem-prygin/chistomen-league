@@ -5,11 +5,16 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:title" content="Лига Чистомена">
+    <meta property="og:image" content="{{ asset('img/logo.jpg') }}">
     <title>@yield('title') | Лига Чистомена</title>
+    <link rel="icon" href="{{ asset('img/logo.jpg') }}" type="image/x-icon" />
+
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery.fancybox.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
@@ -84,8 +89,17 @@
 </div>
 
 
+<footer class="footer">
+    <p>Сделано просто и с любовью на Laravel</p>
+    <p>
+        Разработчик: <a href="https://vk.com/gribgribych" target="_blank">Артем Прыгин aka Гриб Грибыч</a>
+    </p>
+</footer>
+
+
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

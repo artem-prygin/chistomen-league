@@ -31,7 +31,7 @@
 
                             <div class="col-md-6">
                                 <input id="nickname" type="text" class="form-control @error('nickname') is-invalid @enderror" name="nickname" value="{{ old('nickname') }}" required autocomplete="name" autofocus placeholder="chistowoman">
-                                <small>*допускаются только цифры и латинские буквы</small>
+                                <small>*допускаются только цифры, латинские буквы и '_'</small>
 
                                 @error('nickname')
                                 <span class="invalid-feedback" role="alert">

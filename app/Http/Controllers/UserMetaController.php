@@ -47,7 +47,7 @@ class UserMetaController extends Controller
         }
 
         User::where('id', '=', $request->input('user_id'))->update(request()->validate([
-            'name' => 'required|min:5|max:40'
+            'name' => 'required|min:2|max:40'
         ]));
         UserMeta::where('user_id', '=', $request->input('user_id'))->update(request()->validate([
             'age' => 'nullable|integer|min:1|max:99',

@@ -24,7 +24,9 @@ use App\Models\Post;
                                     {{$post->description}}
                                 </p>
                                 <div class="card-img" style="text-align: center">
-                                    <img src="{{$post->photo}}" alt="{{$post->title}}">
+                                    <a href="{{$post->photo}}" data-fancybox="gallery{{$post->id}}">
+                                        <img src="{{$post->photo}}" alt="{{$post->title}}">
+                                    </a>
                                 </div>
 
                                 <p>

@@ -26,10 +26,10 @@ use App\Models\User;
                 <form action="{{ route('league') }}" class="league-filter" method="get">
                     <tr>
                         <td colspan="2">
-                            <input type="text" class="league-input" name="name" value="{{request('name') ?? ''}}">
+                            <input type="text" class="league-input" name="name" value="{{request('name') ?? ''}}" placeholder="Введите имя">
                         </td>
                         <td>
-                            <input type="text" class="league-input" name="city" value="{{request('city') ?? ''}}">
+                            <input type="text" class="league-input" name="city" value="{{request('city') ?? ''}}" placeholder="Введите город">
                         </td>
                         <td>
                             <button class="btn btn-sm btn-primary">Применить фильтр</button>
