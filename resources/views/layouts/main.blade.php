@@ -35,7 +35,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav m-auto">
-                <li class="nav-item">
+                <li class="nav-item map-link">
                     <a class="nav-link" href="{{ route('map') }}">Карта Лиги</a>
                 </li>
                 <li class="nav-item">
