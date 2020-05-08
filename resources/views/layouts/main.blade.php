@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta property="og:title" content="Лига Чистомена">
-    <meta property="vk:image"  content="https://pp.vk.me/c629531/v629531034/3172e/xEBYyER1WE4.jpg" />
+    <meta property="vk:image"  content="https://sun9-33.userapi.com/c858324/v858324477/1d52d1/YX9smqFyB2E.jpg" />
     <title>@yield('title') | Лига Чистомена</title>
     <link rel="icon" href="{{ asset('img/logo.jpg') }}" type="image/x-icon" />
 
