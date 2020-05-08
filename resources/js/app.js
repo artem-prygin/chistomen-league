@@ -21,8 +21,8 @@ $(document).ready(function () {
     let edit = false;
     $('.profile-settings').click(function () {
         edit === false
-            ? $('.profile-info input, .profile-info textarea').removeAttr('disabled')
-            : $('.profile-info input, .profile-info textarea').attr('disabled')
+            ? $('.profile-info input, .profile-info textarea').removeClass('disabled').removeAttr('disabled')
+            : $('.profile-info input, .profile-info textarea').addClass('disabled').attr('disabled')
         edit = !edit;
 
         $('.profile-block__showOnEdit, .profile-block__hideOnEdit').toggle();
