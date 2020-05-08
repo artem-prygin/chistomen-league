@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta property="og:title" content="Лига Чистомена">
-    <meta property="og:image" content="{{ asset('img/logo.jpg') }}">
+    <meta property="vk:image" content="{{ asset('img/logo.jpg') }}">
     <title>@yield('title') | Лига Чистомена</title>
     <link rel="icon" href="{{ asset('img/logo.jpg') }}" type="image/x-icon" />
 
