@@ -8,7 +8,7 @@
     <meta property="og:title" content="Лига Чистомена">
     <meta property="vk:image" content="{{ asset('img/logo.jpg') }}">
     <title>@yield('title') | Лига Чистомена</title>
-    <link rel="icon" href="{{ asset('img/logo.jpg') }}" type="image/x-icon" />
+    <link rel="icon" href="http://chistomen-league.seal-spirit.com/img/logo.jpg" type="image/x-icon" />
 
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
