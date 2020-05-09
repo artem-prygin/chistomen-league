@@ -112,6 +112,42 @@ $(document).ready(function () {
         autoHeight: true
     })
 
+    //create post select2
+    $('.post-category').select2({
+        placeholder: "Выберите категорию",
+        multiply: true,
+        formatInputTooShort: "авы",
+        language: {
+            noResults: function (params) {
+                return "Ничего не найдено :(";
+            },
+            maximumSelected: function (e) {
+                return "Можно выбрать только одну категорию";
+            }
+        },
+        maximumSelectionLength: 1,
+        minimumInputLength: 0
+    })
+    .on('change', function () {
+        $(this).val()[0] === undefined
+            ? $('.post-category__new').attr('disabled', false)
+            : $('.post-category__new').attr('disabled', true)
+    })
+
+
+
+    $('.post-category__new').on('input', function () {
+        $(this).val() === ''
+            ? $('.post-category').attr('disabled', false)
+            : $('.post-category').attr('disabled', true)
+    });
+
+    if ($('.post-category').length && $('.post-category').val()[0] !== undefined) {
+        $('.post-category__new').attr('disabled', true)
+    }
+    if ($('.post-category__new').length && $('.post-category__new').val() !== '') {
+        $('.post-category').attr('disabled', true)
+    }
 });
 
 

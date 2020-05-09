@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +15,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('users')->with('user')->orderBy('created_at', 'desc')->paginate(4);
+        $posts = Post::with('users')
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(4);
         return view('post.index', ['posts' => $posts]);
     }
 
@@ -23,13 +27,14 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post.create');
+        $categories = Category::all();
+        return view('post.create', ['categories' => $categories]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      */
     public function store(Request $request)
     {
@@ -39,38 +44,58 @@ class PostController extends Controller
         $user_id = auth()->user()->id;
 
         request()->validate([
-            'title' => 'required|min:5|max:99',
-            'description' => 'required|min:10|max:200',
+            'title' => 'required|min:1|max:40',
+            'description' => 'required|min:1|max:200',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        if ($request->has('category_id') && !is_null($request->has('category_id'))) {
+            request()->validate([
+                'category_id' => 'exists:categories,id',
+            ]);
+            $cat = $request->input('category_id');
+            request()->validate([
+                'category_id' => 'required',
+            ]);
+        } else {
+            request()->validate([
+                'name' => 'required|min:1|max:40',
+            ]);
+            $cat = Category::where('name', '=', $request->input('name'))->limit(1)->get();
+            $cat->isEmpty() === true
+                ? $cat = Category::create(['name' => $request->input('name')])->id
+                : $cat = $cat[0]->id;
+        }
+
         $imageName = 'post' . time() . '.' . request()->photo->getClientOriginalExtension();
         $imagePath = '/img/posts/user' . $user_id . '/posts/';
-        request()->photo->move(public_path('img') . '/posts/user' . $user_id . '/posts' , $imageName);
+        request()->photo->move(public_path('img') . '/posts/user' . $user_id . '/posts', $imageName);
 
         Post::create([
-            'author' => $user_id ,
+            'author' => $user_id,
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'photo' => $imagePath . $imageName,
+            'category_id' => $cat
         ]);
+        \Session::flash('success', 'Пост добавлен успешно');
         return redirect('/');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      */
     public function show($id)
     {
-        return '123';
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -81,8 +106,8 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -93,7 +118,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -101,7 +126,13 @@ class PostController extends Controller
         //
     }
 
-    public function like(Request $request) {
+    /**
+     * Like and unlike post
+     * @param Request $request
+     * @return bool
+     */
+    public function like(Request $request)
+    {
         $user = User::find(auth()->user()->id);
 
         $post = Post::find($request->input('id'));
@@ -121,5 +152,22 @@ class PostController extends Controller
 
         $post->update();
         return $like;
+    }
+
+    /**
+     * show posts of category
+     * @param Category $id
+     */
+    public function showCategoryPosts($id)
+    {
+        $posts = Post::where('category_id', '=', $id)
+            ->with('user')
+            ->with('category')
+            ->orderBy('created_at', 'desc')
+            ->paginate(4);
+
+        return view('post.index', [
+            'posts' => $posts
+        ]);
     }
 }

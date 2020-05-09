@@ -13,8 +13,22 @@ use App\Models\Post;
 
 @section('content')
     <div class="container">
-        <div class="row align-items-center">
-            @if($posts && count($posts) > 0)
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show profile-alert" role="alert">
+                <span>{{session('success')}}</span>
+                <button class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if(Route::currentRouteName() === 'posts-category' && !empty($posts[0]->category->name))
+            <h4 style="margin-bottom: 30px">Посты категории "{{$posts[0]->category->name}}"</h4>
+        @endif
+
+        @if($posts && count($posts) > 0)
+            <div class="row align-items-center">
+
                 @foreach($posts as $post)
                     <div class="col-lg-6">
                         <div class="card post-card">
@@ -37,6 +51,13 @@ use App\Models\Post;
                                         <span>Deleted</span>
                                     @endif
                                 </p>
+
+                                <p>
+                                    @if($post->category_id)
+                                        Категория: <a href="{{route('posts-category', ['id' => $post->category->id])}}">{{$post->category->name}}</a>
+                                    @endif
+                                </p>
+
                                 <form @auth class="like" @endauth action="{{ route('like') }}" method="post">
                                     @csrf
                                     <input type="hidden" value="{{$post->id}}" name="id">
@@ -68,14 +89,20 @@ use App\Models\Post;
                         </div>
                     </div>
                 @endforeach
-        </div>
+            </div>
 
-        {{ $posts->links() }}
+            {{ $posts->links() }}
 
         @else
             <p>
-                No posts found
+                Постов еще нет
             </p>
+
+            @if(Route::currentRouteName() === 'posts-category')
+                <p>
+                    <a href="{{route('index')}}">Вернуться на главную</a>
+                </p>
+            @endif
         @endif
     </div>
 

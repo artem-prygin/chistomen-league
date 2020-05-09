@@ -68,7 +68,7 @@
                             @if(in_array($user[0]->usermeta->vk_link, [null, '']))
                                 <span class="placeholder">Ссылка не указана</span>
                             @else
-                                <a href="{{ $user[0]->usermeta->vk_link }}">{{ $user[0]->usermeta->vk_link }}</a>
+                                <a href="{{ $user[0]->usermeta->vk_link }}" target="_blank">{{ $user[0]->usermeta->vk_link }}</a>
                             @endif
                         </div>
                         @if($user[0]->id == auth()->user()->id)
@@ -83,7 +83,7 @@
                             @if(in_array($user[0]->usermeta->instagram_link, [null, '']))
                                 <a disabled="" class="placeholder">Ссылка не указана</a>
                             @else
-                                <a href="{{ $user[0]->usermeta->instagram_link }}">{{ $user[0]->usermeta->instagram_link }}</a>
+                                <a href="{{ $user[0]->usermeta->instagram_link }}" target="_blank">{{ $user[0]->usermeta->instagram_link }}</a>
                             @endif
                         </div>
                         @if($user[0]->id == auth()->user()->id)

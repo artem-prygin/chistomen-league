@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 /**
  * App\Models\Post
  *
@@ -28,22 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Post extends Model
+
+class Category extends Model
 {
-    protected $fillable = ['title', 'photo', 'description', 'likes', 'author', 'category_id'];
-
-    public function users()
-    {
-        return $this->belongsToMany('App\Models\User');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User', 'author');
-    }
-
-    public function category()
-    {
-        return $this->belongsTo('App\Models\Category');
-    }
+    protected $fillable = ['name'];
 }

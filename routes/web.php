@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+/**
+ * PostController
+ */
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'PostController@index')->name('index');
+Route::get('/posts/category/{id}', 'PostController@showCategoryPosts')->name('posts-category');
+
 Route::group(['middleware' => ['auth']],
     function () {
         Route::resource('/posts', 'PostController',
@@ -21,14 +29,17 @@ Route::group(['middleware' => ['auth']],
             ]
         );
     });
-
-Route::get('/', 'PostController@index')->name('index');
-
-Auth::routes(['verify' => true]);
-
-Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/like', 'PostController@like')->middleware('auth')->name('like');
 
+
+/**
+ * Auth
+ */
+Auth::routes(['verify' => true]);
+
+/**
+ * UserMetaController
+ */
 Route::group(['middleware' => ['auth', 'verified']],
     function () {
         Route::resource('/profile', 'UserMetaController',
@@ -41,6 +52,9 @@ Route::group(['middleware' => ['auth', 'verified']],
 Route::post('/profile/uploadAvatar', 'UserMetaController@uploadAvatar')->middleware('auth');
 Route::get('/league', 'UserMetaController@leagueList')->middleware('auth')->name('league');
 
+/**
+ * MapController
+ */
 Route::get('/map', 'MapController@index')->middleware('auth')->name('map');
 
 
