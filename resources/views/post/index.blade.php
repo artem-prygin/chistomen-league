@@ -23,7 +23,10 @@ use App\Models\Post;
         @endif
 
         @if(Route::currentRouteName() === 'posts-category' && !empty($posts[0]->category->name))
-            <h4 style="margin-bottom: 30px">Посты категории "{{$posts[0]->category->name}}"</h4>
+            <h4 style="margin-bottom: 10px">Посты категории "{{$posts[0]->category->name}}"</h4>
+                <p>
+                    <a href="{{route('index')}}">Ко всем постам</a>
+                </p>
         @endif
 
         @if($posts && count($posts) > 0)
