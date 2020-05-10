@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $.fancybox.defaults.loop = true;
     $('.like').submit(function (e) {
         e.preventDefault();
         let form = $(this);
@@ -109,7 +110,6 @@ $(document).ready(function () {
         loop: true,
         nav: true,
         navText: ["<i class='fa fa-chevron-left post-blocks__arrow post-blocks__arrow-left'></i>", "<i class='fa fa-chevron-right post-blocks__arrow post-blocks__arrow-right'></i>"],
-        autoHeight: true
     })
 
     //create post select2
@@ -134,8 +134,6 @@ $(document).ready(function () {
             : $('.post-category__new').attr('disabled', true)
     })
 
-
-
     $('.post-category__new').on('input', function () {
         $(this).val() === ''
             ? $('.post-category').attr('disabled', false)
@@ -148,6 +146,24 @@ $(document).ready(function () {
     if ($('.post-category__new').length && $('.post-category__new').val() !== '') {
         $('.post-category').attr('disabled', true)
     }
+
+
+    $('.post-images__slider').owlCarousel({
+        items: 1,
+        loop: true,
+        nav: true,
+        navText: ["<i class='fa fa-chevron-left post-arrow post-arrow__left'></i>", "<i class='fa fa-chevron-right post-arrow post-arrow__right'></i>"],
+    })
+
+    $('.post-block__img').owlCarousel({
+        items: 1,
+        loop: true,
+        mouseDrag: false,
+        touchDrag: false,
+        pullDrag: false,
+        nav: false,
+        dots: false,
+    })
 });
 
 

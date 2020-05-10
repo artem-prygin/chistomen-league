@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ class PostController extends Controller
     {
         $posts = Post::with('users')
             ->with('user')
+            ->with('images')
             ->orderBy('created_at', 'desc')
             ->paginate(4);
         return view('post.index', ['posts' => $posts]);
@@ -42,12 +44,18 @@ class PostController extends Controller
             dd('error');
         }
         $user_id = auth()->user()->id;
+        $user_nickname = auth()->user()->nickname;
+
+        $messages = [
+            "photo.max" => "Не более пяти фотографий"
+        ];
 
         request()->validate([
             'title' => 'required|min:1|max:40',
-            'description' => 'required|min:1|max:200',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+            'description' => 'required|min:1|max:500',
+            'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'photo' => 'max:5',
+        ], $messages);
 
         if ($request->has('category_id') && !is_null($request->has('category_id'))) {
             request()->validate([
@@ -67,18 +75,33 @@ class PostController extends Controller
                 : $cat = $cat[0]->id;
         }
 
-        $imageName = 'post' . time() . '.' . request()->photo->getClientOriginalExtension();
-        $imagePath = '/img/posts/user' . $user_id . '/posts/';
-        request()->photo->move(public_path('img') . '/posts/user' . $user_id . '/posts', $imageName);
+        $imagePaths = $imageData = [];
+        $i = 0;
+        foreach ($request->file('photo') as $photo) {
+            $imageName = 'post' . time() . $i . '.' . $photo->getClientOriginalExtension();
+            $imagePath = '/img/posts/' . $user_nickname . '/';
+            //$photo->move(public_path('img') . '/posts/' . $user_nickname . '/', $imageName);
+            \Storage::disk('storage')->put($imagePath . $imageName, \File::get($photo));
+            $imagePaths[] = $imagePath . $imageName;
+            $i++;
+        }
 
-        Post::create([
+        $post = Post::create([
             'author' => $user_id,
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'photo' => $imagePath . $imageName,
             'category_id' => $cat
-        ]);
-        \Session::flash('success', 'Пост добавлен успешно');
+        ])->id;
+
+        foreach ($imagePaths as $src) {
+            $imageData[] = [
+                'src' => $src,
+                'post_id' => $post
+            ];
+        }
+        Image::insert($imageData);
+
+        \Session::flash('success', 'Пост успешно добавлен');
         return redirect('/');
     }
 

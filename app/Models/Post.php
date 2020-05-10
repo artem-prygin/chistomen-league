@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Post extends Model
 {
-    protected $fillable = ['title', 'photo', 'description', 'likes', 'author', 'category_id'];
+    protected $fillable = ['title', 'description', 'likes', 'author', 'category_id'];
 
     public function users()
     {
@@ -45,5 +45,10 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo('App\Models\Category');
+    }
+
+    public function images()
+    {
+        return $this->hasMany('App\Models\Image');
     }
 }

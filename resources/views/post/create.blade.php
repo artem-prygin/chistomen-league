@@ -64,9 +64,9 @@
 
             <div class="form-group">
                 <label for="post_photo">Фото*</label>
-                <input type="file" name="photo" id="post_photo" style="display: block" value="{{old('photo') ?? ''}}"
+                <input type="file" multiple name="photo[]" id="post_photo" style="display: block" value="{{old('photo') ?? ''}}"
                        required>
-                <small>в формате png/jpg и не более 2Мб</small>
+                <small>не более 5 фото в формате png/jpg и не более 2Мб каждая</small>
                 @error('photo')
                 <span class="error">{{$message}}</span>
                 @enderror

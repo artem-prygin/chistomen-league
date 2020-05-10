@@ -82,20 +82,19 @@ class UserMetaController extends Controller
             return abort(403);
         }
 
-        $user_id = auth()->user()->id;
+        $user = auth()->user()->nickname;
 
         request()->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $imageName = 'avatar.' . request()->image->getClientOriginalExtension();
-        $imagePath = '/img/users/' . $user_id . '/avatar/';
-        request()->image->move(public_path('img') . '/users/' . $user_id . '/avatar' , $imageName);
+        $imagePath = '/img/users/' . $user . '/avatar/';
+        request()->image->move(public_path('img') . '/users/' . $user . '/avatar' , $imageName);
 
-        UserMeta::where('user_id', '=', $user_id)->update(['image' => $imagePath . $imageName]);
+        UserMeta::where('user_id', '=', auth()->user()->id)->update(['image' => $imagePath . $imageName]);
 
         return redirect()->back();
-//        dd($request->input('image'));
     }
 
     /**

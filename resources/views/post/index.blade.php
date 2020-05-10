@@ -24,9 +24,9 @@ use App\Models\Post;
 
         @if(Route::currentRouteName() === 'posts-category' && !empty($posts[0]->category->name))
             <h4 style="margin-bottom: 10px">Посты категории "{{$posts[0]->category->name}}"</h4>
-                <p>
-                    <a href="{{route('index')}}">Ко всем постам</a>
-                </p>
+            <p>
+                <a href="{{route('index')}}">Ко всем постам</a>
+            </p>
         @endif
 
         @if($posts && count($posts) > 0)
@@ -41,9 +41,19 @@ use App\Models\Post;
                                     {{$post->description}}
                                 </p>
                                 <div class="card-img" style="text-align: center">
-                                    <a href="{{$post->photo}}" data-fancybox="gallery{{$post->id}}">
-                                        <img src="{{$post->photo}}" alt="{{$post->title}}">
-                                    </a>
+                                    @if (count($post->images) > 1)
+                                        <div class="post-images__slider owl-carousel">
+                                            @foreach($post->images as $image)
+                                                <a href="{{url('storage' . $image->src)}}" data-fancybox="gallery{{$post->id}}">
+                                                    <img src="{{url('storage' . $image->src)}}" alt="{{$post->title}}">
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <a href="{{$post->images[0]->src}}" data-fancybox="gallery{{$post->id}}">
+                                            <img src="{{$post->images[0]->src}}" alt="{{$post->title}}">
+                                        </a>
+                                    @endif
                                 </div>
 
                                 <p>
@@ -57,7 +67,8 @@ use App\Models\Post;
 
                                 <p>
                                     @if($post->category_id)
-                                        Категория: <a href="{{route('posts-category', ['id' => $post->category->id])}}">{{$post->category->name}}</a>
+                                        Категория: <a
+                                            href="{{route('posts-category', ['id' => $post->category->id])}}">{{$post->category->name}}</a>
                                     @endif
                                 </p>
 

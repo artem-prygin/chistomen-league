@@ -68,7 +68,8 @@
                             @if(in_array($user[0]->usermeta->vk_link, [null, '']))
                                 <span class="placeholder">Ссылка не указана</span>
                             @else
-                                <a href="{{ $user[0]->usermeta->vk_link }}" target="_blank">{{ $user[0]->usermeta->vk_link }}</a>
+                                <a href="{{ $user[0]->usermeta->vk_link }}"
+                                   target="_blank">{{ $user[0]->usermeta->vk_link }}</a>
                             @endif
                         </div>
                         @if($user[0]->id == auth()->user()->id)
@@ -83,7 +84,8 @@
                             @if(in_array($user[0]->usermeta->instagram_link, [null, '']))
                                 <a disabled="" class="placeholder">Ссылка не указана</a>
                             @else
-                                <a href="{{ $user[0]->usermeta->instagram_link }}" target="_blank">{{ $user[0]->usermeta->instagram_link }}</a>
+                                <a href="{{ $user[0]->usermeta->instagram_link }}"
+                                   target="_blank">{{ $user[0]->usermeta->instagram_link }}</a>
                             @endif
                         </div>
                         @if($user[0]->id == auth()->user()->id)
@@ -143,11 +145,21 @@
                             <div class="post-block__descr">
                                 <p>{{ $post->description }}</p>
                             </div>
-                            <div class="post-block__img">
-                                <a href="{{$post->photo}}" data-fancybox="gallery">
-                                    <img src="{{$post->photo}}" alt="{{$post->title}}">
+                            <small style="display: block; margin-bottom: 20px; font-style: italic">Кликните на изображение, чтобы открыть просмотр фотографий</small>
+
+                            @if (count($post->images) > 1)
+                                <div class="post-block__img owl-carousel">
+                                    @foreach($post->images as $image)
+                                        <a href="{{$image->src}}" data-fancybox="gallery{{$post->id}}">
+                                            <img src="{{$image->src}}" alt="{{$post->title}}">
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @else
+                                <a href="{{$post->images[0]->src}}" data-fancybox="gallery{{$post->id}}">
+                                    <img src="{{$post->images[0]->src}}" alt="{{$post->title}}">
                                 </a>
-                            </div>
+                            @endif
 
                         </div>
                     @empty

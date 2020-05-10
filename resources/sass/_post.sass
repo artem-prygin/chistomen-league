@@ -3,8 +3,6 @@
     .card-img
         margin: 15px 0
         height: 200px
-        img
-            max-height: 100%
 
 .post-blocks
     &__title
@@ -25,17 +23,44 @@
             right: -45px
 
 .post-block
+    a
+        display: flex
+        align-items: center
+        margin: auto
+        height: 250px
+        img
+            margin: auto
+            width: auto!important
+            height: auto
+            max-height: 250px
     &__img
         display: flex
         align-items: center
         height: 250px
-        a
-            display: block
-            margin: auto
-            height: 250px
-            img
-                width: auto!important
-                max-height: 100%
+
+
+.post-images__slider
+    height: 200px
+    a
+        display: flex
+        height: 200px
+    img
+        max-height: 200px
+        margin: auto
+        width: auto!important
+    .owl-dots, .owl-nav
+        height: 0
+
+.post-arrow
+    position: absolute
+    top: 50%
+    transform: translateY(-50%)
+    font-size: 20px
+    color: #666
+    &__left
+        left: -15px
+    &__right
+        right: -15px
 
 @media screen and (max-width: 625px)
     .post-blocks
@@ -47,3 +72,12 @@
                 left: 0
             &-right
                 right: 0
+
+@media screen and (max-width: 499px)
+    .post-images__slider
+        height: 150px
+        img
+            max-height: 150px
+    .post-card
+        .card-img
+            height: 150px

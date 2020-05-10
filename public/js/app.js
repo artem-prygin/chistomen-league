@@ -94,6 +94,7 @@
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
+  $.fancybox.defaults.loop = true;
   $('.like').submit(function (e) {
     e.preventDefault();
     var form = $(this);
@@ -176,8 +177,7 @@ $(document).ready(function () {
     items: 1,
     loop: true,
     nav: true,
-    navText: ["<i class='fa fa-chevron-left post-blocks__arrow post-blocks__arrow-left'></i>", "<i class='fa fa-chevron-right post-blocks__arrow post-blocks__arrow-right'></i>"],
-    autoHeight: true
+    navText: ["<i class='fa fa-chevron-left post-blocks__arrow post-blocks__arrow-left'></i>", "<i class='fa fa-chevron-right post-blocks__arrow post-blocks__arrow-right'></i>"]
   }); //create post select2
 
   $('.post-category').select2({
@@ -208,6 +208,22 @@ $(document).ready(function () {
   if ($('.post-category__new').length && $('.post-category__new').val() !== '') {
     $('.post-category').attr('disabled', true);
   }
+
+  $('.post-images__slider').owlCarousel({
+    items: 1,
+    loop: true,
+    nav: true,
+    navText: ["<i class='fa fa-chevron-left post-arrow post-arrow__left'></i>", "<i class='fa fa-chevron-right post-arrow post-arrow__right'></i>"]
+  });
+  $('.post-block__img').owlCarousel({
+    items: 1,
+    loop: true,
+    mouseDrag: false,
+    touchDrag: false,
+    pullDrag: false,
+    nav: false,
+    dots: false
+  });
 });
 
 /***/ }),
