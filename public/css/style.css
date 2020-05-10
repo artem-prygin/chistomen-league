@@ -267,6 +267,10 @@ main {
     height: 150px;
   }
 
+  .post-images__slider a {
+    height: 150px;
+  }
+
   .post-images__slider img {
     max-height: 150px;
   }
