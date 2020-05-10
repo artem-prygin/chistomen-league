@@ -80,7 +80,6 @@ class PostController extends Controller
         foreach ($request->file('photo') as $photo) {
             $imageName = 'post' . time() . $i . '.' . $photo->getClientOriginalExtension();
             $imagePath = '/img/posts/' . $user_nickname . '/';
-            //$photo->move(public_path('img') . '/posts/' . $user_nickname . '/', $imageName);
             \Storage::disk('storage')->put($imagePath . $imageName, \File::get($photo));
             $imagePaths[] = $imagePath . $imageName;
             $i++;

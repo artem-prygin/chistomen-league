@@ -90,7 +90,7 @@ class UserMetaController extends Controller
 
         $imageName = 'avatar.' . request()->image->getClientOriginalExtension();
         $imagePath = '/img/users/' . $user . '/avatar/';
-        request()->image->move(public_path('img') . '/users/' . $user . '/avatar' , $imageName);
+        \Storage::disk('storage')->put($imagePath . $imageName, \File::get($request->file('image')));
 
         UserMeta::where('user_id', '=', auth()->user()->id)->update(['image' => $imagePath . $imageName]);
 

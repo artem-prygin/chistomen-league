@@ -13,7 +13,7 @@
         <div class="row align-items-center">
             <div class="col-md-4">
                 <div class="profile-img"
-                     style="background-image: url({{ $user[0]->usermeta->image ?? asset('img/default-avatar.png') }})"></div>
+                     style="background-image: url({{ url('storage' . $user[0]->usermeta->image) ?? asset('img/default-avatar.png') }})"></div>
 
                 @if($user[0]->id == auth()->user()->id)
                     <form class="profile-img__upload" action="/profile/uploadAvatar" method="post"
@@ -150,14 +150,14 @@
                             @if (count($post->images) > 1)
                                 <div class="post-block__img owl-carousel">
                                     @foreach($post->images as $image)
-                                        <a href="{{$image->src}}" data-fancybox="gallery{{$post->id}}">
-                                            <img src="{{$image->src}}" alt="{{$post->title}}">
+                                        <a href="{{url('storage' . $image->src)}}" data-fancybox="gallery{{$post->id}}">
+                                            <img src="{{url('storage' . $image->src)}}" alt="{{$post->title}}">
                                         </a>
                                     @endforeach
                                 </div>
                             @else
-                                <a href="{{$post->images[0]->src}}" data-fancybox="gallery{{$post->id}}">
-                                    <img src="{{$post->images[0]->src}}" alt="{{$post->title}}">
+                                <a href="{{url('storage' . $post->images[0]->src)}}" data-fancybox="gallery{{$post->id}}">
+                                    <img src="{{url('storage' . $post->images[0]->src)}}" alt="{{$post->title}}">
                                 </a>
                             @endif
 
