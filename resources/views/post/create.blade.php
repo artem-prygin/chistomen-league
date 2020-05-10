@@ -25,7 +25,7 @@
                 <label for="post_description">Описание*</label>
                 <textarea class="form-control" name="description" id="post_description" rows="3" required
                           placeholder="Собрали 100500 мешков биомусора">{{old('description') ?? ''}}</textarea>
-                <small>не более 200 символов</small>
+                <small>не более 500 символов</small>
                 @error('description')
                 <span class="error">{{$message}}</span>
                 @enderror
