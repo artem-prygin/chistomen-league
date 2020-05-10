@@ -94,6 +94,7 @@ use App\Models\Post;
             let points = [];
             let spinner = document.createElement('div');
             let map = document.getElementById('map');
+            let imagePath = '';
             spinner.classList.add('loader');
             map.appendChild(spinner);
             window.events = [[], [], [], [], []]
@@ -104,7 +105,11 @@ use App\Models\Post;
                     window.events[1].push('{{$user->name}}');
                     window.events[2].push('/profile/{{$user->nickname}}');
                     window.events[3].push('{{$user->usermeta->city}}');
-                    window.events[4].push('{{$user->usermeta->image ?? 'img/default-avatar.png'}}');
+                    @if(in_array($user->usermeta->image, ['', null]))
+                        window.events[4].push('img/default-avatar.png');
+                    @else
+                        window.events[4].push('storage/{{$user->usermeta->image}}');
+                    @endif
                 }
             });
             @endforeach
