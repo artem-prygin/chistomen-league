@@ -183,7 +183,6 @@ $(document).ready(function () {
   $('.post-category').select2({
     placeholder: "Выберите категорию",
     multiply: true,
-    formatInputTooShort: "авы",
     language: {
       noResults: function noResults(params) {
         return "Ничего не найдено :(";
@@ -223,6 +222,38 @@ $(document).ready(function () {
     pullDrag: false,
     nav: false,
     dots: false
+  }); //регистрация групп
+
+  $('.group-register').select2({
+    placeholder: "Выберите группу",
+    multiply: true,
+    language: {
+      noResults: function noResults(params) {
+        return "Ничего не найдено :(";
+      },
+      maximumSelected: function maximumSelected(e) {
+        return "Можно выбрать только одну группу";
+      }
+    },
+    maximumSelectionLength: 1,
+    minimumInputLength: 0
+  });
+  $('.profile-group__select').change(function () {
+    $('.profile-group__form').submit();
+  });
+  $('.profile-group__form').on('submit', function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'put',
+      data: $(this).serialize(),
+      url: '/profile/changeGroup',
+      success: function success(res) {
+        console.log(res);
+      },
+      error: function error(e) {
+        console.log(e);
+      }
+    });
   });
 });
 

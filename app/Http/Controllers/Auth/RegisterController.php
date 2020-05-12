@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Group;
 use App\Models\UserMeta;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -42,10 +43,16 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        $groups = Group::all(['id', 'name'])->sortBy('id');
+        return view('auth.register', ['groups' => $groups]);
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -54,6 +61,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'nickname' => ['required', 'regex:/^[a-zA-Z0-9_]+$/u', 'string', 'max:100', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'group' => ['nullable', 'exists:groups,id'],
+            'city' => ['required', 'string', 'min:2', 'max:255'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
@@ -61,7 +70,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      */
     protected function create(array $data)
     {
@@ -73,7 +82,9 @@ class RegisterController extends Controller
         ]);
 
         UserMeta::create([
-           'user_id' => $user->id
+            'user_id' => $user->id,
+            'city' => $data['city'],
+            'group' => $data['group']
         ]);
 
         return $user;

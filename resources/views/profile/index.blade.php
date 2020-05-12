@@ -46,7 +46,7 @@
                 @method('PUT')
                 @csrf
                 <h4 class="profile-name profile-block">
-                    <input type="text" name="name" value="{{ $user[0]->name ?? old('name') }}" disabled>
+                    <input type="text" name="name" value="{{ $user[0]->name ?? old('name') }}" disabled class="{{ $user[0]->usermeta->getGroup->theme }}">
                     <span class="error error-name"></span>
                 </h4>
                 <hr>
@@ -64,11 +64,26 @@
                                placeholder="Не указан">
                         <span class="error error-phone"></span>
                     </div>
+
                     <div class="profile-city profile-block">Город*:
                         <input name="city" type="text" disabled
                                value="@if(!in_array($user[0]->usermeta->city, [null, ''])){{$user[0]->usermeta->city}}@endif"
                                placeholder="Не указан">
                         <span class="error error-city"></span>
+                    </div>
+
+                    <div class="profile-group profile-block">Группа:
+                        <form action="" class="profile-group__submit">
+                            @csrf
+                            <select name="group" id="group" class="profile-group__select form-control"
+                                    style="width: 100%">
+                                <option value=""></option>
+                                @foreach($groups as $group)
+                                    <option
+                                        value="{{$group->id}}" {{$user[0]->usermeta->getGroup->id == $group->id ? 'selected' : ''}}>{{$group->name}}</option>
+                                @endforeach
+                            </select>
+                        </form>
                     </div>
 
                     <div class="profile-vk profile-block profile-block__hideOnEdit">ВК:
@@ -127,6 +142,7 @@
                     @endif
                 </div>
 
+
             </form>
         </div>
     </div>
@@ -144,8 +160,8 @@
                     @endif
                 </div>
                 <hr>
-                <div class="post-blocks @if(count($posts)>1){{'post-blocks__slider owl-carousel'}}@endif">
-                    @forelse($posts as $post)
+                <div class="post-blocks @if(count($user[0]->userPosts)>1){{'post-blocks__slider owl-carousel'}}@endif">
+                    @forelse($user[0]->userPosts as $post)
                         <div class="post-block">
                             <div class="post-block__title">
                                 <h5>{{ $post->title }}</h5></div>

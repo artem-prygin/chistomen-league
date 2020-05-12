@@ -12,5 +12,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserMeta extends Model
 {
-    protected $fillable = ['age', 'phone', 'city', 'vk_link', 'instagram_link', 'about', 'user_id'];
+    protected $fillable = ['age', 'phone', 'city', 'vk_link', 'instagram_link', 'about', 'user_id', 'group'];
+
+    public function getGroup()
+    {
+        return $this->belongsTo('App\Models\Group', 'group');
+    }
 }

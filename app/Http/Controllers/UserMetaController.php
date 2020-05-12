@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\UserMeta;
@@ -15,9 +16,13 @@ class UserMetaController extends Controller
      */
     public function index()
     {
-        $user = User::where('id', '=', auth()->user()->id)->with('usermeta')->get();
-        $posts = Post::where('author', '=', auth()->user()->id)->get();
-        return view('profile.index', ['user' => $user, 'posts' => $posts]);
+        $groups = Group::all();
+        $user = User::where('id', '=', auth()->user()->id)
+            ->with('userPosts')
+            ->with('usermeta.getGroup')
+            ->get();
+
+        return view('profile.index', ['user' => $user, 'groups' => $groups]);
     }
 
     /**
@@ -120,5 +125,17 @@ class UserMetaController extends Controller
         $users = $users->get()->sortBy('name');
 
         return view('league.index', ['users' => $users]);
+    }
+
+    /**
+     * change current user Group
+     */
+    public function changeGroup(Request $request)
+    {
+        $newTheme = UserMeta::where('id', '=', auth()->user()->id);
+        $newTheme->update(request()->validate([
+            'group' => 'exists:groups,id'
+        ]));
+        return $newTheme->get('theme');
     }
 }

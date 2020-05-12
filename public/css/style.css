@@ -63,8 +63,7 @@ main {
   background: transparent;
   border: none;
   opacity: 1;
-  -webkit-text-fill-color: #212529 !important;
-  color: #212529 !important;
+  color: #212529;
 }
 
 .profile-name {
@@ -89,6 +88,16 @@ main {
   z-index: 1;
   cursor: pointer;
   font-size: 20px;
+}
+
+.profile-group {
+  display: flex;
+  align-items: center;
+}
+
+.profile-group select {
+  margin-left: 15px;
+  cursor: pointer;
 }
 
 .profile-img__upload .btn-tertiary {
@@ -319,5 +328,25 @@ footer p a {
 footer p a:hover {
   text-decoration: none;
   color: #e5e5e5;
+}
+
+.blue {
+  color: blue !important;
+}
+
+.green {
+  color: green !important;
+}
+
+.pink {
+  color: pink !important;
+}
+
+.brown {
+  color: brown !important;
+}
+
+.yellow {
+  color: orange !important;
 }
 

@@ -86,14 +86,14 @@ $(document).ready(function () {
     });
 
     // uploading avatars
-    (function() {
+    (function () {
         'use strict';
-        $('.input-file').each(function() {
+        $('.input-file').each(function () {
             let $input = $(this),
                 $label = $input.next('.js-labelFile'),
                 labelVal = $label.html();
 
-            $input.on('change', function(element) {
+            $input.on('change', function (element) {
                 let fileName = '';
                 if (element.target.value) fileName = element.target.value.split('\\').pop();
                 fileName ? $label.addClass('has-file').find('.js-fileName').html(fileName) : $label.removeClass('has-file').html(labelVal);
@@ -116,7 +116,6 @@ $(document).ready(function () {
     $('.post-category').select2({
         placeholder: "Выберите категорию",
         multiply: true,
-        formatInputTooShort: "авы",
         language: {
             noResults: function (params) {
                 return "Ничего не найдено :(";
@@ -128,11 +127,11 @@ $(document).ready(function () {
         maximumSelectionLength: 1,
         minimumInputLength: 0
     })
-    .on('change', function () {
-        $(this).val()[0] === undefined
-            ? $('.post-category__new').attr('disabled', false)
-            : $('.post-category__new').attr('disabled', true)
-    })
+        .on('change', function () {
+            $(this).val()[0] === undefined
+                ? $('.post-category__new').attr('disabled', false)
+                : $('.post-category__new').attr('disabled', true)
+        })
 
     $('.post-category__new').on('input', function () {
         $(this).val() === ''
@@ -163,6 +162,41 @@ $(document).ready(function () {
         pullDrag: false,
         nav: false,
         dots: false,
+    })
+
+    //регистрация групп
+    $('.group-register').select2({
+        placeholder: "Выберите группу",
+        multiply: true,
+        language: {
+            noResults: function (params) {
+                return "Ничего не найдено :(";
+            },
+            maximumSelected: function (e) {
+                return "Можно выбрать только одну группу";
+            }
+        },
+        maximumSelectionLength: 1,
+        minimumInputLength: 0
+    })
+
+
+    $('.profile-group__select').change(function () {
+        $('.profile-group__form').submit();
+    });
+    $('.profile-group__form').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'put',
+            data: $(this).serialize(),
+            url: '/profile/changeGroup',
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
     })
 });
 

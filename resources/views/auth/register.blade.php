@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var $groups \App\Models\Group
+ */
+?>
+
 @extends('layouts.main')
 @section('title', 'Регистрация')
 
@@ -31,7 +37,43 @@
 
                             <div class="col-md-6">
                                 <input id="nickname" type="text" class="form-control @error('nickname') is-invalid @enderror" name="nickname" value="{{ old('nickname') }}" required autocomplete="name" autofocus placeholder="chistowoman">
-                                <small>*допускаются только цифры, латинские буквы и '_'</small>
+                                <small style="font-size: 10px">*допускаются только цифры, латинские буквы и '_'</small>
+
+                                @error('nickname')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('Город') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" required autocomplete="city" autofocus placeholder="Караганда">
+
+                                @error('city')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="group" class="col-md-4 col-form-label text-md-right">{{ __('Группа по интересам :)') }}</label>
+
+                            <div class="col-md-6">
+                                <select name="group" id="group" class="group-register form-control"
+                                        style="width: 100%" multiple>
+                                    <option value=""></option>
+                                    @foreach($groups as $group)
+                                        <option
+                                            value="{{$group->id}}" {{old('group') == $group->id ? 'selected' : ''}}>{{$group->name}}</option>
+                                    @endforeach
+                                </select>
+                                <small style="font-size: 10px">необязательное поле</small>
 
                                 @error('nickname')
                                 <span class="invalid-feedback" role="alert">
@@ -59,7 +101,8 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Пароль') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="password" type="password" class="form-control
+                                @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -70,7 +113,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Повторить пароль') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Повторите пароль') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">

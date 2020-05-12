@@ -44,12 +44,13 @@ Route::group(['middleware' => ['auth', 'verified']],
     function () {
         Route::resource('/profile', 'UserMetaController',
             [
-                'except' => ['create', 'store', 'edit', 'uploadAvatar'],
+                'except' => ['create', 'store', 'edit', 'uploadAvatar', 'changeGroup'],
             ]
         );
     });
 
 Route::post('/profile/uploadAvatar', 'UserMetaController@uploadAvatar')->middleware('auth');
+Route::put('/profile/changeGroup', 'UserMetaController@changeGroup')->middleware('auth');
 Route::get('/league', 'UserMetaController@leagueList')->middleware('auth')->name('league');
 
 /**
