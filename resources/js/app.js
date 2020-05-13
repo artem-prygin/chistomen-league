@@ -166,14 +166,14 @@ $(document).ready(function () {
 
     //регистрация групп
     $('.group-register').select2({
-        placeholder: "Выберите группу",
+        placeholder: "Выберите клан",
         multiply: true,
         language: {
             noResults: function (params) {
                 return "Ничего не найдено :(";
             },
             maximumSelected: function (e) {
-                return "Можно выбрать только одну группу";
+                return "Можно выбрать только один клан";
             }
         },
         maximumSelectionLength: 1,
