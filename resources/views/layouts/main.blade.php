@@ -6,25 +6,27 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta property="og:title" content="ЭкоЛига">
-    <meta property="vk:image"  content="https://sun9-33.userapi.com/c858324/v858324477/1d52d1/YX9smqFyB2E.jpg" />
+    <meta property="vk:image" content="https://sun9-33.userapi.com/c858324/v858324477/1d52d1/YX9smqFyB2E.jpg"/>
     <title>@yield('title') | {{config('app.name')}}</title>
-    <link rel="icon" href="{{ asset('img/logo.jpg') }}" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('img/logo.jpg') }}" type="image/x-icon"/>
 
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/jquery.fancybox.min.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet"/>
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
-    <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            document.body.classList.add('<?=auth()->user()->usermeta->getGroup->theme?>-bg');
-        });
-    </script>
+    @auth
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                document.body.classList.add('<?=auth()->user()->usermeta->getGroup->theme?>-bg');
+            });
+        </script>
+    @endauth
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
