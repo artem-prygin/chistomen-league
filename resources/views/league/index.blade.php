@@ -19,6 +19,7 @@ use App\Models\User;
                     <th scope="col">#</th>
                     <th scope="col">Имя / Псевдоним</th>
                     <th scope="col">Город</th>
+                    <th scope="col">Клан</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
@@ -30,6 +31,9 @@ use App\Models\User;
                         </td>
                         <td>
                             <input type="text" class="league-input" name="city" value="{{request('city') ?? ''}}" placeholder="Введите город">
+                        </td>
+                        <td>
+                            <input type="text" class="league-input" name="group" value="{{request('group') ?? ''}}" placeholder="Название клана">
                         </td>
                         <td>
                             <button class="btn btn-sm btn-primary">Применить фильтр</button>
@@ -44,6 +48,7 @@ use App\Models\User;
                             <a href="{{route('profile.show', ['profile' => $user->nickname])}}">{{$user->name}}</a>
                         </td>
                         <td>{{$user->usermeta->city}}</td>
+                        <td>{{$user->usermeta->getGroup->name ?? '-'}}</td>
                         <td></td>
                     </tr>
                 @empty

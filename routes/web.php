@@ -40,7 +40,7 @@ Auth::routes(['verify' => true]);
 /**
  * UserMetaController
  */
-Route::group(['middleware' => ['auth', 'verified']],
+Route::group(['middleware' => ['auth']],
     function () {
         Route::resource('/profile', 'UserMetaController',
             [

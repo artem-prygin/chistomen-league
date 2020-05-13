@@ -42,11 +42,22 @@
             @endif
         </div>
         <div class="col-md-7 offset-md-1">
+
+            <div class="profile-group">
+                @if(!in_array($user[0]->usermeta->group, ['', null]))
+                    <h6>
+                        Участник клана
+                        <a href="{{route('league', ['group' => $user[0]->usermeta->getGroup->name])}}"><i>«{{$user[0]->usermeta->getGroup->name}}»</i></a>
+                    </h6>
+                @endif
+            </div>
+
             <form class="profile-info" method="post">
                 @method('PUT')
                 @csrf
                 <h4 class="profile-name profile-block">
-                    <input type="text" name="name" value="{{ $user[0]->name ?? old('name') }}" disabled class="{{ $user[0]->usermeta->getGroup->theme }}">
+                    <input type="text" name="name" value="{{ $user[0]->name ?? old('name') }}" disabled
+                           class="{{ $user[0]->usermeta->getGroup->theme }}">
                     <span class="error error-name"></span>
                 </h4>
                 <hr>
@@ -70,20 +81,6 @@
                                value="@if(!in_array($user[0]->usermeta->city, [null, ''])){{$user[0]->usermeta->city}}@endif"
                                placeholder="Не указан">
                         <span class="error error-city"></span>
-                    </div>
-
-                    <div class="profile-group profile-block">Группа:
-                        <form action="" class="profile-group__submit">
-                            @csrf
-                            <select name="group" id="group" class="profile-group__select form-control"
-                                    style="width: 100%">
-                                <option value=""></option>
-                                @foreach($groups as $group)
-                                    <option
-                                        value="{{$group->id}}" {{$user[0]->usermeta->getGroup->id == $group->id ? 'selected' : ''}}>{{$group->name}}</option>
-                                @endforeach
-                            </select>
-                        </form>
                     </div>
 
                     <div class="profile-vk profile-block profile-block__hideOnEdit">ВК:
@@ -195,3 +192,5 @@
         </div>
     </div>
 @endsection
+
+

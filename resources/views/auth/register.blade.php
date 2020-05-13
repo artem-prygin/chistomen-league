@@ -62,18 +62,17 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="group" class="col-md-4 col-form-label text-md-right">{{ __('Группа по интересам :)') }}</label>
+                            <label for="group" class="col-md-4 col-form-label text-md-right">{{ __('Клан') }}</label>
 
                             <div class="col-md-6">
                                 <select name="group" id="group" class="group-register form-control"
-                                        style="width: 100%" multiple>
+                                        style="width: 100%" multiple required>
                                     <option value=""></option>
                                     @foreach($groups as $group)
                                         <option
                                             value="{{$group->id}}" {{old('group') == $group->id ? 'selected' : ''}}>{{$group->name}}</option>
                                     @endforeach
                                 </select>
-                                <small style="font-size: 10px">необязательное поле</small>
 
                                 @error('nickname')
                                 <span class="invalid-feedback" role="alert">

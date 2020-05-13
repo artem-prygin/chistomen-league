@@ -61,7 +61,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'nickname' => ['required', 'regex:/^[a-zA-Z0-9_]+$/u', 'string', 'max:100', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'group' => ['nullable', 'exists:groups,id'],
+            'group' => ['required', 'exists:groups,id'],
             'city' => ['required', 'string', 'min:2', 'max:255'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);

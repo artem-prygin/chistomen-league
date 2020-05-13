@@ -16,13 +16,12 @@ class UserMetaController extends Controller
      */
     public function index()
     {
-        $groups = Group::all();
         $user = User::where('id', '=', auth()->user()->id)
             ->with('userPosts')
             ->with('usermeta.getGroup')
             ->get();
 
-        return view('profile.index', ['user' => $user, 'groups' => $groups]);
+        return view('profile.index', ['user' => $user]);
     }
 
     /**
@@ -42,8 +41,8 @@ class UserMetaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\UserMeta  $userMeta
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\UserMeta $userMeta
      */
     public function update(Request $request)
     {
@@ -68,7 +67,7 @@ class UserMetaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\UserMeta  $userMeta
+     * @param \App\Models\UserMeta $userMeta
      * @return \Illuminate\Http\Response
      */
     public function destroy(UserMeta $userMeta)
@@ -111,14 +110,23 @@ class UserMetaController extends Controller
     {
         $users = User::with('usermeta');
 
-        if(!is_null($request) && $request->get('name')) {
-            $users->where('name', 'like', '%'.$request->get('name').'%');
+        if (!is_null($request) && $request->get('name')) {
+            $users->where('name', 'like', '%' . $request->get('name') . '%');
         }
 
-        if(!is_null($request) && $request->get('city')) {
+        if (!is_null($request) && $request->get('city')) {
             $city = $request->get('city');
             $users->whereHas('Usermeta', function ($query) use ($city) {
-                $query->where('city', 'like', '%'.$city.'%');
+                $query->where('city', 'like', '%' . $city . '%');
+            });
+        }
+
+        if (!is_null($request) && $request->get('group')) {
+            $group = $request->get('group');
+            $users->whereHas('usermeta', function ($query) use ($group) {
+                $query->whereHas('getGroup', function ($query) use ($group) {
+                    $query->where('name', 'like', '%' . $group . '%');
+                });
             });
         }
 

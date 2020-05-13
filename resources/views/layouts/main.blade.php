@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta property="og:title" content="ЭкоЛига">
     <meta property="vk:image"  content="https://sun9-33.userapi.com/c858324/v858324477/1d52d1/YX9smqFyB2E.jpg" />
-    <title>@yield('title') | Лига Чистомена</title>
+    <title>@yield('title') | {{config('app.name')}}</title>
     <link rel="icon" href="{{ asset('img/logo.jpg') }}" type="image/x-icon" />
 
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
@@ -20,6 +20,11 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            document.body.classList.add('<?=auth()->user()->usermeta->getGroup->theme?>-bg');
+        });
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -104,5 +109,6 @@
 <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+
 </body>
 </html>
