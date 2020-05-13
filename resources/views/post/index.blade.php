@@ -50,8 +50,8 @@ use App\Models\Post;
                                             @endforeach
                                         </div>
                                     @else
-                                        <a href="{{url('storage' . $image->src)}}" data-fancybox="gallery{{$post->id}}">
-                                            <img src="{{url('storage' . $image->src)}}" alt="{{$post->title}}">
+                                        <a href="{{url('storage' . $post->images[0]->src)}}" data-fancybox="gallery{{$post->id}}">
+                                            <img src="{{url('storage' . $post->images[0]->src)}}" alt="{{$post->title}}">
                                         </a>
                                     @endif
                                 </div>
