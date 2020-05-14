@@ -51,7 +51,7 @@ use App\Models\Post;
                                         </div>
                                     @else
                                         <a href="{{url('storage' . $post->images[0]->src)}}" data-fancybox="gallery{{$post->id}}">
-                                            <img style="height: 200px" src="{{url('storage' . $post->images[0]->src)}}" alt="{{$post->title}}">
+                                            <img src="{{url('storage' . $post->images[0]->src)}}" alt="{{$post->title}}">
                                         </a>
                                     @endif
                                 </div>

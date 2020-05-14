@@ -3,6 +3,8 @@
     .card-img
         margin: 15px 0
         height: 200px
+        img
+            height: 200px
 
 .post-blocks
     &__title
@@ -74,12 +76,12 @@
                 right: 0
 
 @media screen and (max-width: 499px)
-    .post-images__slider
-        height: 150px
-        a
-            height: 150px
-        img
-            max-height: 150px
+    .post-card
+        .card-img
+            a
+                height: 150px
+            img
+                max-height: 150px
     .post-card
         .card-img
             height: 150px

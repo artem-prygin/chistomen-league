@@ -54,7 +54,28 @@
         margin-bottom: 30px
         padding-left: 5px
         h6
+            padding: 5px
             opacity: .5
+            &.profile-rate
+                padding: 5px 10px
+                color: #fff
+                -webkit-border-radius: 10px
+                -moz-border-radius: 10px
+                border-radius: 10px
+                position: relative
+                background: blue
+                overflow: hidden
+                span
+                    position: relative
+                    z-index: 2
+                div
+                    position: absolute
+                    top: 0
+                    left: 0
+                    height: 100%
+                    width: 0
+                    transition: width 1s
+                    background: red
 
 
 .profile-img__upload .btn-tertiary

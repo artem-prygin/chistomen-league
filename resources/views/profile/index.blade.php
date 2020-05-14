@@ -3,10 +3,35 @@
  * @var $user App\Models\User;
  * @var $post App\Models\Post;
  */
+$rate = count($user[0]->posts) + count($user[0]->userPosts)*10;
 ?>
 
 @extends('layouts.main')
 @section('title', $user[0]->name)
+
+<style>
+    @keyframes rate {
+        from  {
+            width: 0
+        }
+        to  {
+            width: {{$rate/10}}%;
+        }
+    }
+    .rate {
+        animation: rate ease-in 1s .5s 1 forwards;
+    }
+</style>
+
+@auth
+    @if(\Request::route()->getName() === 'profile.show')
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                document.body.classList.add('<?=$user[0]->usermeta->getGroup->theme?>-bg');
+            });
+        </script>
+    @endif
+@endauth
 
 @section('content')
     <div class="container pb-5 profile-container">
@@ -18,9 +43,8 @@
                          url({{ url('storage' . $user[0]->usermeta->image)}})
                      @else
                          url({{asset('img/default-avatar.png')}})"
-                @endif
-                ">
-            </div>
+                     @endif">
+                </div>
 
             @if($user[0]->id == auth()->user()->id)
                 <form class="profile-img__upload" action="/profile/uploadAvatar" method="post"
@@ -50,6 +74,10 @@
                         <a href="{{route('league', ['group' => $user[0]->usermeta->getGroup->name])}}"><i>«{{$user[0]->usermeta->getGroup->name}}»</i></a>
                     </h6>
                 @endif
+                <h6 class="profile-rate">
+                    <span>Рейтинг: {{$rate}}</span>
+                    <div class="rate"></div>
+                </h6>
             </div>
 
             <form class="profile-info" method="post">
