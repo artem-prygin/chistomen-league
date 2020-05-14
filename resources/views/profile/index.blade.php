@@ -3,7 +3,7 @@
  * @var $user App\Models\User;
  * @var $post App\Models\Post;
  */
-$rate = count($user[0]->posts) + count($user[0]->userPosts)*10;
+$rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
 ?>
 
 @extends('layouts.main')
@@ -11,26 +11,43 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts)*10;
 
 <style>
     @keyframes rate {
-        from  {
+        from {
             width: 0
         }
-        to  {
+        to {
             width: {{$rate/10}}%;
         }
     }
+
     .rate {
         animation: rate ease-in 1s .5s 1 forwards;
     }
 </style>
 
 @auth
-    @if(\Request::route()->getName() === 'profile.show')
-        <script>
-            window.addEventListener('DOMContentLoaded', (event) => {
-                document.body.classList.add('<?=$user[0]->usermeta->getGroup->theme?>-bg');
-            });
-        </script>
-    @endif
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            document.body.classList.add('<?=$user[0]->usermeta->getGroup->theme?>-bg');
+
+            function animateValue(id, start, end, duration) {
+                let range = end - start;
+                let current = start;
+                let increment = end > start ? 1 : -1;
+                let stepTime = Math.abs(Math.floor(duration / range));
+                let obj = document.getElementById(id);
+                let timer = setInterval(function () {
+                    current += increment;
+                    obj.innerHTML = current;
+                    if (current == end) {
+                        clearInterval(timer);
+                    }
+                }, stepTime);
+            }
+            @if($rate > 0)
+                animateValue("rate", 0, {{$rate}}, 1000);
+            @endif()
+        });
+    </script>
 @endauth
 
 @section('content')
@@ -43,8 +60,8 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts)*10;
                          url({{ url('storage' . $user[0]->usermeta->image)}})
                      @else
                          url({{asset('img/default-avatar.png')}})"
-                     @endif">
-                </div>
+                @endif">
+            </div>
 
             @if($user[0]->id == auth()->user()->id)
                 <form class="profile-img__upload" action="/profile/uploadAvatar" method="post"
@@ -71,11 +88,12 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts)*10;
                 @if(!in_array($user[0]->usermeta->group, ['', null]))
                     <h6>
                         Участник клана
-                        <a href="{{route('league', ['group' => $user[0]->usermeta->getGroup->name])}}"><i>«{{$user[0]->usermeta->getGroup->name}}»</i></a>
+                        <a href="{{route('league', ['group' => $user[0]->usermeta->getGroup->name])}}"><i>«{{$user[0]->usermeta->getGroup->name}}
+                                »</i></a>
                     </h6>
                 @endif
                 <h6 class="profile-rate">
-                    <span>Рейтинг: {{$rate}}</span>
+                    <span>Рейтинг: <span id="rate">0</span></span>
                     <div class="rate"></div>
                 </h6>
             </div>

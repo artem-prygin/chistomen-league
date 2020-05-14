@@ -130,7 +130,7 @@ use App\Models\Post;
                         // Зададим массив, описывающий иконки кластеров разного размера.
                         clusterIcons: [
                             {
-                                href: 'img/logo.jpg',
+                                href: 'img/logo.svg',
                                 size: [60, 60],
                                 offset: [-30, -30]
                             }],
@@ -161,7 +161,7 @@ use App\Models\Post;
                 getPointOptions = function () {
                     return {
                         iconLayout: 'default#image',
-                        iconImageHref: 'img/logo.jpg',
+                        iconImageHref: 'img/logo.svg',
                         iconImageSize: [40, 40],
                         iconImageOffset: [-10, -5]
                     };

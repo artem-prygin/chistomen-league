@@ -8,7 +8,7 @@
     <meta property="og:title" content="ЭкоЛига">
     <meta property="vk:image" content="https://sun9-33.userapi.com/c858324/v858324477/1d52d1/YX9smqFyB2E.jpg"/>
     <title>@yield('title') | {{config('app.name')}}</title>
-    <link rel="icon" href="{{ asset('img/logo.jpg') }}" type="image/x-icon"/>
+    <link rel="icon" href="{{ asset('img/logo.svg') }}" type="image/x-icon"/>
 
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
@@ -36,7 +36,7 @@
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ config('app.name', 'Laravel') }}
 
-            <img src="{{ asset('img/logo.jpg') }}" alt="logo">
+            <img src="{{ asset('img/logo.png') }}" alt="logo" style="width: 40px">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -47,28 +47,33 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav m-auto">
                 <li class="nav-item map-link">
-                    <a class="nav-link" href="{{ route('map') }}">Карта Лиги</a>
+                    <a class="nav-link @if(\Request::route()->getName() === 'map') {{__('nav-link__active')}} @endif"
+                       href="{{ route('map') }}">Карта Лиги</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('league') }}">Участники Лиги</a>
+                    <a class="nav-link @if(\Request::route()->getName() === 'league') {{__('nav-link__active')}} @endif"
+                       href="{{ route('league') }}">Участники Лиги</a>
                 </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav">
                 <!-- Authentication Links -->
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Войти') }}</a>
+                        <a class="nav-link @if(\Request::route()->getName() === 'login') {{__('nav-link__active')}} @endif"
+                           href="{{ route('login') }}">{{ __('Войти') }}</a>
                     </li>
                     @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Регистрация') }}</a>
+                            <a class="nav-link @if(\Request::route()->getName() === 'register') {{__('nav-link__active')}} @endif"
+                               href="{{ route('register') }}">{{ __('Регистрация') }}</a>
                         </li>
                     @endif
                 @else
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle
+                        @if(\Request::route()->getName() === 'profile.index') {{__('nav-link__active')}} @endif" href="#" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>

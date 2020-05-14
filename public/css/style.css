@@ -20,6 +20,10 @@ main {
   padding: 50px 0 100px;
 }
 
+.navbar-light .navbar-nav .nav-link__active {
+  color: rgba(0, 0, 0, 0.7);
+}
+
 .error {
   display: block;
   font-size: 12px;
@@ -106,7 +110,7 @@ main {
   color: #fff;
   border-radius: 10px;
   position: relative;
-  background: blue;
+  background: red;
   overflow: hidden;
 }
 
@@ -122,7 +126,7 @@ main {
   height: 100%;
   width: 0;
   transition: width 1s;
-  background: red;
+  background: blue;
 }
 
 .profile-img__upload .btn-tertiary {
