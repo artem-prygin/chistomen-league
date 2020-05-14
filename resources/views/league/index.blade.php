@@ -58,6 +58,7 @@ use App\Models\User;
                 @endforelse
                 </tbody>
             </table>
+            {{ $users->appends(request()->except('page'))->links() }}
         </div>
     </div>
 @endsection

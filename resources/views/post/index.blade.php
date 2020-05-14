@@ -44,15 +44,20 @@ use App\Models\Post;
                                     @if (count($post->images) > 1)
                                         <div class="post-images__slider owl-carousel">
                                             @foreach($post->images as $image)
-                                                <a href="{{url('storage' . $image->src)}}" data-fancybox="gallery{{$post->id}}">
+                                                <a href="{{url('storage' . $image->src)}}"
+                                                   data-fancybox="gallery{{$post->id}}">
                                                     <img src="{{url('storage' . $image->src)}}" alt="{{$post->title}}">
                                                 </a>
                                             @endforeach
                                         </div>
-                                    @else
-                                        <a href="{{url('storage' . $post->images[0]->src)}}" data-fancybox="gallery{{$post->id}}">
-                                            <img src="{{url('storage' . $post->images[0]->src)}}" alt="{{$post->title}}">
+                                    @elseif (count($post->images) == 1)
+                                        <a href="{{url('storage' . $post->images[0]->src)}}"
+                                           data-fancybox="gallery{{$post->id}}">
+                                            <img src="{{url('storage' . $post->images[0]->src)}}"
+                                                 alt="{{$post->title}}">
                                         </a>
+                                    @else
+                                        <img src="{{asset('img/default-post.png')}}" alt="default">
                                     @endif
                                 </div>
 

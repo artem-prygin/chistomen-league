@@ -43,8 +43,9 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
                     }
                 }, stepTime);
             }
+
             @if($rate > 0)
-                animateValue("rate", 0, {{$rate}}, 1000);
+            animateValue("rate", 0, {{$rate}}, 1000);
             @endif()
         });
     </script>
@@ -222,10 +223,15 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
                                         </a>
                                     @endforeach
                                 </div>
-                            @else
+                            @elseif (count($post->images) == 1)
                                 <a href="{{url('storage' . $post->images[0]->src)}}"
                                    data-fancybox="gallery{{$post->id}}">
                                     <img src="{{url('storage' . $post->images[0]->src)}}" alt="{{$post->title}}">
+                                </a>
+                            @else
+                                <a href="{{asset('img/default-post.png')}}"
+                                   data-fancybox="gallery{{$post->id}}">
+                                    <img src="{{asset('img/default-post.png')}}" alt="default">
                                 </a>
                             @endif
 

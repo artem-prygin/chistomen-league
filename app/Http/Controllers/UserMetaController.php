@@ -130,7 +130,7 @@ class UserMetaController extends Controller
             });
         }
 
-        $users = $users->get()->sortBy('name');
+        $users = $users->orderBy('name')->paginate(10);;
 
         return view('league.index', ['users' => $users]);
     }

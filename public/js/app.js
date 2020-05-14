@@ -90,31 +90,86 @@
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./resources/js/common.js");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_common__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register */ "./resources/js/register.js");
+/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_register__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _like__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./like */ "./resources/js/like.js");
+/* harmony import */ var _like__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_like__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _profile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./profile */ "./resources/js/profile.js");
+/* harmony import */ var _profile__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_profile__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _sliders__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sliders */ "./resources/js/sliders.js");
+/* harmony import */ var _sliders__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_sliders__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./resources/js/common.js":
+/*!********************************!*\
+  !*** ./resources/js/common.js ***!
+  \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-$(document).ready(function () {
-  $.fancybox.defaults.loop = true;
-  $('.like').submit(function (e) {
-    e.preventDefault();
-    var form = $(this);
-    $.ajax({
-      type: 'post',
-      data: $(this).serialize(),
-      url: '/like',
-      success: function success(res) {
-        var currentLikes = form.children('span').html();
+module.exports = function () {
+  $(document).ready(function () {
+    $.fancybox.defaults.loop = true;
+  });
+}();
 
-        if (res == 1) {
-          form.children('span').html(--currentLikes);
-        } else {
-          form.children('span').html(++currentLikes);
+/***/ }),
+
+/***/ "./resources/js/like.js":
+/*!******************************!*\
+  !*** ./resources/js/like.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function () {
+  $(document).ready(function () {
+    $('.like').submit(function (e) {
+      e.preventDefault();
+      var form = $(this);
+      $.ajax({
+        type: 'post',
+        data: $(this).serialize(),
+        url: '/like',
+        success: function success(res) {
+          var currentLikes = form.children('span').html();
+
+          if (res == 1) {
+            form.children('span').html(--currentLikes);
+          } else {
+            form.children('span').html(++currentLikes);
+          }
+
+          form.children('button').toggleClass('btn-danger').toggleClass('btn-success');
         }
-
-        form.children('button').toggleClass('btn-danger').toggleClass('btn-success');
-      }
+      });
     });
   });
+}();
+
+/***/ }),
+
+/***/ "./resources/js/profile.js":
+/*!*********************************!*\
+  !*** ./resources/js/profile.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function () {
   var edit = false;
   $('.profile-settings').click(function () {
     $('.profile-info input, .profile-info textarea').attr('disabled', edit);
@@ -207,55 +262,65 @@ $(document).ready(function () {
   if ($('.post-category__new').length && $('.post-category__new').val() !== '') {
     $('.post-category').attr('disabled', true);
   }
+}();
 
-  $('.post-images__slider').owlCarousel({
-    items: 1,
-    loop: true,
-    nav: true,
-    navText: ["<i class='fa fa-chevron-left post-arrow post-arrow__left'></i>", "<i class='fa fa-chevron-right post-arrow post-arrow__right'></i>"]
-  });
-  $('.post-block__img').owlCarousel({
-    items: 1,
-    loop: true,
-    mouseDrag: false,
-    touchDrag: false,
-    pullDrag: false,
-    nav: false,
-    dots: false
-  }); //регистрация групп
+/***/ }),
 
-  $('.group-register').select2({
-    placeholder: "Выберите клан",
-    multiply: true,
-    language: {
-      noResults: function noResults(params) {
-        return "Ничего не найдено :(";
+/***/ "./resources/js/register.js":
+/*!**********************************!*\
+  !*** ./resources/js/register.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function () {
+  $(document).ready(function () {
+    //регистрация групп
+    $('.group-register').select2({
+      placeholder: "Выберите клан",
+      multiply: true,
+      language: {
+        noResults: function noResults(params) {
+          return "Ничего не найдено :(";
+        },
+        maximumSelected: function maximumSelected(e) {
+          return "Можно выбрать только один клан";
+        }
       },
-      maximumSelected: function maximumSelected(e) {
-        return "Можно выбрать только один клан";
-      }
-    },
-    maximumSelectionLength: 1,
-    minimumInputLength: 0
-  });
-  $('.profile-group__select').change(function () {
-    $('.profile-group__form').submit();
-  });
-  $('.profile-group__form').on('submit', function (e) {
-    e.preventDefault();
-    $.ajax({
-      type: 'put',
-      data: $(this).serialize(),
-      url: '/profile/changeGroup',
-      success: function success(res) {
-        console.log(res);
-      },
-      error: function error(e) {
-        console.log(e);
-      }
+      maximumSelectionLength: 1,
+      minimumInputLength: 0
     });
   });
-});
+}();
+
+/***/ }),
+
+/***/ "./resources/js/sliders.js":
+/*!*********************************!*\
+  !*** ./resources/js/sliders.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function () {
+  $(document).ready(function () {
+    $('.post-images__slider').owlCarousel({
+      items: 1,
+      loop: true,
+      nav: true,
+      navText: ["<i class='fa fa-chevron-left post-arrow post-arrow__left'></i>", "<i class='fa fa-chevron-right post-arrow post-arrow__right'></i>"]
+    });
+    $('.post-block__img').owlCarousel({
+      items: 1,
+      loop: true,
+      mouseDrag: false,
+      touchDrag: false,
+      pullDrag: false,
+      nav: false,
+      dots: false
+    });
+  });
+}();
 
 /***/ }),
 
