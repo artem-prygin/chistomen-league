@@ -25,7 +25,7 @@
                 <label for="post_description">Описание*</label>
                 <textarea class="form-control" name="description" id="post_description" rows="3" required
                           placeholder="Собрали 100500 мешков биомусора">{{old('description') ?? ''}}</textarea>
-                <small>не более 500 символов</small>
+                <small>не более 1000 символов</small>
                 @error('description')
                 <span class="error">{{$message}}</span>
                 @enderror
@@ -66,7 +66,7 @@
                 <label for="post_photo">Фото*</label>
                 <input type="file" multiple name="photo[]" id="post_photo" style="display: block" value="{{old('photo') ?? ''}}"
                        required>
-                <small>не более 5 фото в формате png/jpg и не более 2Мб каждая</small>
+                <small>не более 5 фото в формате png/jpg и не более 4Мб каждая</small>
                 @error('photo')
                 <span class="error">{{$message}}</span>
                 @enderror

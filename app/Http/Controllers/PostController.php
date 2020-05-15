@@ -52,8 +52,8 @@ class PostController extends Controller
 
         request()->validate([
             'title' => 'required|min:1|max:40',
-            'description' => 'required|min:1|max:500',
-            'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description' => 'required|min:1|max:1000',
+            'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'photo' => 'max:5',
         ], $messages);
 
@@ -106,13 +106,29 @@ class PostController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param int $id
      */
     public function show($id)
     {
-
+        dd($id);
     }
+
+    /**
+     * Display the specified resource.
+     * @param $nickname
+     */
+    public function showUserPosts($nickname)
+    {
+        $posts = Post::with('user')
+            ->whereHas('User', function ($query) use ($nickname) {
+                $query->where('nickname', '=', $nickname);
+            })
+            ->with('images')
+            ->orderBy('created_at', 'desc')
+            ->paginate(4);
+
+        return view('post.index', ['posts' => $posts]);
+    }
+
 
     /**
      * Show the form for editing the specified resource.

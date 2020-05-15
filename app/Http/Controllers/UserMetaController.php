@@ -17,9 +17,13 @@ class UserMetaController extends Controller
     public function index()
     {
         $user = User::where('id', '=', auth()->user()->id)
-            ->with('userPosts')
+            ->withCount('userPosts')
+            ->with(['userPosts' => function ($query) {
+                return $query->orderBy('created_at', 'desc')
+                    ->limit(2);
+            }])
             ->with('usermeta.getGroup')
-            ->get();
+        ->get();
 
         return view('profile.index', ['user' => $user]);
     }
@@ -32,10 +36,16 @@ class UserMetaController extends Controller
      */
     public function show($nickname)
     {
-        $user = User::where('nickname', '=', $nickname)->with('usermeta')->get();
-//        dd($user);
-        $posts = Post::where('author', '=', $user[0]->id)->get();
-        return view('profile.index', ['user' => $user, 'posts' => $posts]);
+        $user = User::where('nickname', '=', $nickname)
+            ->withCount('userPosts')
+            ->with(['userPosts' => function ($query) {
+                return $query->orderBy('created_at', 'desc')
+                    ->limit(2);
+            }])
+            ->with('usermeta.getGroup')
+            ->get();
+
+        return view('profile.index', ['user' => $user]);
     }
 
     /**

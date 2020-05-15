@@ -23,19 +23,28 @@ use App\Models\Post;
         @endif
 
         @if(Route::currentRouteName() === 'posts-category' && !empty($posts[0]->category->name))
-            <h4 style="margin-bottom: 10px">Посты категории "{{$posts[0]->category->name}}"</h4>
-            <p>
-                <a href="{{route('index')}}">Ко всем постам</a>
+            <h4 style="margin-bottom: 15px">Посты категории "{{$posts[0]->category->name}}"</h4>
+            <p style="margin-bottom: 15px">
+                <a href="{{route('index')}}" class="btn btn-secondary">Ко всем постам</a>
             </p>
         @endif
+
+            @if(Route::currentRouteName() === 'posts-user')
+                <h4 style="margin-bottom: 20px">{{$posts[0]->user->name}}. Все посты участника</h4>
+            @endif
+
 
         @if($posts && count($posts) > 0)
             <div class="row align-items-center">
 
                 @foreach($posts as $post)
+                    <?php
+                    $color = $post->user->usermeta->getGroup->theme;
+                    $groupName = $post->user->usermeta->getGroup->name;
+                    ?>
                     <div class="col-lg-6">
                         <div class="card post-card">
-                            <h5 class="card-header">{{$post->title}}</h5>
+                            <h5 class="card-header <?=$color?>">{{$post->title}}</h5>
                             <div class="card-body">
                                 <p>
                                     {{$post->description}}
@@ -64,7 +73,14 @@ use App\Models\Post;
                                 <p>
                                     Автор:
                                     @if($post->user)
-                                        <a href="{{ route('profile.show', ['profile' => $post->user->nickname]) }}">{{$post->user->name}}</a>
+                                        <a class="{{$color}}" href="{{ route('profile.show', ['profile' => $post->user->nickname]) }}">{{$post->user->name}}</a>
+                                        <i>
+                                            <small>
+                                                (клан <a class="{{$color}}" href="{{route('league', ['group' => $groupName])}}">
+                                                    {{$groupName}}
+                                                </a>)
+                                            </small>
+                                        </i>
                                     @else
                                         <span>Deleted</span>
                                     @endif
@@ -72,7 +88,7 @@ use App\Models\Post;
 
                                 <p>
                                     @if($post->category_id)
-                                        Категория: <a
+                                        Категория: <a class="post-cat"
                                             href="{{route('posts-category', ['id' => $post->category->id])}}">{{$post->category->name}}</a>
                                     @endif
                                 </p>

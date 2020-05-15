@@ -26,6 +26,7 @@
 
 .post-block
     a
+        padding: 0 30px
         display: flex
         align-items: center
         margin: auto
@@ -63,6 +64,22 @@
         left: -15px
     &__right
         right: -15px
+
+.post-cat
+    color: rgba(#000, .5)
+    transition: color .3s
+    &:hover
+        color: #000
+
+@media screen and (max-width: 991px)
+    .post-blocks
+        &__title
+            flex-shrink: 0
+            margin-bottom: 20px
+            width: 100%
+            &-wrapper
+                flex-wrap: wrap
+
 
 @media screen and (max-width: 625px)
     .post-blocks

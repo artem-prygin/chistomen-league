@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'PostController@index')->name('index');
 Route::get('/posts/category/{id}', 'PostController@showCategoryPosts')->name('posts-category');
+Route::get('/posts/user/{nickname}', 'PostController@showUserPosts')->name('posts-user');
 
 Route::group(['middleware' => ['auth']],
     function () {

@@ -89,8 +89,7 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
                 @if(!in_array($user[0]->usermeta->group, ['', null]))
                     <h6>
                         Участник клана
-                        <a href="{{route('league', ['group' => $user[0]->usermeta->getGroup->name])}}"><i>«{{$user[0]->usermeta->getGroup->name}}
-                                »</i></a>
+                        <a href="{{route('league', ['group' => $user[0]->usermeta->getGroup->name])}}"><i>«{{$user[0]->usermeta->getGroup->name}}»</i></a>
                     </h6>
                 @endif
                 <h6 class="profile-rate">
@@ -198,50 +197,89 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
         <div class="row">
             <div class="col-12">
                 <div class="post-blocks__title-wrapper">
-                    <h3 class="post-blocks__title">Посты</h3>
-                    @if($user[0]->id == auth()->user()->id)
-                        <a href="{{ route('posts.create') }}" class="btn btn-primary">Добавить пост</a>
+                    <h3 class="post-blocks__title">Последние посты</h3>
+                    @if($user[0]->user_posts_count > 2)
+                    <a href="{{ route('posts-user', ['nickname' => $user[0]->nickname]) }}" class="btn btn-primary">Все
+                        посты</a>
                     @endif
-                </div>
-                <hr>
-                <div class="post-blocks @if(count($user[0]->userPosts)>1){{'post-blocks__slider owl-carousel'}}@endif">
-                    @forelse($user[0]->userPosts as $post)
-                        <div class="post-block">
-                            <div class="post-block__title">
-                                <h5>{{ $post->title }}</h5></div>
-                            <div class="post-block__descr">
-                                <p>{{ $post->description }}</p>
-                            </div>
-                            <small style="display: block; margin-bottom: 20px; font-style: italic">Кликните на
-                                изображение, чтобы открыть просмотр фотографий</small>
-
-                            @if (count($post->images) > 1)
-                                <div class="post-block__img owl-carousel">
-                                    @foreach($post->images as $image)
-                                        <a href="{{url('storage' . $image->src)}}" data-fancybox="gallery{{$post->id}}">
-                                            <img src="{{url('storage' . $image->src)}}" alt="{{$post->title}}">
-                                        </a>
-                                    @endforeach
-                                </div>
-                            @elseif (count($post->images) == 1)
-                                <a href="{{url('storage' . $post->images[0]->src)}}"
-                                   data-fancybox="gallery{{$post->id}}">
-                                    <img src="{{url('storage' . $post->images[0]->src)}}" alt="{{$post->title}}">
-                                </a>
-                            @else
-                                <a href="{{asset('img/default-post.png')}}"
-                                   data-fancybox="gallery{{$post->id}}">
-                                    <img src="{{asset('img/default-post.png')}}" alt="default">
-                                </a>
-                            @endif
-
-                        </div>
-                    @empty
-                        <p>Постов нет</p>
-                    @endforelse
+                    @if($user[0]->id == auth()->user()->id)
+                        <a href="{{ route('posts.create') }}" class="btn btn-success">Добавить пост</a>
+                    @endif
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            @foreach($user[0]->userPosts as $post)
+                <div class="col-lg-6">
+                    <div class="card post-card">
+                        <h5 class="card-header <?=$post->user->usermeta->getGroup->theme?>">{{$post->title}}</h5>
+                        <div class="card-body">
+                            <p>
+                                {{$post->description}}
+                            </p>
+                            <div class="card-img" style="text-align: center">
+                                @if (count($post->images) > 1)
+                                    <div class="post-images__slider owl-carousel">
+                                        @foreach($post->images as $image)
+                                            <a href="{{url('storage' . $image->src)}}"
+                                               data-fancybox="gallery{{$post->id}}">
+                                                <img src="{{url('storage' . $image->src)}}" alt="{{$post->title}}">
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @elseif (count($post->images) == 1)
+                                    <a href="{{url('storage' . $post->images[0]->src)}}"
+                                       data-fancybox="gallery{{$post->id}}">
+                                        <img src="{{url('storage' . $post->images[0]->src)}}"
+                                             alt="{{$post->title}}">
+                                    </a>
+                                @else
+                                    <img src="{{asset('img/default-post.png')}}" alt="default">
+                                @endif
+                            </div>
+
+                            <p>
+                                @if($post->category_id)
+                                    Категория: <a
+                                        href="{{route('posts-category', ['id' => $post->category->id])}}">{{$post->category->name}}</a>
+                                @endif
+                            </p>
+
+                            <form @auth class="like" @endauth action="{{ route('like') }}" method="post">
+                                @csrf
+                                <input type="hidden" value="{{$post->id}}" name="id">
+
+                                @php
+                                    $like = false
+                                @endphp
+
+                                @auth
+                                    @if($post->users && count($post->users) > 0)
+                                        @foreach($post->users as $user)
+                                            @if($user->id === auth()->user()->id)
+                                                @php
+                                                    $like = true
+                                                @endphp
+                                                @break;
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endauth
+
+                                <button
+                                    class="btn @php echo $like === false ? 'btn-success' : 'btn-danger' @endphp">
+                                    <i class="fa fa-heart"></i>
+                                </button>
+                                <span>{{$post->likes}}</span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    </div>
     </div>
 @endsection
 
