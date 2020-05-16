@@ -33,7 +33,7 @@ use App\Models\Post;
             <h4 style="margin-bottom: 20px">{{$posts[0]->user->name}}. Все посты участника</h4>
         @endif
 
-        @if(Route::currentRouteName() === 'posts-group')
+        @if(Route::currentRouteName() === 'posts-group' && count($posts) > 0)
             <h4 style="margin-bottom: 20px">Все посты клана «{{$posts[0]->user->usermeta->getGroup->name}}»</h4>
         @endif
 
@@ -140,9 +140,10 @@ use App\Models\Post;
                 Постов еще нет
             </p>
 
-            @if(Route::currentRouteName() === 'posts-category')
+            @if(in_array(Route::currentRouteName(), ['posts-category', 'posts-group']))
+                <hr>
                 <p>
-                    <a href="{{route('index')}}">Вернуться на главную</a>
+                    <a href="{{route('index')}}" class="btn btn-success">Перейти на главную</a>
                 </p>
             @endif
         @endif
