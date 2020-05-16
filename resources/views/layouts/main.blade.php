@@ -21,7 +21,7 @@
 
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     @auth
-        @if(\Request::route()->getName() !== 'profile.show')
+        @if(!in_array(\Request::route()->getName(), ['profile.show', 'group']))
         <script>
             window.addEventListener('DOMContentLoaded', (event) => {
                 document.body.classList.add('<?=auth()->user()->usermeta->getGroup->theme?>-bg');

@@ -29,9 +29,13 @@ use App\Models\Post;
             </p>
         @endif
 
-            @if(Route::currentRouteName() === 'posts-user')
-                <h4 style="margin-bottom: 20px">{{$posts[0]->user->name}}. Все посты участника</h4>
-            @endif
+        @if(Route::currentRouteName() === 'posts-user')
+            <h4 style="margin-bottom: 20px">{{$posts[0]->user->name}}. Все посты участника</h4>
+        @endif
+
+        @if(Route::currentRouteName() === 'posts-group')
+            <h4 style="margin-bottom: 20px">Все посты клана «{{$posts[0]->user->usermeta->getGroup->name}}»</h4>
+        @endif
 
 
         @if($posts && count($posts) > 0)
@@ -41,6 +45,7 @@ use App\Models\Post;
                     <?php
                     $color = $post->user->usermeta->getGroup->theme;
                     $groupName = $post->user->usermeta->getGroup->name;
+                    $groupSlug = $post->user->usermeta->getGroup->slug;
                     ?>
                     <div class="col-lg-6">
                         <div class="card post-card">
@@ -73,10 +78,12 @@ use App\Models\Post;
                                 <p>
                                     Автор:
                                     @if($post->user)
-                                        <a class="{{$color}}" href="{{ route('profile.show', ['profile' => $post->user->nickname]) }}">{{$post->user->name}}</a>
+                                        <a class="{{$color}}"
+                                           href="{{ route('profile.show', ['profile' => $post->user->nickname]) }}">{{$post->user->name}}</a>
                                         <i>
                                             <small>
-                                                (клан <a class="{{$color}}" href="{{route('league', ['group' => $groupName])}}">
+                                                (клан <a class="{{$color}}"
+                                                         href="{{route('group', ['slug' => $groupSlug])}}">
                                                     {{$groupName}}
                                                 </a>)
                                             </small>
@@ -89,7 +96,7 @@ use App\Models\Post;
                                 <p>
                                     @if($post->category_id)
                                         Категория: <a class="post-cat"
-                                            href="{{route('posts-category', ['id' => $post->category->id])}}">{{$post->category->name}}</a>
+                                                      href="{{route('posts-category', ['id' => $post->category->id])}}">{{$post->category->name}}</a>
                                     @endif
                                 </p>
 

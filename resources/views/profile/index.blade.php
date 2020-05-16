@@ -89,7 +89,7 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
                 @if(!in_array($user[0]->usermeta->group, ['', null]))
                     <h6>
                         Участник клана
-                        <a href="{{route('league', ['group' => $user[0]->usermeta->getGroup->name])}}"><i>«{{$user[0]->usermeta->getGroup->name}}»</i></a>
+                        <a href="{{route('group', ['slug' => $user[0]->usermeta->getGroup->slug])}}"><i>«{{$user[0]->usermeta->getGroup->name}}»</i></a>
                     </h6>
                 @endif
                 <h6 class="profile-rate">
@@ -210,7 +210,7 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
         </div>
 
         <div class="row">
-            @foreach($user[0]->userPosts as $post)
+            @forelse($user[0]->userPosts as $post)
                 <div class="col-lg-6">
                     <div class="card post-card">
                         <h5 class="card-header <?=$post->user->usermeta->getGroup->theme?>">{{$post->title}}</h5>
@@ -276,7 +276,11 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="col-12">
+                    <p>Нет постов</p>
+                </div>
+            @endforelse
         </div>
     </div>
     </div>

@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'PostController@index')->name('index');
 Route::get('/posts/category/{id}', 'PostController@showCategoryPosts')->name('posts-category');
 Route::get('/posts/user/{nickname}', 'PostController@showUserPosts')->name('posts-user');
+Route::get('/posts/group/{slug}', 'PostController@showGroupPosts')->name('posts-group');
 
 Route::group(['middleware' => ['auth']],
     function () {
@@ -60,5 +61,10 @@ Route::get('/league', 'UserMetaController@leagueList')->middleware('auth')->name
 Route::get('/map', 'MapController@index')->middleware('auth')->name('map');
 
 
+
+/**
+ * GroupController
+ */
+Route::get('/group/{slug}', 'GroupController@show')->middleware('auth')->name('group');
 
 

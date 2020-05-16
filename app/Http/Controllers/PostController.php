@@ -129,6 +129,27 @@ class PostController extends Controller
         return view('post.index', ['posts' => $posts]);
     }
 
+    /**
+     * Show posts of group
+     * @param $slug
+     */
+    public function showGroupPosts($slug)
+    {
+        $posts = Post::with('user.usermeta.getGroup')
+            ->whereHas('user', function ($query) use ($slug) {
+                $query->whereHas('usermeta', function ($query) use ($slug) {
+                    $query->whereHas('getgroup', function ($query) use ($slug) {
+                        $query->where('slug', '=', $slug);
+                    });
+                });
+            })
+            ->with('images')
+            ->orderBy('created_at', 'desc')
+            ->paginate(4);
+
+        return view('post.index', ['posts' => $posts]);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
