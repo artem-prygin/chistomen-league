@@ -25,7 +25,7 @@ use App\Models\Post;
         @if(Route::currentRouteName() === 'posts-category' && !empty($posts[0]->category->name))
             <h4 style="margin-bottom: 15px">Посты категории "{{$posts[0]->category->name}}"</h4>
             <p style="margin-bottom: 15px">
-                <a href="{{route('index')}}" class="btn btn-secondary">Ко всем постам</a>
+                <a href="{{route('posts')}}" class="btn btn-secondary">Ко всем постам</a>
             </p>
         @endif
 
@@ -49,7 +49,12 @@ use App\Models\Post;
                     ?>
                     <div class="col-lg-6">
                         <div class="card post-card">
-                            <h5 class="card-header <?=$color?>">{{$post->title}}</h5>
+                            <h5 class="card-header post-card__header <?=$color?>">
+                                <span>{{$post->title}}</span>
+                                @if($post->user->id === auth()->user()->id)
+                                    <a class="{{$color}}" href="{{route('posts.edit', ['post' => $post->id])}}"><i class="fa fa-edit"></i></a>
+                                @endif
+                            </h5>
                             <div class="card-body">
                                 <p>
                                     {{$post->description}}
@@ -143,7 +148,7 @@ use App\Models\Post;
             @if(in_array(Route::currentRouteName(), ['posts-category', 'posts-group']))
                 <hr>
                 <p>
-                    <a href="{{route('index')}}" class="btn btn-success">Перейти на главную</a>
+                    <a href="{{route('posts')}}" class="btn btn-success">Перейти на главную</a>
                 </p>
             @endif
         @endif

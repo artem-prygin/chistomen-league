@@ -23,7 +23,7 @@ class UserMetaController extends Controller
                     ->limit(2);
             }])
             ->with('usermeta.getGroup')
-        ->get();
+        ->firstOrFail();
 
         return view('profile.index', ['user' => $user]);
     }
@@ -43,7 +43,7 @@ class UserMetaController extends Controller
                     ->limit(2);
             }])
             ->with('usermeta.getGroup')
-            ->get();
+            ->firstOrFail();
 
         return view('profile.index', ['user' => $user]);
     }

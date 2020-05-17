@@ -213,6 +213,12 @@ main {
   height: 200px;
 }
 
+.post-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .post-blocks__title-wrapper {
   display: flex;
   align-items: center;

@@ -21,7 +21,7 @@
 
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     @auth
-        @if(!in_array(\Request::route()->getName(), ['profile.show', 'group']))
+        @if(!in_array(\Request::route()->getName(), ['profile.show', 'group', 'main']))
         <script>
             window.addEventListener('DOMContentLoaded', (event) => {
                 document.body.classList.add('<?=auth()->user()->usermeta->getGroup->theme?>-bg');
@@ -46,6 +46,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav m-auto">
+                <li class="nav-item">
+                    <a class="nav-link @if(\Request::route()->getName() === 'main') {{__('nav-link__active')}} @endif"
+                       href="{{ route('main') }}">Список кланов</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(\Request::route()->getName() === 'posts') {{__('nav-link__active')}} @endif"
+                       href="{{ route('posts') }}">Посты</a>
+                </li>
                 <li class="nav-item map-link">
                     <a class="nav-link @if(\Request::route()->getName() === 'map') {{__('nav-link__active')}} @endif"
                        href="{{ route('map') }}">Карта Лиги</a>

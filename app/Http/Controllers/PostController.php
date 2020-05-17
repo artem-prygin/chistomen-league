@@ -6,8 +6,13 @@ use App\Models\Category;
 use App\Models\Image;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
@@ -41,7 +46,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         if ($request->input('author') != auth()->user()->id) {
-            dd('error');
+            abort(403);
         }
         $user_id = auth()->user()->id;
         $user_nickname = auth()->user()->nickname;
@@ -153,13 +158,17 @@ class PostController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param int $post
+     * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit($post)
     {
-        //
+        $post = Post::with('user')->with('images')->with('category')->findOrFail($post);
+        if(auth()->user()->id !== $post->user->id) {
+            abort(403);
+        }
+        $categories = Category::all();
+        return view('post.edit', ['post' => $post, 'categories' => $categories]);
     }
 
     /**
@@ -167,11 +176,50 @@ class PostController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Application|RedirectResponse|Redirector
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->input('author') != auth()->user()->id) {
+            abort(403);
+        }
+        $user_id = auth()->user()->id;
+
+        request()->validate([
+            'title' => 'required|min:1|max:40',
+            'description' => 'required|min:1|max:1000',
+        ]);
+
+        if ($request->has('category_id') && !is_null($request->has('category_id'))) {
+            request()->validate([
+                'category_id' => 'exists:categories,id',
+            ]);
+            $cat = $request->input('category_id');
+            request()->validate([
+                'category_id' => 'required',
+            ]);
+        } else {
+            $messages = [
+                "name.required" => "Либо измените текущую категорию, либо выберите новую"
+            ];
+            request()->validate([
+                'name' => 'required|min:1|max:40',
+            ], $messages);
+            $cat = Category::where('name', '=', $request->input('name'))->limit(1)->get();
+            $cat->isEmpty() === true
+                ? $cat = Category::create(['name' => $request->input('name')])->id
+                : $cat = $cat[0]->id;
+        }
+
+        Post::find($id)->update([
+                'author' => $user_id,
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'category_id' => $cat
+            ]);
+
+        \Session::flash('success', 'Пост успешно отредактирован');
+        return redirect('/');
     }
 
     /**

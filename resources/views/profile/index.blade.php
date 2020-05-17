@@ -3,11 +3,12 @@
  * @var $user App\Models\User;
  * @var $post App\Models\Post;
  */
-$rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
+$rate = count($user->posts) + count($user->userPosts) * 10;
+$color = $user->usermeta->getGroup->theme;
 ?>
 
 @extends('layouts.main')
-@section('title', $user[0]->name)
+@section('title', $user->name)
 
 <style>
     @keyframes rate {
@@ -27,7 +28,7 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
 @auth
     <script>
         window.addEventListener('DOMContentLoaded', (event) => {
-            document.body.classList.add('<?=$user[0]->usermeta->getGroup->theme?>-bg');
+            document.body.classList.add('<?=$user->usermeta->getGroup->theme?>-bg');
 
             function animateValue(id, start, end, duration) {
                 let range = end - start;
@@ -57,18 +58,18 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
             <div class="col-md-4">
                 <div class="profile-img"
                      style="background-image:
-                     @if($user[0]->usermeta->image)
-                         url({{ url('storage' . $user[0]->usermeta->image)}})
+                     @if($user->usermeta->image)
+                         url({{ url('storage' . $user->usermeta->image)}})
                      @else
                          url({{asset('img/default-avatar.png')}})"
                 @endif">
             </div>
 
-            @if($user[0]->id == auth()->user()->id)
+            @if($user->id == auth()->user()->id)
                 <form class="profile-img__upload" action="/profile/uploadAvatar" method="post"
                       enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" value="{{ $user[0]->id }}" name="user_id">
+                    <input type="hidden" value="{{ $user->id }}" name="user_id">
                     <div class="form-group">
                         <input type="file" name="image" id="file" class="profile-img__input">
                         <label for="file" class="btn btn-tertiary js-labelFile">
@@ -86,10 +87,11 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
         <div class="col-md-7 offset-md-1">
 
             <div class="profile-group">
-                @if(!in_array($user[0]->usermeta->group, ['', null]))
+                @if(!in_array($user->usermeta->group, ['', null]))
                     <h6>
                         Участник клана
-                        <a href="{{route('group', ['slug' => $user[0]->usermeta->getGroup->slug])}}"><i>«{{$user[0]->usermeta->getGroup->name}}»</i></a>
+                        <a href="{{route('group', ['slug' => $user->usermeta->getGroup->slug])}}"><i>«{{$user->usermeta->getGroup->name}}
+                                »</i></a>
                     </h6>
                 @endif
                 <h6 class="profile-rate">
@@ -102,8 +104,8 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
                 @method('PUT')
                 @csrf
                 <h4 class="profile-name profile-block">
-                    <input type="text" name="name" value="{{ $user[0]->name ?? old('name') }}" disabled
-                           class="{{ $user[0]->usermeta->getGroup->theme }}">
+                    <input type="text" name="name" value="{{ $user->name ?? old('name') }}" disabled
+                           class="{{ $user->usermeta->getGroup->theme }}">
                     <span class="error error-name"></span>
                 </h4>
                 <hr>
@@ -111,71 +113,71 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
                 <div class="profile-info__meta">
                     <div class="profile-age profile-block">Возраст:
                         <input name="age" type="text" disabled
-                               value="@if(!in_array($user[0]->usermeta->age, [null, ''])){{$user[0]->usermeta->age}}@endif"
+                               value="@if(!in_array($user->usermeta->age, [null, ''])){{$user->usermeta->age}}@endif"
                                placeholder="Не указан">
                         <span class="error error-age"></span>
                     </div>
                     <div class="profile-phone profile-block">Телефон:
                         <input name="phone" type="text" disabled
-                               value="@if(!in_array($user[0]->usermeta->phone, [null, ''])){{$user[0]->usermeta->phone}}@endif"
+                               value="@if(!in_array($user->usermeta->phone, [null, ''])){{$user->usermeta->phone}}@endif"
                                placeholder="Не указан">
                         <span class="error error-phone"></span>
                     </div>
 
                     <div class="profile-city profile-block">Город*:
                         <input name="city" type="text" disabled
-                               value="@if(!in_array($user[0]->usermeta->city, [null, ''])){{$user[0]->usermeta->city}}@endif"
+                               value="@if(!in_array($user->usermeta->city, [null, ''])){{$user->usermeta->city}}@endif"
                                placeholder="Не указан">
                         <span class="error error-city"></span>
                     </div>
 
                     <div class="profile-vk profile-block profile-block__hideOnEdit">ВК:
-                        @if(in_array($user[0]->usermeta->vk_link, [null, '']))
+                        @if(in_array($user->usermeta->vk_link, [null, '']))
                             <span class="placeholder">Ссылка не указана</span>
                         @else
-                            <a href="{{ $user[0]->usermeta->vk_link }}"
-                               target="_blank">{{ $user[0]->usermeta->vk_link }}</a>
+                            <a href="{{ $user->usermeta->vk_link }}"
+                               target="_blank">{{ $user->usermeta->vk_link }}</a>
                         @endif
                     </div>
-                    @if($user[0]->id == auth()->user()->id)
+                    @if($user->id == auth()->user()->id)
                         <div class="profile-vk profile-block profile-block__showOnEdit">ВК:
-                            <input name="vk_link" type="text" value="{{ $user[0]->usermeta->vk_link }}"
+                            <input name="vk_link" type="text" value="{{ $user->usermeta->vk_link }}"
                                    placeholder="Ссылка не указана">
                             <span class="error error-vk_link"></span>
                         </div>
                     @endif
 
                     <div class="profile-instagram profile-block profile-block__hideOnEdit">Инстаграм:
-                        @if(in_array($user[0]->usermeta->instagram_link, [null, '']))
+                        @if(in_array($user->usermeta->instagram_link, [null, '']))
                             <a disabled="" class="placeholder">Ссылка не указана</a>
                         @else
-                            <a href="{{ $user[0]->usermeta->instagram_link }}"
-                               target="_blank">{{ $user[0]->usermeta->instagram_link }}</a>
+                            <a href="{{ $user->usermeta->instagram_link }}"
+                               target="_blank">{{ $user->usermeta->instagram_link }}</a>
                         @endif
                     </div>
-                    @if($user[0]->id == auth()->user()->id)
+                    @if($user->id == auth()->user()->id)
                         <div class="profile-instagram profile-block profile-block__showOnEdit">Инстаграм:
                             <input name="instagram_link" type="text"
-                                   value="{{ $user[0]->usermeta->instagram_link }}"
+                                   value="{{ $user->usermeta->instagram_link }}"
                                    placeholder="Ссылка не указана">
                             <span class="error error-instagram_link"></span>
                         </div>
                     @endif
 
                     <div class="profile-about profile-block profile-block__hideOnEdit">
-                        <p>О себе: @if(!in_array($user[0]->usermeta->about, [null, '']))
-                                <span>{{$user[0]->usermeta->about}}</span>
+                        <p>О себе: @if(!in_array($user->usermeta->about, [null, '']))
+                                <span>{{$user->usermeta->about}}</span>
                             @else<span class="placeholder">{{'Нет информации'}}</span>@endif</p>
                     </div>
                     <div class="profile-about profile-block profile-block__showOnEdit">
                         О себе:
                         <textarea name="about"
                                   placeholder="Нет информации"
-                                  disabled>{{ trim($user[0]->usermeta->about) ?? 'Нет информации' }}</textarea>
+                                  disabled>{{ trim($user->usermeta->about) ?? 'Нет информации' }}</textarea>
                         <span class="error error-about"></span>
                     </div>
 
-                    @if($user[0]->id == auth()->user()->id)
+                    @if($user->id == auth()->user()->id)
                         <div class="profile-settings">
                             <i class="fa fa-cogs"></i>
                         </div>
@@ -193,16 +195,18 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
 
     <hr>
 
+    {{--Last posts--}}
+
     <div class="container pt-5">
         <div class="row">
             <div class="col-12">
                 <div class="post-blocks__title-wrapper">
                     <h3 class="post-blocks__title">Последние посты</h3>
-                    @if($user[0]->user_posts_count > 2)
-                    <a href="{{ route('posts-user', ['nickname' => $user[0]->nickname]) }}" class="btn btn-primary">Все
-                        посты</a>
+                    @if($user->user_posts_count > 2)
+                        <a href="{{ route('posts-user', ['nickname' => $user->nickname]) }}" class="btn btn-primary">Все
+                            посты</a>
                     @endif
-                    @if($user[0]->id == auth()->user()->id)
+                    @if($user->id == auth()->user()->id)
                         <a href="{{ route('posts.create') }}" class="btn btn-success">Добавить пост</a>
                     @endif
                 </div>
@@ -210,10 +214,15 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
         </div>
 
         <div class="row">
-            @forelse($user[0]->userPosts as $post)
+            @forelse($user->userPosts as $post)
                 <div class="col-lg-6">
                     <div class="card post-card">
-                        <h5 class="card-header <?=$post->user->usermeta->getGroup->theme?>">{{$post->title}}</h5>
+                        <h5 class="card-header post-card__header {{$color}}">
+                            <span>{{$post->title}}</span>
+                            @if($post->user->id === auth()->user()->id)
+                                <a class="{{$color}}" href="{{route('posts.edit', ['post' => $post->id])}}"><i class="fa fa-edit"></i></a>
+                            @endif
+                        </h5>
                         <div class="card-body">
                             <p>
                                 {{$post->description}}
@@ -229,9 +238,9 @@ $rate = count($user[0]->posts) + count($user[0]->userPosts) * 10;
                                         @endforeach
                                     </div>
                                 @elseif (count($post->images) == 1)
-                                    <a href="{{url('storage' . $post->images[0]->src)}}"
+                                    <a href="{{url('storage' . $post->images->src)}}"
                                        data-fancybox="gallery{{$post->id}}">
-                                        <img src="{{url('storage' . $post->images[0]->src)}}"
+                                        <img src="{{url('storage' . $post->images->src)}}"
                                              alt="{{$post->title}}">
                                     </a>
                                 @else
