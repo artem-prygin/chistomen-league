@@ -238,9 +238,9 @@ $color = $user->usermeta->getGroup->theme;
                                         @endforeach
                                     </div>
                                 @elseif (count($post->images) == 1)
-                                    <a href="{{url('storage' . $post->images->src)}}"
+                                    <a href="{{url('storage' . $post->images[0]->src)}}"
                                        data-fancybox="gallery{{$post->id}}">
-                                        <img src="{{url('storage' . $post->images->src)}}"
+                                        <img src="{{url('storage' . $post->images[0]->src)}}"
                                              alt="{{$post->title}}">
                                     </a>
                                 @else

@@ -106,7 +106,7 @@ class PostController extends Controller
         Image::insert($imageData);
 
         \Session::flash('success', 'Пост успешно добавлен');
-        return redirect('/');
+        return redirect(route('posts'));
     }
 
     /**
@@ -219,7 +219,7 @@ class PostController extends Controller
             ]);
 
         \Session::flash('success', 'Пост успешно отредактирован');
-        return redirect('/');
+        return redirect('posts');
     }
 
     /**
