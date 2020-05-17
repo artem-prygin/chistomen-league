@@ -70,7 +70,7 @@
                                     <option value=""></option>
                                     @foreach($groups as $group)
                                         <option
-                                            value="{{$group->id}}" {{old('group') == $group->id ? 'selected' : ''}}>{{$group->name}}</option>
+                                            value="{{$group->id}}" {{((request('group') == $group->name && !old('group')) || old('group') == $group->id) ? 'selected' : ''}}>{{$group->name}}</option>
                                     @endforeach
                                 </select>
 

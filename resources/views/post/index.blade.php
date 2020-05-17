@@ -51,9 +51,12 @@ use App\Models\Post;
                         <div class="card post-card">
                             <h5 class="card-header post-card__header <?=$color?>">
                                 <span>{{$post->title}}</span>
-                                @if($post->user->id === auth()->user()->id)
-                                    <a class="{{$color}}" href="{{route('posts.edit', ['post' => $post->id])}}"><i class="fa fa-edit"></i></a>
-                                @endif
+                                @auth
+                                    @if($post->user->id === auth()->user()->id)
+                                        <a class="{{$color}}" href="{{route('posts.edit', ['post' => $post->id])}}"><i
+                                                class="fa fa-edit"></i></a>
+                                    @endif
+                                @endauth
                             </h5>
                             <div class="card-body">
                                 <p>
