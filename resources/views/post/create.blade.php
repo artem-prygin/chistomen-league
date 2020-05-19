@@ -16,7 +16,7 @@
                 <label for="post_title">Заголовок*</label>
                 <input type="text" name="title" class="form-control" id="post_title" required
                        placeholder="Уборка на Финском заливе" value="{{old('title') ?? ''}}">
-                <small>не более 40 символов</small>
+                <small>не более 200 символов</small>
                 @error('title')
                 <span class="error">{{$message}}</span>
                 @enderror

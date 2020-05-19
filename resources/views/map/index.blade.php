@@ -97,7 +97,7 @@ use App\Models\Post;
             let imagePath = '';
             spinner.classList.add('loader');
             map.appendChild(spinner);
-            window.events = [[], [], [], [], []]
+            window.events = [[], [], [], [], [], [], [], []]
             @foreach($users as $user)
                 await $.getJSON('https://geocode-maps.yandex.ru/1.x/?apikey=ab380256-636c-4346-8de3-8177483ab96f&format=json&geocode={{$user->usermeta->city}}&results=1', function (data) {
                 if (undefined !== data.response.GeoObjectCollection.featureMember[0]) {
@@ -105,6 +105,12 @@ use App\Models\Post;
                     window.events[1].push('{{$user->name}}');
                     window.events[2].push('/profile/{{$user->nickname}}');
                     window.events[3].push('{{$user->usermeta->city}}');
+
+                    /*group props*/
+                    window.events[5].push('{{$user->usermeta->getGroup->name}}');
+                    window.events[6].push('{{$user->usermeta->getGroup->theme}}');
+                    window.events[7].push('{{$user->usermeta->getGroup->slug}}');
+
                     @if(in_array($user->usermeta->image, ['', null]))
                         window.events[4].push('img/default-avatar.png');
                     @else
@@ -148,14 +154,20 @@ use App\Models\Post;
                 getPointData = function (index) {
                     return {
                         balloonContentHeader: `<strong>${window.events[1][index]}</strong>
-                                                <br><small>город: ${window.events[3][index]}</small>`,
+                                                <br><small>город: ${window.events[3][index]}</small>
+                                                 <br><a href="/group/${window.events[7][index]}" class="${window.events[6][index]}">
+                                                <small>клан: ${window.events[5][index]}</small>
+                                                </a>`,
                         balloonContentBody: `<a style="width: 120px; text-align: center; display: block" href="${window.events[2][index]}">
                                                 <div style="margin: 5px auto; background: url(${window.events[4][index]}) center no-repeat;
                                                 background-size: cover; border-radius: 50%; width: 100px; height: 100px"></div>
                                                    <span>Перейти в профиль</span>
                                                </a>`,
                         clusterCaption: `<strong>${window.events[1][index]}</strong>
-                                            <br><small>город: ${window.events[3][index]}</small>`
+                                            <br><small>город: ${window.events[3][index]}</small>
+                                            <br><a href="/group/${window.events[7][index]}" class="${window.events[6][index]}">
+                                             <small>клан: ${window.events[5][index]}</small>
+                                            </a>`
                     };
                 };
                 getPointOptions = function () {

@@ -56,7 +56,7 @@ class PostController extends Controller
         ];
 
         request()->validate([
-            'title' => 'required|min:1|max:40',
+            'title' => 'required|min:1|max:200',
             'description' => 'required|min:1|max:1000',
             'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'photo' => 'max:5',

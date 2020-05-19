@@ -28,12 +28,9 @@
                                     читать дальше</a>
                             </p>
 
-                            <a href="{{route('posts-group', ['slug' => $group->slug])}}" class="btn btn-secondary mb-1">Посты
-                                клана</a>
-                            <a href="{{route('league', ['group' => $group->name])}}" class="btn btn-secondary mb-1">Участники
-                                клана</a>
+                            <a href="{{route('group', ['slug' => $group->slug])}}" class="btn btn-secondary mb-1">Подробнее</a>
                             @guest
-                                <a href="{{route('register', ['group' => $group->name])}}" class="btn btn-primary">Присоединиться</a>
+                                <a href="{{route('register', ['group' => $group->name])}}" class="btn btn-primary mb-1">Присоединиться</a>
                             @endguest
                         </div>
                     </div>
