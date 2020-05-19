@@ -22,6 +22,7 @@ class GroupController extends Controller
                     $query->where('group', $id);
                 });
             })
+            ->orderBy('created_at', 'desc')
             ->paginate(8);
 
         return view('group.show', ['group' => $group, 'posts' => $posts]);
