@@ -3,7 +3,7 @@
  * @var $user App\Models\User;
  * @var $post App\Models\Post;
  */
-$rate = count($user->posts) + count($user->userPosts) * 10;
+$rate = count($user->posts) + $user->user_posts_count * 10;
 $color = $user->usermeta->getGroup->theme;
 ?>
 
