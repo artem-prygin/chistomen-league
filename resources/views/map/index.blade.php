@@ -84,6 +84,11 @@ use App\Models\Post;
         }
     }
 
+    small.map-small {
+        line-height: 1.3;
+        font-size: 70%;
+    }
+
 </style>
 
 @section('content')
@@ -127,7 +132,7 @@ use App\Models\Post;
             function init() {
                 var myMap = new ymaps.Map('map', {
                         center: ["55.753215", "37.622504"],
-                        zoom: 9,
+                        zoom: 4,
                         preset: 'islands#blackStretchyIcon'
                     }, {
                         searchControlProvider: 'yandex#search'
@@ -154,9 +159,9 @@ use App\Models\Post;
                 getPointData = function (index) {
                     return {
                         balloonContentHeader: `<strong>${window.events[1][index]}</strong>
-                                                <br><small>город: ${window.events[3][index]}</small>
+                                                <br><small class="map-small">город: ${window.events[3][index]}</small>
                                                  <br><a href="/group/${window.events[7][index]}" class="${window.events[6][index]}">
-                                                <small>клан: ${window.events[5][index]}</small>
+                                                <small class="map-small">клан: ${window.events[5][index]}</small>
                                                 </a>`,
                         balloonContentBody: `<a style="width: 120px; text-align: center; display: block" href="${window.events[2][index]}">
                                                 <div style="margin: 5px auto; background: url(${window.events[4][index]}) center no-repeat;
@@ -164,9 +169,9 @@ use App\Models\Post;
                                                    <span>Перейти в профиль</span>
                                                </a>`,
                         clusterCaption: `<strong>${window.events[1][index]}</strong>
-                                            <br><small>город: ${window.events[3][index]}</small>
+                                            <br><small class="map-small">город: ${window.events[3][index]}</small>
                                             <br><a href="/group/${window.events[7][index]}" class="${window.events[6][index]}">
-                                             <small>клан: ${window.events[5][index]}</small>
+                                             <small class="map-small">клан: ${window.events[5][index]}</small>
                                             </a>`
                     };
                 };

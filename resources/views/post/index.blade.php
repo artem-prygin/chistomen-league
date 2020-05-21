@@ -51,13 +51,14 @@ use App\Models\Post;
                         <div class="card post-card">
                             <h5 class="card-header post-card__header <?=$color?>">
                                 <span>{{$post->title}}</span>
-                                @auth
+                            @auth
                                     @if($post->user->id === auth()->user()->id)
                                         <a class="{{$color}}" href="{{route('posts.edit', ['post' => $post->id])}}"><i
                                                 class="fa fa-edit"></i></a>
                                     @endif
                                 @endauth
                             </h5>
+
                             <div class="card-body">
                                 <p>
                                     {{$post->description}}
@@ -106,6 +107,10 @@ use App\Models\Post;
                                         Категория: <a class="post-cat"
                                                       href="{{route('posts-category', ['id' => $post->category->id])}}">{{$post->category->name}}</a>
                                     @endif
+                                </p>
+
+                                <p>
+                                    <small>Создан {{$post->created_at->diffForHumans() ?? ''}}</small>
                                 </p>
 
                                 <form @auth class="like" @endauth action="{{ route('like') }}" method="post">

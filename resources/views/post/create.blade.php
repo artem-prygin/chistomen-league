@@ -31,41 +31,34 @@
                 @enderror
             </div>
 
-            @if($categories)
-                <div class="form-group">
-                    <label for="post_category">Выберите категорию из списка...</label>
-                    <select name="category_id" id="post_category" class="post-category form-control"
-                            style="width: 100%" multiple>
-                        <option value=""></option>
-                        @foreach($categories as $cat)
-                            <option
-                                value="{{$cat->id}}" {{old('category_id') == $cat->id ? 'selected' : ''}}>{{$cat->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="name">...или добавьте новую</label>
-                    <input class="form-control post-category__new" type="text" name="name" id="name" value="{{old('name') ?? ''}}">
-                    <small>не более 20 символов</small>
-                    @error('category_id')
-                    <span class="error">{{$message}}</span>
-                    @enderror
-                </div>
-            @else
-                <div class="form-group">
-                    <label for="name">Категория*</label>
-                    <input class="form-control" type="text" name="name" id="name" required value="{{old('name') ?? ''}}">
-                    <small>не более 20 символов</small>
-                    @error('name')
-                    <span class="error">{{$message}}</span>
-                    @enderror
-                </div>
-            @endif
+            <div class="form-group">
+                <label for="post_category">Выберите категорию из списка...</label>
+                <select name="category_id" id="post_category" class="post-category form-control"
+                        style="width: 100%" multiple>
+                    <option value=""></option>
+                    @foreach($categories as $cat)
+                        <option
+                            value="{{$cat->id}}" {{old('category_id') == $cat->id ? 'selected' : ''}}>{{$cat->name}}</option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                <span class="error">{{$message}}</span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="name">...или добавьте новую</label>
+                <input class="form-control post-category__new" type="text" name="cat_name" id="name"
+                       value="{{old('cat_name') ?? ''}}">
+                <small>не более 20 символов</small>
+                @error('cat_name')
+                <span class="error">{{$message}}</span>
+                @enderror
+            </div>
 
             <div class="form-group">
-                <label for="post_photo">Фото*</label>
-                <input type="file" multiple name="photo[]" id="post_photo" style="display: block" value="{{old('photo') ?? ''}}"
-                       required>
+                <label for="post_photo">Фото</label>
+                <input type="file" multiple name="photo[]" id="post_photo" style="display: block"
+                       value="{{old('photo') ?? ''}}">
                 <small>не более 5 фото в формате png/jpg и не более 4Мб каждая</small>
                 @error('photo')
                 <span class="error">{{$message}}</span>

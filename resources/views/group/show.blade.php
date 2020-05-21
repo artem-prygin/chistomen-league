@@ -7,6 +7,11 @@
 @section('title', $group[0]->name)
 
 @extends('layouts.main')
+<style>
+    hr {
+        margin-bottom: 35px!important;
+    }
+</style>
 
 @auth
     <script>

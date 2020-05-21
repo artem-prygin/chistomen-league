@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+
 /**
  * App\Models\Post
  *
@@ -31,4 +33,28 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $fillable = ['name'];
+
+    /**
+     * creates or validates category
+     * @param Request $request
+     */
+    public static function checkAndGetCategory(Request $request) :int
+    {
+        if ($request->has('category_id') && !is_null($request->has('category_id'))) {
+            $request->validate([
+                'category_id' => 'required|exists:categories,id',
+            ]);
+            $cat = $request->input('category_id');
+        } else {
+            $request->validate([
+                'cat_name' => 'required|min:1|max:20',
+            ]);
+            $cat = Category::where('name', '=', $request->input('cat_name'))->limit(1)->get();
+            $cat->isEmpty() === true
+                ? $cat = Category::create(['name' => $request->input('cat_name')])->id
+                : $cat = $cat[0]->id;
+        }
+
+        return $cat;
+    }
 }

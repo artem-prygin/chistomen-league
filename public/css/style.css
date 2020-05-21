@@ -308,6 +308,49 @@ main {
   color: #000;
 }
 
+.post-images {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.post-image {
+  width: 20%;
+  padding-right: 10px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.post-image__close {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.post-image__close:hover {
+  background: #000;
+}
+
+.post-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#post-edit {
+  margin-right: 10px;
+}
+
 @media screen and (max-width: 991px) {
   .post-blocks__title {
     flex-shrink: 0;
@@ -317,6 +360,11 @@ main {
 
   .post-blocks__title-wrapper {
     flex-wrap: wrap;
+  }
+
+  .post-image {
+    margin-bottom: 15px;
+    width: 48%;
   }
 }
 
@@ -347,6 +395,15 @@ main {
 
   .post-card .card-img {
     height: 150px;
+  }
+
+  .post-buttons {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  #post-edit {
+    margin-bottom: 10px;
   }
 }
 

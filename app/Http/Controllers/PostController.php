@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\CheckIfUserIsAuthor;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Post;
@@ -16,38 +17,34 @@ use Illuminate\View\View;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(CheckIfUserIsAuthor::class)->only(['store', 'destroy', 'update']);
+    }
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of posts.
      */
     public function index()
     {
-        $posts = Post::with('users')
-            ->with('user')
-            ->with('images')
-            ->orderBy('created_at', 'desc')
-            ->paginate(4);
-        return view('post.index', ['posts' => $posts]);
+        return view('post.index', ['posts' => Post::orderBy('id', 'desc')->paginate(4)]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource with categories provided.
      */
     public function create()
     {
-        $categories = Category::all();
-        return view('post.create', ['categories' => $categories]);
+        return view('post.create', ['categories' => Category::all()]);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
+     * Store a newly created post and images in storage.
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
      */
     public function store(Request $request)
     {
-        if ($request->input('author') != auth()->user()->id) {
-            abort(403);
-        }
         $user_id = auth()->user()->id;
         $user_nickname = auth()->user()->nickname;
 
@@ -55,40 +52,14 @@ class PostController extends Controller
             "photo.max" => "Не более пяти фотографий"
         ];
 
-        request()->validate([
+        $request->validate([
             'title' => 'required|min:1|max:200',
             'description' => 'required|min:1|max:1000',
             'photo.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'photo' => 'max:5',
         ], $messages);
 
-        if ($request->has('category_id') && !is_null($request->has('category_id'))) {
-            request()->validate([
-                'category_id' => 'exists:categories,id',
-            ]);
-            $cat = $request->input('category_id');
-            request()->validate([
-                'category_id' => 'required',
-            ]);
-        } else {
-            request()->validate([
-                'name' => 'required|min:1|max:40',
-            ]);
-            $cat = Category::where('name', '=', $request->input('name'))->limit(1)->get();
-            $cat->isEmpty() === true
-                ? $cat = Category::create(['name' => $request->input('name')])->id
-                : $cat = $cat[0]->id;
-        }
-
-        $imagePaths = $imageData = [];
-        $i = 0;
-        foreach ($request->file('photo') as $photo) {
-            $imageName = 'post' . time() . $i . '.' . $photo->getClientOriginalExtension();
-            $imagePath = '/img/posts/' . $user_nickname . '/';
-            \Storage::disk('storage')->put($imagePath . $imageName, \File::get($photo));
-            $imagePaths[] = $imagePath . $imageName;
-            $i++;
-        }
+        $cat = Category::checkAndGetCategory($request);
 
         $post = Post::create([
             'author' => $user_id,
@@ -97,13 +68,9 @@ class PostController extends Controller
             'category_id' => $cat
         ])->id;
 
-        foreach ($imagePaths as $src) {
-            $imageData[] = [
-                'src' => $src,
-                'post_id' => $post
-            ];
+        if($request->file('photo')) {
+            Image::storePostPhotos($request->file('photo'), $post, $user_nickname);
         }
-        Image::insert($imageData);
 
         \Session::flash('success', 'Пост успешно добавлен');
         return redirect(route('posts'));
@@ -164,59 +131,49 @@ class PostController extends Controller
     public function edit($post)
     {
         $post = Post::with('user')->with('images')->with('category')->findOrFail($post);
-        if(auth()->user()->id !== $post->user->id) {
+        if (auth()->user()->id !== $post->user->id) {
             abort(403);
         }
-        $categories = Category::all();
-        return view('post.edit', ['post' => $post, 'categories' => $categories]);
+        return view('post.edit', ['post' => $post, 'categories' => Category::all()]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
      * @return Application|RedirectResponse|Redirector
      */
     public function update(Request $request, $id)
     {
-        if ($request->input('author') != auth()->user()->id) {
-            abort(403);
-        }
         $user_id = auth()->user()->id;
+        $user_nickname = auth()->user()->nickname;
+        $maxImages = $request->input('images-left');
+
+        $messages = [
+            "photo.max" => "Вы загрузили слишком много фотографий"
+        ];
 
         request()->validate([
-            'title' => 'required|min:1|max:40',
+            'title' => 'required|min:1|max:200',
             'description' => 'required|min:1|max:1000',
-        ]);
+            'photo.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+            'photo' => 'max:' . $maxImages,
+        ], $messages);
 
-        if ($request->has('category_id') && !is_null($request->has('category_id'))) {
-            request()->validate([
-                'category_id' => 'exists:categories,id',
-            ]);
-            $cat = $request->input('category_id');
-            request()->validate([
-                'category_id' => 'required',
-            ]);
-        } else {
-            $messages = [
-                "name.required" => "Либо измените текущую категорию, либо выберите новую"
-            ];
-            request()->validate([
-                'name' => 'required|min:1|max:40',
-            ], $messages);
-            $cat = Category::where('name', '=', $request->input('name'))->limit(1)->get();
-            $cat->isEmpty() === true
-                ? $cat = Category::create(['name' => $request->input('name')])->id
-                : $cat = $cat[0]->id;
+        $cat = Category::checkAndGetCategory($request);
+
+        Image::deletePostPhotos($request, $id, $user_nickname);
+        if ($request->file('photo')) {
+            Image::storePostPhotos($request->file('photo'), $id, $user_nickname);
         }
 
         Post::find($id)->update([
-                'author' => $user_id,
-                'title' => $request->input('title'),
-                'description' => $request->input('description'),
-                'category_id' => $cat
-            ]);
+            'author' => $user_id,
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'category_id' => $cat
+        ]);
 
         \Session::flash('success', 'Пост успешно отредактирован');
         return redirect('posts');
@@ -225,12 +182,23 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $post
+     * @return Application|RedirectResponse|Redirector
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Request $request, $post)
     {
-        //
+        $user_nickname = auth()->user()->nickname;
+        $images = Image::where('post_id', '=', $post)->get();
+        foreach ($images as $image) {
+            \Storage::disk('storage')->delete($image->src);
+        }
+
+        Post::findOrFail($post)->delete();
+
+        \Session::flash('success', 'Пост успешно удален');
+        return redirect('posts');
     }
 
     /**

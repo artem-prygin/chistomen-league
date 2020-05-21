@@ -95,16 +95,19 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common */ "./resources/js/common.js");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_common__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register */ "./resources/js/register.js");
-/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_register__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _like__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./like */ "./resources/js/like.js");
-/* harmony import */ var _like__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_like__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _profile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./profile */ "./resources/js/profile.js");
-/* harmony import */ var _profile__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_profile__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _sliders__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sliders */ "./resources/js/sliders.js");
-/* harmony import */ var _sliders__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_sliders__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _parts_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parts/common */ "./resources/js/parts/common.js");
+/* harmony import */ var _parts_common__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_parts_common__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _parts_register__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parts/register */ "./resources/js/parts/register.js");
+/* harmony import */ var _parts_register__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_parts_register__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _parts_like__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./parts/like */ "./resources/js/parts/like.js");
+/* harmony import */ var _parts_like__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_parts_like__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _parts_profile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./parts/profile */ "./resources/js/parts/profile.js");
+/* harmony import */ var _parts_profile__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_parts_profile__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _parts_sliders__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./parts/sliders */ "./resources/js/parts/sliders.js");
+/* harmony import */ var _parts_sliders__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_parts_sliders__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _parts_edit_post__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./parts/edit-post */ "./resources/js/parts/edit-post.js");
+/* harmony import */ var _parts_edit_post__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_parts_edit_post__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -113,10 +116,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/common.js":
-/*!********************************!*\
-  !*** ./resources/js/common.js ***!
-  \********************************/
+/***/ "./resources/js/parts/common.js":
+/*!**************************************!*\
+  !*** ./resources/js/parts/common.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -128,10 +131,45 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "./resources/js/like.js":
-/*!******************************!*\
-  !*** ./resources/js/like.js ***!
-  \******************************/
+/***/ "./resources/js/parts/edit-post.js":
+/*!*****************************************!*\
+  !*** ./resources/js/parts/edit-post.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function () {
+  $(document).ready(function () {
+    /*deleted images logic*/
+    var idArr = [];
+    $('.post-image__close').click(function () {
+      var id = $(this).attr('data-image');
+      var ext = $(this).attr('data-extension');
+      idArr.push(id + '.' + ext);
+      $(".post-image[data-image=".concat(id, "]")).remove();
+      $('#deleted-images').val(idArr);
+      $('.post-images__left').html(+$('.post-images__left').html() + 1);
+      $('input[name="images-left"]').val(+$('input[name="images-left"]').val() + 1);
+    });
+    /*submit btns*/
+
+    $('#post-edit').click(function () {
+      $('.post-edit__form').submit();
+    });
+    $('#post-delete').click(function () {
+      if (confirm('Точно удалить пост?')) {
+        $('#post-delete__form').submit();
+      }
+    });
+  });
+}();
+
+/***/ }),
+
+/***/ "./resources/js/parts/like.js":
+/*!************************************!*\
+  !*** ./resources/js/parts/like.js ***!
+  \************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -162,10 +200,10 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "./resources/js/profile.js":
-/*!*********************************!*\
-  !*** ./resources/js/profile.js ***!
-  \*********************************/
+/***/ "./resources/js/parts/profile.js":
+/*!***************************************!*\
+  !*** ./resources/js/parts/profile.js ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -266,10 +304,10 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "./resources/js/register.js":
-/*!**********************************!*\
-  !*** ./resources/js/register.js ***!
-  \**********************************/
+/***/ "./resources/js/parts/register.js":
+/*!****************************************!*\
+  !*** ./resources/js/parts/register.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -295,10 +333,10 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "./resources/js/sliders.js":
-/*!*********************************!*\
-  !*** ./resources/js/sliders.js ***!
-  \*********************************/
+/***/ "./resources/js/parts/sliders.js":
+/*!***************************************!*\
+  !*** ./resources/js/parts/sliders.js ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
