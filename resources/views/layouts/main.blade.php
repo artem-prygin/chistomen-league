@@ -88,6 +88,9 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('profile.index') }}">Профиль</a>
+                            @if(auth()->user()->isAdmin())
+                                <a class="dropdown-item" href="{{ route('manager') }}">Админка</a>
+                            @endif
                             <a class="dropdown-item" href="{{ route('posts.create') }}">Добавить пост</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();

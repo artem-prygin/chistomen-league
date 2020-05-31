@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Group;
-use App\Models\Post;
 use App\Models\User;
 use App\Models\UserMeta;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use function foo\func;
+use Illuminate\View\View;
 
 class UserMetaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isAuthorOrAdmin')->only(['update', 'uploadAvatar']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -31,8 +38,8 @@ class UserMetaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param $nickname
+     * @return Application|Factory|View
      */
     public function show($nickname)
     {
@@ -51,19 +58,16 @@ class UserMetaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\UserMeta $userMeta
+     * @param Request $request
+     * @return string|void
      */
     public function update(Request $request)
     {
-        if ($request->input('user_id') != auth()->user()->id) {
-            return abort(403);
-        }
-
-        User::where('id', '=', $request->input('user_id'))->update(request()->validate([
+        $id = $request->user_id;
+        User::where('id', '=', $id)->update($request->validate([
             'name' => 'required|min:2|max:40'
         ]));
-        UserMeta::where('user_id', '=', $request->input('user_id'))->update(request()->validate([
+        UserMeta::where('user_id', '=', $id)->update($request->validate([
             'age' => 'nullable|integer|min:1|max:99',
             'phone' => 'nullable|min:1|max:15',
             'city' => 'min:3|max:40',
@@ -77,8 +81,8 @@ class UserMetaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\UserMeta $userMeta
-     * @return \Illuminate\Http\Response
+     * @param UserMeta $userMeta
+     * @return void
      */
     public function destroy(UserMeta $userMeta)
     {
@@ -88,25 +92,22 @@ class UserMetaController extends Controller
     /**
      * uploads an avatar
      * @param Request $request
+     * @return RedirectResponse
+     * @throws FileNotFoundException
      */
-
     public function uploadAvatar(Request $request)
     {
-        if ($request->input('user_id') != auth()->user()->id) {
-            return abort(403);
-        }
-
-        $user = auth()->user()->nickname;
-
         request()->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        $id = $request->user_id;
+        $user = User::findOrFail($id)->nickname;
         $imageName = 'avatar.' . request()->image->getClientOriginalExtension();
         $imagePath = '/img/users/' . $user . '/avatar/';
-        \Storage::disk('storage')->put($imagePath . $imageName, \File::get($request->file('image')));
 
-        UserMeta::where('user_id', '=', auth()->user()->id)->update(['image' => $imagePath . $imageName]);
+        \Storage::disk('storage')->put($imagePath . $imageName, \File::get($request->file('image')));
+        UserMeta::where('user_id', '=', $id)->update(['image' => $imagePath . $imageName]);
 
         return redirect()->back();
     }
@@ -114,7 +115,7 @@ class UserMetaController extends Controller
     /**
      * list of all users
      * @param Request|null $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function leagueList(Request $request)
     {
@@ -143,17 +144,5 @@ class UserMetaController extends Controller
         $users = $users->orderBy('name')->paginate(10);;
 
         return view('league.index', ['users' => $users]);
-    }
-
-    /**
-     * change current user Group
-     */
-    public function changeGroup(Request $request)
-    {
-        $newTheme = UserMeta::where('id', '=', auth()->user()->id);
-        $newTheme->update(request()->validate([
-            'group' => 'exists:groups,id'
-        ]));
-        return $newTheme->get('theme');
     }
 }

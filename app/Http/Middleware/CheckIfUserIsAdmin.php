@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class CheckIfUserIsAuthor
+class CheckIfUserIsAdmin
 {
     /**
      * Checks if user is post or profile author (or is he admin)
@@ -15,8 +15,10 @@ class CheckIfUserIsAuthor
      */
     public function handle($request, Closure $next)
     {
-        if (($request->author != auth()->user()->id || $request->user_id != auth()->user()->id)
-            && !auth()->user()->isAdmin()) {
+        if (is_null(auth()->user())) {
+            return redirect('login');
+        }
+        if (!auth()->user()->isAdmin()) {
             abort(403);
         }
         return $next($request);

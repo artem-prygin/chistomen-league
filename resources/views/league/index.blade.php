@@ -48,7 +48,9 @@ use App\Models\User;
                             <a href="{{route('profile.show', ['profile' => $user->nickname])}}">{{$user->name}}</a>
                         </td>
                         <td>{{$user->usermeta->city}}</td>
-                        <td>{{$user->usermeta->getGroup->name ?? '-'}}</td>
+                        <td>
+                            <a href="{{route('group', ['slug' => $user->usermeta->getGroup->slug])}}">{{$user->usermeta->getGroup->name ?? '-'}}</a>
+                        </td>
                         <td></td>
                     </tr>
                 @empty

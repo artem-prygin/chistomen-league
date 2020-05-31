@@ -19,7 +19,7 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(CheckIfUserIsAuthor::class)->only(['store', 'destroy', 'update']);
+        $this->middleware('isAuthorOrAdmin')->only(['store', 'destroy', 'update']);
     }
 
     /**
@@ -131,7 +131,7 @@ class PostController extends Controller
     public function edit($post)
     {
         $post = Post::with('user')->with('images')->with('category')->findOrFail($post);
-        if (auth()->user()->id !== $post->user->id) {
+        if (auth()->user()->id !== $post->user->id && !auth()->user()->isAdmin()) {
             abort(403);
         }
         return view('post.edit', ['post' => $post, 'categories' => Category::all()]);
@@ -146,8 +146,9 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user_id = auth()->user()->id;
-        $user_nickname = auth()->user()->nickname;
+        $post = Post::findOrFail($id);
+        $user_id = $request->author;
+        $user_nickname = $post->user->nickname;
         $maxImages = $request->input('images-left');
 
         $messages = [
@@ -168,7 +169,7 @@ class PostController extends Controller
             Image::storePostPhotos($request->file('photo'), $id, $user_nickname);
         }
 
-        Post::find($id)->update([
+        $post->update([
             'author' => $user_id,
             'title' => $request->input('title'),
             'description' => $request->input('description'),

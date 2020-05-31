@@ -95,4 +95,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new VerifyEmail); // my notification
     }
+
+    /**
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return auth()->user()->role === 'admin';
+    }
 }

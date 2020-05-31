@@ -61,10 +61,17 @@ Route::get('/league', 'UserMetaController@leagueList')->middleware('auth')->name
 Route::get('/map', 'MapController@index')->middleware('auth')->name('map');
 
 
-
 /**
  * GroupController
  */
 Route::get('/group/{slug}', 'GroupController@show')->middleware('auth')->name('group');
 
+
+/**
+ * ManagerController
+ */
+Route::get('/manager', 'ManagerController@index')->middleware('isAdmin')->name('manager');
+Route::get('/manager/groups', 'ManagerController@groups')->middleware('isAdmin')->name('manager-groups');
+Route::get('/manager/groups/{group}', 'ManagerController@groups_edit')->middleware('isAdmin')->name('manager-groups-edit');
+Route::put('/manager/groups/{group}', 'ManagerController@groups_update')->middleware('isAdmin')->name('manager-groups-update');
 

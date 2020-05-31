@@ -13,7 +13,7 @@
         <form method="post" action="/posts/{{$post->id}}" enctype="multipart/form-data" class="post-create post-edit__form">
             @method('PUT')
             @csrf
-            <input type="hidden" name="author" value="{{ auth()->user()->id }}">
+            <input type="hidden" name="author" value="{{ $post->author }}">
             <div class="form-group">
                 <label for="post_title">Заголовок*</label>
                 <input type="text" name="title" class="form-control" id="post_title" required

@@ -6,6 +6,7 @@ use App\Models\Post;
  * @var $posts Post
  * @var $post Post
  */
+
 ?>
 
 @extends('layouts.main')
@@ -51,8 +52,11 @@ use App\Models\Post;
                         <div class="card post-card">
                             <h5 class="card-header post-card__header <?=$color?>">
                                 <span>{{$post->title}}</span>
-                            @auth
-                                    @if($post->user->id === auth()->user()->id)
+                                @auth
+                                    @php
+                                        $isAuthorOrAdmin = $post->user->id === auth()->user()->id || auth()->user()->isAdmin()
+                                    @endphp
+                                    @if($isAuthorOrAdmin)
                                         <a class="{{$color}}" href="{{route('posts.edit', ['post' => $post->id])}}"><i
                                                 class="fa fa-edit"></i></a>
                                     @endif

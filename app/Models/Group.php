@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
+    protected $fillable = ['name', 'theme', 'description', 'slug'];
     /**
      * each group has many members
      */

@@ -5,6 +5,7 @@
  */
 $rate = count($user->posts) + $user->user_posts_count * 10;
 $color = $user->usermeta->getGroup->theme;
+$ifUserOrAdmin = auth()->user()->isAdmin() || $user->id == auth()->user()->id;
 ?>
 
 @extends('layouts.main')
@@ -65,7 +66,7 @@ $color = $user->usermeta->getGroup->theme;
                 @endif">
             </div>
 
-            @if($user->id == auth()->user()->id)
+            @if($ifUserOrAdmin)
                 <form class="profile-img__upload" action="/profile/uploadAvatar" method="post"
                       enctype="multipart/form-data">
                     @csrf
@@ -139,7 +140,7 @@ $color = $user->usermeta->getGroup->theme;
                                target="_blank">{{ $user->usermeta->vk_link }}</a>
                         @endif
                     </div>
-                    @if($user->id == auth()->user()->id)
+                    @if($ifUserOrAdmin)
                         <div class="profile-vk profile-block profile-block__showOnEdit">ВК:
                             <input name="vk_link" type="text" value="{{ $user->usermeta->vk_link }}"
                                    placeholder="Ссылка не указана">
@@ -155,7 +156,7 @@ $color = $user->usermeta->getGroup->theme;
                                target="_blank">{{ $user->usermeta->instagram_link }}</a>
                         @endif
                     </div>
-                    @if($user->id == auth()->user()->id)
+                    @if($ifUserOrAdmin)
                         <div class="profile-instagram profile-block profile-block__showOnEdit">Инстаграм:
                             <input name="instagram_link" type="text"
                                    value="{{ $user->usermeta->instagram_link }}"
@@ -177,12 +178,12 @@ $color = $user->usermeta->getGroup->theme;
                         <span class="error error-about"></span>
                     </div>
 
-                    @if($user->id == auth()->user()->id)
+                    @if($ifUserOrAdmin)
                         <div class="profile-settings">
                             <i class="fa fa-cogs"></i>
                         </div>
 
-                        <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
+                        <input type="hidden" value="{{ $user->id }}" name="user_id">
                         <button class="btn btn-success profile-block__showOnEdit">Сохранить</button>
                     @endif
                 </div>
@@ -219,7 +220,7 @@ $color = $user->usermeta->getGroup->theme;
                     <div class="card post-card">
                         <h5 class="card-header post-card__header {{$color}}">
                             <span>{{$post->title}}</span>
-                            @if($post->user->id === auth()->user()->id)
+                            @if($post->user->id === auth()->user()->id || auth()->user()->isAdmin())
                                 <a class="{{$color}}" href="{{route('posts.edit', ['post' => $post->id])}}"><i class="fa fa-edit"></i></a>
                             @endif
                         </h5>
