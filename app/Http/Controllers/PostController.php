@@ -190,7 +190,6 @@ class PostController extends Controller
      */
     public function destroy(Request $request, $post)
     {
-        $user_nickname = auth()->user()->nickname;
         $images = Image::where('post_id', '=', $post)->get();
         foreach ($images as $image) {
             \Storage::disk('storage')->delete($image->src);

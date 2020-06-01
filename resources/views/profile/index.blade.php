@@ -4,7 +4,8 @@
  * @var $post App\Models\Post;
  */
 $rate = count($user->posts) + $user->user_posts_count * 10;
-$color = $user->usermeta->getGroup->theme;
+$hasGroup = $user->usermeta->getGroup;
+$color = $user->usermeta->getGroup ? $user->usermeta->getGroup->theme : '';
 $ifUserOrAdmin = auth()->user()->isAdmin() || $user->id == auth()->user()->id;
 ?>
 
@@ -28,8 +29,8 @@ $ifUserOrAdmin = auth()->user()->isAdmin() || $user->id == auth()->user()->id;
 
 @auth
     <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            document.body.classList.add('<?=$user->usermeta->getGroup->theme?>-bg');
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('<?=$user->usermeta->getGroup? $user->usermeta->getGroup->theme : ''?>-bg');
 
             function animateValue(id, start, end, duration) {
                 let range = end - start;
@@ -88,7 +89,7 @@ $ifUserOrAdmin = auth()->user()->isAdmin() || $user->id == auth()->user()->id;
         <div class="col-md-7 offset-md-1">
 
             <div class="profile-group">
-                @if(!in_array($user->usermeta->group, ['', null]))
+                @if($hasGroup)
                     <h6>
                         Участник клана
                         <a href="{{route('group', ['slug' => $user->usermeta->getGroup->slug])}}"><i>«{{$user->usermeta->getGroup->name}}
@@ -106,7 +107,7 @@ $ifUserOrAdmin = auth()->user()->isAdmin() || $user->id == auth()->user()->id;
                 @csrf
                 <h4 class="profile-name profile-block">
                     <input type="text" name="name" value="{{ $user->name ?? old('name') }}" disabled
-                           class="{{ $user->usermeta->getGroup->theme }}">
+                           class="{{ $user->usermeta->getGroup->theme ?? '' }}">
                     <span class="error error-name"></span>
                 </h4>
                 <hr>

@@ -11,7 +11,7 @@
 
 @section('content')
     <div class="container">
-        <form action="{{route('manager-groups-update', ['group' => $group->id])}}" method="post">
+        <form action="{{route('manager-groups-update', ['group' => $group->id])}}" method="post" id="group-edit">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -45,8 +45,19 @@
                     <span class="error">{{$message}}</span>
                 @enderror
             </div>
+        </form>
 
-            <button class="btn btn-primary">Редактировать</button>
+        <button class="btn btn-primary"
+                onclick="document.getElementById('group-edit').submit()">
+            Редактировать</button>
+        <button class="btn btn-danger"
+                onclick="if(confirm('Точно удалить клан? Участники будут сохранены, но их причастность к клану аннулируется'))
+                {document.getElementById('group-destroy').submit()}">
+            Удалить</button>
+
+        <form action="{{route('manager-groups-destroy', ['group' => $group->id])}}" method="post" id="group-destroy">
+            @csrf
+            @method('DELETE')
         </form>
     </div>
 @endsection

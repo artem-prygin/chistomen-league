@@ -44,9 +44,10 @@ use App\Models\Post;
 
                 @foreach($posts as $post)
                     <?php
-                    $color = $post->user->usermeta->getGroup->theme;
-                    $groupName = $post->user->usermeta->getGroup->name;
-                    $groupSlug = $post->user->usermeta->getGroup->slug;
+                    $hasGroup = $post->user->usermeta->getGroup;
+                    $color = $hasGroup ? $post->user->usermeta->getGroup->theme : '';
+                    $groupName = $hasGroup ? $post->user->usermeta->getGroup->name : '';
+                    $groupSlug = $hasGroup ? $post->user->usermeta->getGroup->slug : '';
                     ?>
                     <div class="col-lg-6">
                         <div class="card post-card">
@@ -94,12 +95,14 @@ use App\Models\Post;
                                         <a class="{{$color}}"
                                            href="{{ route('profile.show', ['profile' => $post->user->nickname]) }}">{{$post->user->name}}</a>
                                         <i>
-                                            <small>
-                                                (клан <a class="{{$color}}"
-                                                         href="{{route('group', ['slug' => $groupSlug])}}">
-                                                    {{$groupName}}
-                                                </a>)
-                                            </small>
+                                            @if($hasGroup)
+                                                <small>
+                                                    (клан <a class="{{$color}}"
+                                                             href="{{route('group', ['slug' => $groupSlug])}}">
+                                                        {{$groupName}}
+                                                    </a>)
+                                                </small>
+                                            @endif
                                         </i>
                                     @else
                                         <span>Deleted</span>

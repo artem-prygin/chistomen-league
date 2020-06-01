@@ -112,9 +112,10 @@ use App\Models\Post;
                     window.events[3].push('{{$user->usermeta->city}}');
 
                     /*group props*/
-                    window.events[5].push('{{$user->usermeta->getGroup->name}}');
-                    window.events[6].push('{{$user->usermeta->getGroup->theme}}');
-                    window.events[7].push('{{$user->usermeta->getGroup->slug}}');
+                    @php $hasGroup = $user->usermeta->getGroup @endphp
+                    window.events[5].push('{{$hasGroup ? $user->usermeta->getGroup->name : 'отсутствует'}}');
+                    window.events[6].push('{{$hasGroup ? $user->usermeta->getGroup->theme : ''}}');
+                    window.events[7].push('{{$hasGroup ? $user->usermeta->getGroup->slug : ''}}');
 
                     @if(in_array($user->usermeta->image, ['', null]))
                         window.events[4].push('img/default-avatar.png');

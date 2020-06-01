@@ -21,6 +21,9 @@
             </div>
         @endif
 
+            <a class="btn btn-success" href="{{route('manager-groups-create')}}">Создать клан</a>
+            <hr>
+
         @foreach($groups as $group)
             <div class="manager-group">
                 <h2>

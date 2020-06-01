@@ -27,13 +27,16 @@ use App\Models\User;
                 <form action="{{ route('league') }}" class="league-filter" method="get">
                     <tr>
                         <td colspan="2">
-                            <input type="text" class="league-input" name="name" value="{{request('name') ?? ''}}" placeholder="Введите имя">
+                            <input type="text" class="league-input" name="name" value="{{request('name') ?? ''}}"
+                                   placeholder="Введите имя">
                         </td>
                         <td>
-                            <input type="text" class="league-input" name="city" value="{{request('city') ?? ''}}" placeholder="Введите город">
+                            <input type="text" class="league-input" name="city" value="{{request('city') ?? ''}}"
+                                   placeholder="Введите город">
                         </td>
                         <td>
-                            <input type="text" class="league-input" name="group" value="{{request('group') ?? ''}}" placeholder="Название клана">
+                            <input type="text" class="league-input" name="group" value="{{request('group') ?? ''}}"
+                                   placeholder="Название клана">
                         </td>
                         <td>
                             <button class="btn btn-sm btn-primary">Применить фильтр</button>
@@ -49,12 +52,16 @@ use App\Models\User;
                         </td>
                         <td>{{$user->usermeta->city}}</td>
                         <td>
-                            <a href="{{route('group', ['slug' => $user->usermeta->getGroup->slug])}}">{{$user->usermeta->getGroup->name ?? '-'}}</a>
+                            @if($user->usermeta->getGroup)
+                                <a href="{{route('group', ['slug' => $user->usermeta->getGroup->slug])}}">{{$user->usermeta->getGroup->name ?? '-'}}</a>
+                            @else
+                                <span>-</span>
+                            @endif
                         </td>
                         <td></td>
                     </tr>
                 @empty
-                    <tr >
+                    <tr>
                         <td colspan="4">Никого и ничего не найдено :(</td>
                     </tr>
                 @endforelse
