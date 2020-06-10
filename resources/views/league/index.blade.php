@@ -12,6 +12,12 @@ use App\Models\User;
 
 @section('content')
     <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <div class="table-wrapper">
             <table class="table">
                 <thead class="thead-dark">
@@ -21,6 +27,9 @@ use App\Models\User;
                     <th scope="col">Город</th>
                     <th scope="col">Клан</th>
                     <th scope="col"></th>
+                    @if(auth()->user()->isAdmin())
+                        <th scope="col"></th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -41,6 +50,9 @@ use App\Models\User;
                         <td>
                             <button class="btn btn-sm btn-primary">Применить фильтр</button>
                         </td>
+                        @if(auth()->user()->isAdmin())
+                            <td></td>
+                        @endif
                     </tr>
                 </form>
                 @php $i=1 @endphp
@@ -59,6 +71,18 @@ use App\Models\User;
                             @endif
                         </td>
                         <td></td>
+                        @if(auth()->user()->isAdmin() && $user->id != auth()->user()->id)
+                            <td style="color: red;">
+                                <i class="fa fa-trash" style="cursor: pointer"
+                                onclick="if(confirm('Точно удалить участника? Его нельзя будет восстановить'))
+                                {document.getElementById('user{{$user->id}}').submit()}"></i>
+                                <form action="{{route('profile.destroy', ['profile' => $user->id])}}"
+                                      method="post" style="display: none" id="user{{$user->id}}">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            </td>
+                        @endif
                     </tr>
                 @empty
                     <tr>

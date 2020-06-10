@@ -6,7 +6,7 @@
 
         <div class="manager-buttons">
             <a href="{{route('manager-groups')}}" class="btn btn-primary">Группы</a>
-            <a href="" class="btn btn-success">Участники</a>
+            <a href="{{route('league')}}" class="btn btn-success">Участники</a>
         </div>
 
     </div>

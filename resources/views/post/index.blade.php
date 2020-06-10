@@ -44,7 +44,7 @@ use App\Models\Post;
 
                 @foreach($posts as $post)
                     <?php
-                    $hasGroup = $post->user->usermeta->getGroup;
+                    $hasGroup = $post->user ? $post->user->usermeta->getGroup : false;
                     $color = $hasGroup ? $post->user->usermeta->getGroup->theme : '';
                     $groupName = $hasGroup ? $post->user->usermeta->getGroup->name : '';
                     $groupSlug = $hasGroup ? $post->user->usermeta->getGroup->slug : '';
@@ -55,7 +55,10 @@ use App\Models\Post;
                                 <span>{{$post->title}}</span>
                                 @auth
                                     @php
-                                        $isAuthorOrAdmin = $post->user->id === auth()->user()->id || auth()->user()->isAdmin()
+                                        $isAuthorOrAdmin = false;
+                                        if ($post->user) {
+                                            $isAuthorOrAdmin = $post->user->id === auth()->user()->id || auth()->user()->isAdmin();
+                                        }
                                     @endphp
                                     @if($isAuthorOrAdmin)
                                         <a class="{{$color}}" href="{{route('posts.edit', ['post' => $post->id])}}"><i

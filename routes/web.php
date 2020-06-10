@@ -46,13 +46,14 @@ Route::group(['middleware' => ['auth']],
     function () {
         Route::resource('/profile', 'UserMetaController',
             [
-                'except' => ['create', 'store', 'edit', 'uploadAvatar', 'changeGroup'],
+                'except' => ['create', 'store', 'edit', 'uploadAvatar', 'changeGroup', 'destroy'],
             ]
         );
     });
 
 Route::post('/profile/uploadAvatar', 'UserMetaController@uploadAvatar')->middleware('auth');
 Route::put('/profile/changeGroup', 'UserMetaController@changeGroup')->middleware('auth');
+Route::delete('/profile/{profile}', 'UserMetaController@destroy')->middleware('auth')->name('profile.destroy');
 Route::get('/league', 'UserMetaController@leagueList')->middleware('auth')->name('league');
 
 /**

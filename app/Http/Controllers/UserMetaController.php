@@ -81,12 +81,16 @@ class UserMetaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param UserMeta $userMeta
-     * @return void
+     * @param $profile
+     * @return RedirectResponse
      */
-    public function destroy(UserMeta $userMeta)
+    public function destroy($profile)
     {
-        //
+        UserMeta::where('user_id', '=', $profile)->delete();
+        User::findOrFail($profile)->delete();
+
+        \Session::flash('success', 'Участник успешно удален');
+        return redirect()->back();
     }
 
     /**
