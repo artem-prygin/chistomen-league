@@ -107,6 +107,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _parts_sliders__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_parts_sliders__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _parts_edit_post__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./parts/edit-post */ "./resources/js/parts/edit-post.js");
 /* harmony import */ var _parts_edit_post__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_parts_edit_post__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _parts_yaubral__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./parts/yaubral */ "./resources/js/parts/yaubral.js");
+/* harmony import */ var _parts_yaubral__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_parts_yaubral__WEBPACK_IMPORTED_MODULE_6__);
+
 
 
 
@@ -126,6 +129,9 @@ __webpack_require__.r(__webpack_exports__);
 module.exports = function () {
   $(document).ready(function () {
     $.fancybox.defaults.loop = true;
+  });
+  $('.yaubral-link a').click(function (e) {
+    e.preventDefault();
   });
 }();
 
@@ -356,6 +362,66 @@ module.exports = function () {
       pullDrag: false,
       nav: false,
       dots: false
+    });
+  });
+}();
+
+/***/ }),
+
+/***/ "./resources/js/parts/yaubral.js":
+/*!***************************************!*\
+  !*** ./resources/js/parts/yaubral.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function () {
+  $(document).ready(function () {
+    $('.yaubral-moderation__ok').click(function () {
+      $("td[data-id=".concat($(this).attr('data-id'), "] span")).removeClass().addClass('green').html('Принято');
+      var data = $(this).parent('form').serialize();
+      $.ajax({
+        url: '/yaubral/postConfirm',
+        type: 'post',
+        data: data,
+        success: function success() {
+          return;
+        }
+      });
+    });
+    $('.yaubral-moderation__delete').click(function () {
+      $("td[data-id=".concat($(this).attr('data-id'), "] span")).removeClass().addClass('red').html('Отклонено');
+      var data = $(this).parent('form').serialize();
+      $.ajax({
+        url: '/yaubral/postDecline',
+        type: 'post',
+        data: data,
+        success: function success() {
+          return;
+        }
+      });
+    });
+    $('.yaubral-getWinner').click(function () {
+      if (confirm('Точно провести розыгрыш?')) {
+        var data = $('.getWinner').serialize();
+        $('.yaubral-loading').fadeIn();
+        setTimeout(function () {
+          $('.yaubral-loading').hide();
+        }, 2500);
+        setTimeout(function () {
+          $.ajax({
+            url: '/yaubral/getWinner',
+            type: 'post',
+            data: data,
+            success: function success(res) {
+              $('.yaubral-winner').html("\n                                <h3>\u041F\u043E\u0431\u0435\u0434\u0438\u0442\u0435\u043B\u044C: ".concat(res.author, "</h3>\n                                <p>\n                                <span>\n                                \u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043F\u043E\u0441\u0442:\n                                </span>\n                                <a href=\"").concat(res.link, "\" target=\"_blank\" onclick=\"popupWindow(this.href, this.target, window, 1500, 800)\">\n                                ").concat(res.link, "\n                                </a>\n                                </p>\n\n                                "));
+              $('.yaubral-getWinner').remove();
+              $('.lightgreen').removeClass('lightgreen');
+              $("tr[data-id=".concat(res.id, "]")).addClass('lightgreen');
+            }
+          });
+        }, 2500);
+      }
     });
   });
 }();

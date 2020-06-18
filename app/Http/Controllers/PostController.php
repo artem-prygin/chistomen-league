@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Image;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Yaubral;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -66,10 +67,18 @@ class PostController extends Controller
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'category_id' => $cat
-        ])->id;
+        ]);
+
+        if (Category::find($cat)->name == 'Уборка') {
+            Yaubral::create([
+                'author' => $post->title,
+                'author_ip' => $request->ip(),
+                'link' => '/posts/' . $post->id
+            ]);
+        }
 
         if($request->file('photo')) {
-            Image::storePostPhotos($request->file('photo'), $post, $user_nickname);
+            Image::storePostPhotos($request->file('photo'), $post->id, $user_nickname);
         }
 
         \Session::flash('success', 'Пост успешно добавлен');
@@ -78,10 +87,12 @@ class PostController extends Controller
 
     /**
      * Display the specified resource.
+     * @param $id
      */
     public function show($id)
     {
-        dd($id);
+        $post = Post::findOrFail($id);
+        return view('post.show', ['post' => $post]);
     }
 
     /**
@@ -131,7 +142,7 @@ class PostController extends Controller
     public function edit($post)
     {
         $post = Post::with('user')->with('images')->with('category')->findOrFail($post);
-        if (auth()->user()->id !== $post->user->id && !auth()->user()->isAdmin()) {
+        if (($post->user && auth()->user()->id !== $post->user->id) && !auth()->user()->isAdmin()) {
             abort(403);
         }
         return view('post.edit', ['post' => $post, 'categories' => Category::all()]);

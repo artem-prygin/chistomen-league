@@ -51,13 +51,15 @@ use App\Models\Post;
                     ?>
                     <div class="col-lg-6">
                         <div class="card post-card">
-                            <h5 class="card-header post-card__header <?=$color?>">
-                                <span>{{$post->title}}</span>
+                            <h5 class="card-header post-card__header">
+                                <a class="<?=$color?>" href="{{route('posts-show', ['id' => $post->id])}}">{{$post->title}}</a>
                                 @auth
                                     @php
                                         $isAuthorOrAdmin = false;
                                         if ($post->user) {
                                             $isAuthorOrAdmin = $post->user->id === auth()->user()->id || auth()->user()->isAdmin();
+                                        } else {
+                                            $isAuthorOrAdmin = auth()->user()->isAdmin();
                                         }
                                     @endphp
                                     @if($isAuthorOrAdmin)

@@ -19,6 +19,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    @yield('styles')
+
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     @auth
         @if(!in_array(\Request::route()->getName(), ['profile.show', 'group', 'main']))
@@ -61,6 +63,10 @@
                 <li class="nav-item">
                     <a class="nav-link @if(\Request::route()->getName() === 'league') {{__('nav-link__active')}} @endif"
                        href="{{ route('league') }}">Участники Лиги</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(\Request::route()->getName() === 'yaubral') {{__('nav-link__active')}} @endif"
+                       href="{{ route('yaubral') }}">#яУбрал</a>
                 </li>
             </ul>
 

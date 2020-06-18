@@ -4,6 +4,7 @@ import './parts/like'
 import './parts/profile'
 import './parts/sliders'
 import './parts/edit-post'
+import './parts/yaubral'
 
 
 

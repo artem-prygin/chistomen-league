@@ -103,4 +103,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return auth()->user()->role === 'admin';
     }
+
+    public function isYaubral()
+    {
+        return in_array(auth()->user()->role, ['admin', 'yaubral']);
+    }
 }

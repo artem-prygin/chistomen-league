@@ -27,10 +27,11 @@ Route::group(['middleware' => ['auth']],
     function () {
         Route::resource('/posts', 'PostController',
             [
-                'except' => ['index'],
+                'except' => ['index', 'show'],
             ]
         );
     });
+Route::get('/posts/{id}', 'PostController@show')->name('posts-show');
 Route::post('/like', 'PostController@like')->middleware('auth')->name('like');
 
 
@@ -79,3 +80,11 @@ Route::get('/manager/groups/{group}', 'ManagerController@groups_edit')->middlewa
 Route::put('/manager/groups/{group}', 'ManagerController@groups_update')->middleware('isAdmin')->name('manager-groups-update');
 Route::delete('/manager/groups/{group}', 'ManagerController@groups_destroy')->middleware('isAdmin')->name('manager-groups-destroy');
 
+/**
+ * Yaubral / Я убрал
+ */
+Route::get('/yaubral', 'YaubralController@index')->name('yaubral');
+Route::post('/yaubral', 'YaubralController@store')->name('yaubral.store');
+Route::post('/yaubral/postConfirm', 'YaubralController@postConfirm')->name('yaubral.postConfirm');
+Route::post('/yaubral/postDecline', 'YaubralController@postDecline')->name('yaubral.postDecline');
+Route::post('/yaubral/getWinner', 'YaubralController@getWinner')->name('yaubral.getWinner');
