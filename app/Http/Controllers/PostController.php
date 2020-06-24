@@ -71,7 +71,7 @@ class PostController extends Controller
 
         if (Category::find($cat)->name == 'Уборка') {
             Yaubral::create([
-                'author' => $post->title,
+                'author' => auth()->user()->name,
                 'author_ip' => $request->ip(),
                 'link' => '/posts/' . $post->id
             ]);
