@@ -73,7 +73,8 @@ class PostController extends Controller
             Yaubral::create([
                 'author' => auth()->user()->name,
                 'author_ip' => $request->ip(),
-                'link' => '/posts/' . $post->id
+                'link' => '/posts/' . $post->id,
+                'week_id' => Yaubral::getCurrentWeek()
             ]);
         }
 
