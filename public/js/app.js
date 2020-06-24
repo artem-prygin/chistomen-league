@@ -406,7 +406,7 @@ module.exports = function () {
         $('.yaubral-loading').fadeIn();
         setTimeout(function () {
           $('.yaubral-loading').hide();
-        }, 200);
+        }, 2500);
         setTimeout(function () {
           $.ajax({
             url: '/yaubral/getWinner',
@@ -419,7 +419,7 @@ module.exports = function () {
               $("tr[data-id=".concat(res.id, "]")).addClass('lightgreen');
             }
           });
-        }, 200);
+        }, 2500);
       }
     });
     $('.yaubral-changeVideo').click(function () {
