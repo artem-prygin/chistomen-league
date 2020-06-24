@@ -2,13 +2,12 @@ module.exports = function () {
     $(document).ready(function () {
         $('.yaubral-moderation__ok').click(function () {
             $(`td[data-id=${$(this).attr('data-id')}] span`).removeClass().addClass('green').html('Принято');
-            let data = $(this).parent('form').serialize();
             $.ajax({
                 url: '/yaubral/postConfirm',
                 type: 'post',
-                data,
+                data: $(this).parent('form').serialize(),
                 success: function () {
-                    return;
+                    $('.yaubral-getWinner').fadeIn().css('display', 'block');
                 }
             })
         })
@@ -32,7 +31,7 @@ module.exports = function () {
                 $('.yaubral-loading').fadeIn();
                 setTimeout(function () {
                     $('.yaubral-loading').hide();
-                },2500)
+                },200)
                 setTimeout(function () {
                     $.ajax({
                         url: '/yaubral/getWinner',
@@ -52,14 +51,20 @@ module.exports = function () {
                                 </p>
 
                                 `
-                            );
+                            ).css('padding-top', '25px');
                             $('.yaubral-getWinner').remove();
                             $('.lightgreen').removeClass('lightgreen');
                             $(`tr[data-id=${res.id}]`).addClass('lightgreen');
                         }
                     })
-                },2500)
+                },200)
             }
         })
+
+
+        $('.yaubral-changeVideo').click(function () {
+            $(this).hide();
+            $('.yaubral')
+        });
     })
 }()

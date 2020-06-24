@@ -11,7 +11,8 @@ class YaubralController extends Controller
     {
         $currentWeek = Yaubral::getCurrentWeek();
         $posts = Yaubral::where('week_id', '=', $currentWeek)->get();
-        return view('yaubral.index', ['posts' => $posts, 'week' => $currentWeek]);
+        $comfirmed = $posts->where('checked', '=', 1);
+        return view('yaubral.index', ['posts' => $posts, 'week' => $currentWeek, 'confirmed' => $comfirmed]);
     }
 
     public function store(Request $request)
@@ -38,7 +39,8 @@ class YaubralController extends Controller
         Yaubral::create([
             'author' => $request->author,
             'link' => $request->link,
-            'author_ip' => $ip
+            'author_ip' => $ip,
+            'week_id' => $currentWeek,
         ]);
 
         \Session::flash('success', 'Ваш пост успешно добавлен!');
@@ -68,7 +70,40 @@ class YaubralController extends Controller
             ->where('checked', '=', 1)
             ->where('finished', '=', 0)
             ->get()->random();
+        $winner->win = 1;
+        $winner->save();
+        Yaubral::where('week_id', '=', $currentWeek)->update(['finished' => 1]);
 
         return $winner;
+    }
+
+    public function showAll()
+    {
+        return view('yaubral.all', ['weeks' => Yaubral::where('finished', '=', 1)
+            ->get(['week_id', 'updated_at'])
+            ->sortByDesc('updated_at')
+            ->unique('week_id')]);
+    }
+
+    public function show($week)
+    {
+        $posts = Yaubral::where('week_id', '=', $week)->get();
+        $winner = $posts->where('win', '=', 1)->first();
+        if (!$winner) {
+            abort(404);
+        }
+        return view('yaubral.index', ['posts' => $posts, 'week' => $week, 'winner' => $winner]);
+    }
+
+    public function addVideo($week, Request $request)
+    {
+        Yaubral::where('week_id', '=', $week)
+            ->where('win', '=', 1)
+            ->update($request->validate([
+                'video' => 'required|url|min:2|max:500',
+            ]));
+
+        \Session::flash('video-success', 'Ссылка на видео успешно добавлена');
+        return redirect()->back();
     }
 }

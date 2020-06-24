@@ -84,7 +84,10 @@ Route::delete('/manager/groups/{group}', 'ManagerController@groups_destroy')->mi
  * Yaubral / Я убрал
  */
 Route::get('/yaubral', 'YaubralController@index')->name('yaubral');
+Route::get('/yaubral/all', 'YaubralController@showAll')->name('yaubral.showAll');
+Route::get('/yaubral/{week}', 'YaubralController@show')->name('yaubral.show');
 Route::post('/yaubral', 'YaubralController@store')->name('yaubral.store');
 Route::post('/yaubral/postConfirm', 'YaubralController@postConfirm')->name('yaubral.postConfirm');
 Route::post('/yaubral/postDecline', 'YaubralController@postDecline')->name('yaubral.postDecline');
 Route::post('/yaubral/getWinner', 'YaubralController@getWinner')->name('yaubral.getWinner');
+Route::post('/yaubral/{week}', 'YaubralController@addVideo')->name('yaubral.addVideo');

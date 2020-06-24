@@ -31,11 +31,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Yaubral extends Model
 {
-    protected $fillable = ['author', 'author_ip', 'link', 'finished', 'checked', 'win'];
+    protected $fillable = ['author', 'author_ip', 'link', 'finished', 'checked', 'win', 'week_id', 'video'];
 
     public static function getCurrentWeek()
     {
-        if (self::max('finished') === 0) {
+        if (self::max('finished') === 0 || !self::max('finished')) {
             return 1;
         } elseif (self::min('finished') === 1) {
             return self::max('week_id') + 1;

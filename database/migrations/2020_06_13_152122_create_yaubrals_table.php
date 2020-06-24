@@ -22,6 +22,7 @@ class CreateYaubralsTable extends Migration
             $table->smallInteger('checked')->default(0);
             $table->tinyInteger('finished')->default(0);
             $table->tinyInteger('win')->default(0);
+            $table->string('video')->nullable();
             $table->timestamps();
         });
     }

@@ -379,13 +379,12 @@ module.exports = function () {
   $(document).ready(function () {
     $('.yaubral-moderation__ok').click(function () {
       $("td[data-id=".concat($(this).attr('data-id'), "] span")).removeClass().addClass('green').html('Принято');
-      var data = $(this).parent('form').serialize();
       $.ajax({
         url: '/yaubral/postConfirm',
         type: 'post',
-        data: data,
+        data: $(this).parent('form').serialize(),
         success: function success() {
-          return;
+          $('.yaubral-getWinner').fadeIn().css('display', 'block');
         }
       });
     });
@@ -407,21 +406,25 @@ module.exports = function () {
         $('.yaubral-loading').fadeIn();
         setTimeout(function () {
           $('.yaubral-loading').hide();
-        }, 2500);
+        }, 200);
         setTimeout(function () {
           $.ajax({
             url: '/yaubral/getWinner',
             type: 'post',
             data: data,
             success: function success(res) {
-              $('.yaubral-winner').html("\n                                <h3>\u041F\u043E\u0431\u0435\u0434\u0438\u0442\u0435\u043B\u044C: ".concat(res.author, "</h3>\n                                <p>\n                                <span>\n                                \u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043F\u043E\u0441\u0442:\n                                </span>\n                                <a href=\"").concat(res.link, "\" target=\"_blank\" onclick=\"popupWindow(this.href, this.target, window, 1500, 800)\">\n                                ").concat(res.link, "\n                                </a>\n                                </p>\n\n                                "));
+              $('.yaubral-winner').html("\n                                <h3>\u041F\u043E\u0431\u0435\u0434\u0438\u0442\u0435\u043B\u044C: ".concat(res.author, "</h3>\n                                <p>\n                                <span>\n                                \u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043F\u043E\u0441\u0442:\n                                </span>\n                                <a href=\"").concat(res.link, "\" target=\"_blank\" onclick=\"popupWindow(this.href, this.target, window, 1500, 800)\">\n                                ").concat(res.link, "\n                                </a>\n                                </p>\n\n                                ")).css('padding-top', '25px');
               $('.yaubral-getWinner').remove();
               $('.lightgreen').removeClass('lightgreen');
               $("tr[data-id=".concat(res.id, "]")).addClass('lightgreen');
             }
           });
-        }, 2500);
+        }, 200);
       }
+    });
+    $('.yaubral-changeVideo').click(function () {
+      $(this).hide();
+      $('.yaubral');
     });
   });
 }();
