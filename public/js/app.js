@@ -426,6 +426,17 @@ module.exports = function () {
       $(this).hide();
       $('.yaubral');
     });
+    $('.yaubral-play').click(function () {
+      $('.yaubral-play__popup, .yaubral-play__overlay').fadeIn(200);
+      $('.yaubral-play__popup').css('display', 'flex');
+      setTimeout(function () {
+        $('.yaubral-play__popup iframe').height($('.yaubral-play__popup iframe').width() / 1.778).fadeIn();
+      }, 500);
+    });
+    $('.yaubral-play__overlay').click(function () {
+      $('.yaubral-play__popup iframe').attr('src', $('.yaubral-play__popup iframe').attr('src'));
+      $('.yaubral-play__popup, .yaubral-play__overlay').fadeOut();
+    });
   });
 }();
 

@@ -24,6 +24,13 @@
 @section('content')
     @if(\Request::route()->getName() === 'yaubral')
         <div class="yaubral">
+            <div class="yaubral-play">
+                <img src="{{asset('img/play.png')}}" alt="play">
+            </div>
+            <div class="yaubral-play__overlay"></div>
+            <div class="yaubral-play__popup">
+                <iframe src="https://www.youtube.com/embed/3D0NNu7f7pU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
             <div class="yaubral-overlay"></div>
             <div class="yaubral-text">
                 <div class="container">
@@ -151,66 +158,69 @@
     <div class="yaubral-posts">
         <div class="container">
             <h3>Участники розыгрыша #{{$week}}</h3>
-            <table class="table table-striped">
-                <thead>
-                <th>#</th>
-                <th>Имя</th>
-                <th>Ссылка</th>
-                <th>Дата добавления поста</th>
-                <th>Модерация</th>
-                @auth
-                    @if(auth()->user()->isYaubral() && \Request::route()->getName() === 'yaubral')
-                        <th></th>
-                        <th></th>
-                    @endif
-                @endauth
-                </thead>
-                <tbody>
-                @php $i=1 @endphp
-                @foreach($posts as $post)
-                    <tr data-id="{{$post->id}}" @if($post->win === 1) class="lightgreen" @endif>
-                        <td>{{$i++}}</td>
-                        <td>{{$post->author}}</td>
-                        <td class="yaubral-link">
-                            <a href="{{$post->link}}"
-                               onclick="popupWindow(this.href, this.target, window, 1500, 800)">
-                                {{$post->link}}
-                            </a>
-                        </td>
-                        <td>{{$post->created_at}}</td>
-                        <td data-id="{{$post->id}}">
-                            @if($post->checked === 0)
-                                <span class="orange">На модерации</span>
-                            @elseif($post->checked === 1)
-                                <span class="green">Принято</span>
-                            @else
-                                <span class="red">Отклонено</span>
-                            @endif
-                        </td>
-                        @auth
-                            @if(auth()->user()->isYaubral() && \Request::route()->getName() === 'yaubral')
-                                <td>
-                                    <form action="" method="post">
-                                        @csrf
-                                        <input type="hidden" value="{{$post->id}}" name="id">
-                                        <i class="fa fa-check yaubral-moderation yaubral-moderation__ok"
-                                           data-id="{{$post->id}}"></i>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="" method="post">
-                                        @csrf
-                                        <input type="hidden" value="{{$post->id}}" name="id">
-                                        <i class="fa fa-close yaubral-moderation yaubral-moderation__delete"
-                                           data-id="{{$post->id}}"></i>
-                                    </form>
-                                </td>
-                            @endif
-                        @endauth
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+            <div class="yaubral-posts__table">
+                <table class="table table-striped">
+                    <thead>
+                    <th>#</th>
+                    <th>Имя</th>
+                    <th>Ссылка</th>
+                    <th>Дата добавления поста</th>
+                    <th>Модерация</th>
+                    @auth
+                        @if(auth()->user()->isYaubral() && \Request::route()->getName() === 'yaubral')
+                            <th></th>
+                            <th></th>
+                        @endif
+                    @endauth
+                    </thead>
+                    <tbody>
+                    @php $i=1 @endphp
+                    @foreach($posts as $post)
+                        <tr data-id="{{$post->id}}" @if($post->win === 1) class="lightgreen" @endif>
+                            <td>{{$i++}}</td>
+                            <td>{{$post->author}}</td>
+                            <td class="yaubral-link">
+                                <a href="{{$post->link}}"
+                                   onclick="popupWindow(this.href, this.target, window, 1500, 800)">
+                                    {{$post->link}}
+                                </a>
+                            </td>
+                            <td>{{$post->created_at}}</td>
+                            <td data-id="{{$post->id}}">
+                                @if($post->checked === 0)
+                                    <span class="orange">На модерации</span>
+                                @elseif($post->checked === 1)
+                                    <span class="green">Принято</span>
+                                @else
+                                    <span class="red">Отклонено</span>
+                                @endif
+                            </td>
+                            @auth
+                                @if(auth()->user()->isYaubral() && \Request::route()->getName() === 'yaubral')
+                                    <td>
+                                        <form action="" method="post">
+                                            @csrf
+                                            <input type="hidden" value="{{$post->id}}" name="id">
+                                            <i class="fa fa-check yaubral-moderation yaubral-moderation__ok"
+                                               data-id="{{$post->id}}"></i>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="" method="post">
+                                            @csrf
+                                            <input type="hidden" value="{{$post->id}}" name="id">
+                                            <i class="fa fa-close yaubral-moderation yaubral-moderation__delete"
+                                               data-id="{{$post->id}}"></i>
+                                        </form>
+                                    </td>
+                                @endif
+                            @endauth
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+
 
             @if(\Request::route()->getName() === 'yaubral')
                 <a href="{{route('yaubral.showAll')}}" class="btn btn-secondary mt-4">Прошедшие розыгрыши</a>

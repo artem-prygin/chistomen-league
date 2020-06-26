@@ -98,6 +98,45 @@
         text-align: center
         a
             text-align: center
+    &-play
+        position: absolute
+        top: 30px
+        right: 30px
+        z-index: 99
+        animation: play 3s infinite ease-in-out
+        width: 100px
+        cursor: pointer
+        img
+            width: 100%
+        &__overlay
+            display: none
+            position: fixed
+            top: 0
+            left: 0
+            width: 100%
+            height: 100%
+            background: rgba(#000, .5)
+            z-index: 101
+        &__popup
+            display: none
+            align-items: center
+            position: fixed
+            top: 50%
+            left: 50%
+            transform: translate(-50%, -50%)
+            background: #fff
+            z-index: 102
+            iframe
+                display: none
+                width: 1000px
+
+@keyframes play
+    from
+        transform: scale(1)
+    50%
+        transform: scale(1.2)
+    to
+        transform: scale(1)
 
 .red
     color: red
@@ -110,6 +149,12 @@
 
 @media screen and (max-width: 1199px)
     .yaubral
+        &-play
+            &__popup
+                width: 95%
+                justify-content: center
+                iframe
+                    width: 100%
         &-text
             h1, h2
                 font-size: 35px
@@ -122,10 +167,17 @@
             font-size: 16px
 
 
-
-
-
-
+@media screen and (max-width: 767px)
+    .yaubral
+        &-posts
+            h3
+                font-size: 22px
+            &__table
+                overflow-x: scroll
+                table
+                    width: 690px
+        &-play
+            width: 50px
 
 
 
