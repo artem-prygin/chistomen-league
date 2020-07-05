@@ -42,4 +42,21 @@ class Yaubral extends Model
         }
         return self::max('week_id');
     }
+
+    public static function getCandidates($week)
+    {
+        return self::where('week_id', '=', $week)
+            ->where('checked', '=', 1)
+            ->where('win', '=', 0)
+            ->where('old_winner', '=', 0)
+            ->where('add_winner', '=', 0)
+            ->get();
+    }
+
+    public static function setOldWinner($week)
+    {
+        return self::where('week_id', '=', $week)
+            ->where('win', '=', '1')
+            ->update(['win' => 0, 'old_winner' => 1]);
+    }
 }

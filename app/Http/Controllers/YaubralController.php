@@ -77,6 +77,40 @@ class YaubralController extends Controller
         return $winner;
     }
 
+    public function changeWinner($week)
+    {
+        $winner = Yaubral::getCandidates($week);
+
+        if(count($winner) === 0) {
+            \Session::flash('error', 'Не осталось кандидатов для проведения розыгрыша');
+            return redirect()->route('yaubral.show', ['week' => $week]);
+        }
+
+        Yaubral::setOldWinner($week);
+
+        $winner = $winner->random();
+        $winner->win = 1;
+        $winner->save();
+
+        return redirect()->route('yaubral.show', ['week' => $week]);
+    }
+
+    public function addWinner($week)
+    {
+        $winner = Yaubral::getCandidates($week);
+
+        if(count($winner) === 0) {
+            \Session::flash('error', 'Не осталось кандидатов для проведения розыгрыша');
+            return redirect()->route('yaubral.show', ['week' => $week]);
+        }
+
+        $winner = $winner->random();
+        $winner->add_winner = 1;
+        $winner->save();
+
+        return redirect()->route('yaubral.show', ['week' => $week]);
+    }
+
     public function showAll()
     {
         return view('yaubral.all', ['weeks' => Yaubral::where('finished', '=', 1)
@@ -89,10 +123,11 @@ class YaubralController extends Controller
     {
         $posts = Yaubral::where('week_id', '=', $week)->get();
         $winner = $posts->where('win', '=', 1)->first();
+        $addWinners = $posts->where('add_winner', '=', 1)->all();
         if (!$winner) {
             abort(404);
         }
-        return view('yaubral.index', ['posts' => $posts, 'week' => $week, 'winner' => $winner]);
+        return view('yaubral.index', ['posts' => $posts, 'week' => $week, 'winner' => $winner, 'addWinners' => $addWinners]);
     }
 
     public function addVideo($week, Request $request)

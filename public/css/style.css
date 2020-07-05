@@ -426,7 +426,7 @@ main {
 .yaubral {
   background: url(/images/yaubral.jpg?e72f5eca3c6c58b100dd344126b5f937) fixed center no-repeat;
   background-size: cover;
-  height: 90vh;
+  height: 100vh;
   width: 100%;
   position: relative;
 }
@@ -569,6 +569,26 @@ main {
   text-align: center;
 }
 
+.yaubral-vk {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 30px;
+  left: 30px;
+  z-index: 99;
+  font-size: 60px;
+  cursor: pointer;
+}
+
+.yaubral-vk a {
+  color: #fff;
+  transition: color 0.3s;
+}
+
+.yaubral-vk a:hover {
+  color: #ccc;
+}
+
 .yaubral-play {
   position: absolute;
   top: 30px;
@@ -609,6 +629,10 @@ main {
 .yaubral-play__popup iframe {
   display: none;
   width: 1000px;
+}
+
+.yaubral-addWinners {
+  margin-top: 30px;
 }
 
 @-webkit-keyframes play {
@@ -655,6 +679,10 @@ main {
   background-color: lightgreen !important;
 }
 
+.bg-orange {
+  background-color: orange !important;
+}
+
 @media screen and (max-width: 1199px) {
   .yaubral-play__popup {
     width: 95%;
@@ -698,6 +726,10 @@ main {
 
   .yaubral-play {
     width: 50px;
+  }
+
+  .yaubral-vk {
+    font-size: 30px;
   }
 }
 

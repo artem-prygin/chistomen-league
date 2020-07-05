@@ -24,12 +24,19 @@
 @section('content')
     @if(\Request::route()->getName() === 'yaubral')
         <div class="yaubral">
+            <div class="yaubral-vk">
+                <a href="https://vk.com/yaubral" target="_blank">
+                    <i class="fa fa-vk"></i>
+                </a>
+            </div>
             <div class="yaubral-play">
                 <img src="{{asset('img/play.png')}}" alt="play">
             </div>
             <div class="yaubral-play__overlay"></div>
             <div class="yaubral-play__popup">
-                <iframe src="https://www.youtube.com/embed/3D0NNu7f7pU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/3D0NNu7f7pU" frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
             </div>
             <div class="yaubral-overlay"></div>
             <div class="yaubral-text">
@@ -99,7 +106,7 @@
                 <form action="" method="post" style="display: none" class="getWinner">
                     @csrf
                 </form>
-                <button class="yaubral-getWinner btn btn-success ml-auto mr-auto
+                <button class="yaubral-getWinner btn btn-success ml-auto mr-auto mt-5
             @if(auth()->user()->isYaubral() && count($confirmed) > 0)
                     d-block
             @endif
@@ -121,7 +128,7 @@
 
     @if(\Request::route()->getName() === 'yaubral.show')
         <div class="container mt-5">
-            <a href="{{route('yaubral.showAll')}}" class="btn btn-secondary">Ко списку розыгрышей</a>
+            <a href="{{route('yaubral.showAll')}}" class="btn btn-secondary">К списку розыгрышей</a>
             <hr>
         </div>
 
@@ -137,21 +144,52 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="container">
+                <div class="alert alert-danger alert-dismissible fade show profile-alert" role="alert">
+                    <span>{{session('error')}}</span>
+                    <button class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        @endif
+
         <div class="container">
             <div class="yaubral-winner">
-                <div class="yaubral-winner">
-                    <h3>Победитель розыгрыша №{{$week}}: {{$winner->author}}</h3>
-                    <p>
+                <h3>Победитель розыгрыша №{{$week}}: {{$winner->author}}</h3>
+                <p>
                         <span>
                         Посмотреть пост:
                         </span>
-                        <a href="{{$winner->link}}" target="_blank"
+                    <a href="{{$winner->link}}" target="_blank"
+                       onclick="popupWindow(this.href, this.target, window, 1500, 800)">
+                        {{$winner->link}}
+                    </a>
+                </p>
+
+                <a class="btn btn-danger reGet-winner"
+                   href="{{route('yaubral.changeWinner', ['week' => $winner->week_id])}}">Переиграть розыгрыш</a>
+
+                <a class="btn btn-success add-winner"
+                   href="{{route('yaubral.addWinner', ['week' => $winner->week_id])}}">Добавить победителя</a>
+            </div>
+
+            @foreach($addWinners as $addWinner)
+                <div class="yaubral-addWinners">
+                    <h4>Дополнительный победитель: {{$addWinner->author}}</h4>
+                    <p>
+                            <span>
+                            Посмотреть пост:
+                            </span>
+                        <a href="{{$addWinner->link}}" target="_blank"
                            onclick="popupWindow(this.href, this.target, window, 1500, 800)">
-                            {{$winner->link}}
+                            {{$addWinner->link}}
                         </a>
                     </p>
                 </div>
-            </div>
+                <hr>
+            @endforeach
         </div>
     @endif
 
@@ -176,7 +214,8 @@
                     <tbody>
                     @php $i=1 @endphp
                     @foreach($posts as $post)
-                        <tr data-id="{{$post->id}}" @if($post->win === 1) class="lightgreen" @endif>
+                        <tr data-id="{{$post->id}}" @if($post->win === 1) class="lightgreen"
+                            @elseif($post->add_winner === 1) class="bg-orange" @endif>
                             <td>{{$i++}}</td>
                             <td>{{$post->author}}</td>
                             <td class="yaubral-link">
@@ -229,7 +268,8 @@
             @if(\Request::route()->getName() === 'yaubral.show' && !is_null($winner->video))
                 <hr>
                 <h3>Видео розыгрыша</h3>
-                <a href="{{$winner->video}}" target="_blank" class="yaubral-videoLink">{{$winner->video}}</a>
+                <a href="{{$winner->video}}" target="_blank"
+                   class="yaubral-videoLin mb-3 d-block">{{$winner->video}}</a>
                 @auth
                     @if(auth()->user()->isYaubral())
                         <form action="{{route('yaubral.addVideo', ['week' => $week])}}" method="post"
@@ -250,7 +290,6 @@
                                 <button class="btn btn-primary">Добавить/изменить</button>
                             </div>
                         </form>
-                        <button class="btn btn-secondary d-block mt-3 yaubral-changeVideo">Изменить ссылку</button>
 
                     @endif
                 @endauth
