@@ -27,7 +27,7 @@ class YaubralController extends Controller
         $count = Yaubral::where('week_id', '=', $currentWeek)
             ->where('author_ip', '=', $ip)
             ->count();
-        $maxCount = 20;
+        $maxCount = 2000;
         if ($count > $maxCount) {
             \Session::flash('error', 'Нельзя добавить более ' . $maxCount . ' постов с одного IP');
             return redirect()->route('yaubral');
