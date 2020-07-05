@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class YaubralController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isYaubral')->except(['index', 'showAll', 'show']);
+    }
+
     public function index()
     {
         $currentWeek = Yaubral::getCurrentWeek();
@@ -47,7 +52,6 @@ class YaubralController extends Controller
 
         return redirect()->route('yaubral');
     }
-
 
     public function postConfirm(Request $request)
     {

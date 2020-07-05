@@ -168,11 +168,16 @@
                     </a>
                 </p>
 
-                <a class="btn btn-danger reGet-winner"
-                   href="{{route('yaubral.changeWinner', ['week' => $winner->week_id])}}">Переиграть розыгрыш</a>
+                @auth
+                    @if(auth()->user()->isYaubral())
+                        <a class="btn btn-danger reGet-winner"
+                           href="{{route('yaubral.changeWinner', ['week' => $winner->week_id])}}">Переиграть
+                            розыгрыш</a>
 
-                <a class="btn btn-success add-winner"
-                   href="{{route('yaubral.addWinner', ['week' => $winner->week_id])}}">Добавить победителя</a>
+                        <a class="btn btn-success add-winner"
+                           href="{{route('yaubral.addWinner', ['week' => $winner->week_id])}}">Добавить победителя</a>
+                    @endif
+                @endauth
             </div>
 
             @foreach($addWinners as $addWinner)
