@@ -9,7 +9,7 @@ class YaubralController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isYaubral')->except(['index', 'showAll', 'show']);
+        $this->middleware('isYaubral')->except(['index', 'showAll', 'store', 'show']);
     }
 
     public function index()
