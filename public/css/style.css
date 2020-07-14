@@ -733,6 +733,30 @@ main {
   }
 }
 
+@media screen and (max-width: 575px) {
+  .yaubral {
+    height: 110vh;
+  }
+
+  .yaubral-play {
+    width: 40px;
+    right: 5px;
+  }
+
+  .yaubral-vk {
+    left: 5px;
+  }
+
+  .yaubral-text h1,
+  .yaubral-text h2 {
+    font-size: 25px;
+  }
+
+  .yaubral-text p {
+    font-size: 13px;
+  }
+}
+
 footer {
   position: absolute;
   left: 0;
