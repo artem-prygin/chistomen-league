@@ -55,7 +55,7 @@ use App\Models\User;
                         @endif
                     </tr>
                 </form>
-                @php $i=1 @endphp
+                @php $i = request('page') ? request('page') * 10 - 9 @endphp
                 @forelse($users as $user)
                     <tr>
                         <th scope="row">{{$i++}}</th>
