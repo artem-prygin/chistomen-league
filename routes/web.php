@@ -93,3 +93,17 @@ Route::post('/yaubral/postConfirm', 'YaubralController@postConfirm')->name('yaub
 Route::post('/yaubral/postDecline', 'YaubralController@postDecline')->name('yaubral.postDecline');
 Route::post('/yaubral/getWinner', 'YaubralController@getWinner')->name('yaubral.getWinner');
 Route::post('/yaubral/{week}', 'YaubralController@addVideo')->name('yaubral.addVideo');
+
+/**
+ * Yarazdelil / Я разделил
+ */
+Route::get('/yarazdelil', 'YaRazdelilController@index')->name('yarazdelil');
+Route::get('/yarazdelil/all', 'YaRazdelilController@showAll')->name('yarazdelil.showAll');
+Route::get('/yarazdelil/changeWinner/{week}', 'YaRazdelilController@changeWinner')->name('yarazdelil.changeWinner');
+Route::get('/yarazdelil/addWinner/{week}', 'YaRazdelilController@addWinner')->name('yarazdelil.addWinner');
+Route::get('/yarazdelil/{week}', 'YaRazdelilController@show')->name('yarazdelil.show');
+Route::post('/yarazdelil', 'YaRazdelilController@store')->name('yarazdelil.store');
+Route::post('/yarazdelil/postConfirm', 'YaRazdelilController@postConfirm')->name('yarazdelil.postConfirm');
+Route::post('/yarazdelil/postDecline', 'YaRazdelilController@postDecline')->name('yarazdelil.postDecline');
+Route::post('/yarazdelil/getWinner', 'YaRazdelilController@getWinner')->name('yarazdelil.getWinner');
+Route::post('/yarazdelil/{week}', 'YaRazdelilController@addVideo')->name('yarazdelil.addVideo');

@@ -1,5 +1,3 @@
-@charset "UTF-8";
-
 body {
   position: relative;
   min-height: 100vh;
@@ -106,7 +104,7 @@ main {
 
 .profile-group h6 {
   padding: 5px;
-  opacity: 0.5;
+  opacity: .5;
 }
 
 .profile-group h6.profile-rate {
@@ -150,8 +148,8 @@ main {
 }
 
 .profile-img__upload .profile-img__input {
-  width: 0.1px;
-  height: 0.1px;
+  width: .1px;
+  height: .1px;
   opacity: 0;
   overflow: hidden;
   position: absolute;
@@ -301,7 +299,7 @@ main {
 
 .post-cat {
   color: rgba(0, 0, 0, 0.5);
-  transition: color 0.3s;
+  transition: color .3s;
 }
 
 .post-cat:hover {
@@ -334,7 +332,7 @@ main {
   color: #fff;
   background: #ccc;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color .3s;
 }
 
 .post-image__close:hover {
@@ -464,7 +462,7 @@ main {
 
 .yaubral-text h1 a::after,
 .yaubral-text h2 a::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: -5px;
   left: 0;
@@ -472,7 +470,7 @@ main {
   height: 2px;
   opacity: 0;
   background: #fff;
-  transition: width 0.3s, opacity 0.3s;
+  transition: width .3s, opacity .3s;
 }
 
 .yaubral-text h1 a:hover,
@@ -582,7 +580,7 @@ main {
 
 .yaubral-vk a {
   color: #fff;
-  transition: color 0.3s;
+  transition: color .3s;
 }
 
 .yaubral-vk a:hover {
@@ -757,6 +755,326 @@ main {
   }
 }
 
+.yarazdelil {
+  background: url(/images/yaubral.jpg?e72f5eca3c6c58b100dd344126b5f937) fixed center no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.yarazdelil-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  color: #fff;
+  width: 100%;
+}
+
+.yarazdelil-text__wrapper {
+  width: 100%;
+}
+
+.yarazdelil-text hr {
+  background: #fff;
+}
+
+.yarazdelil-text h1,
+.yarazdelil-text h2 {
+  font-weight: 700;
+  font-size: 50px;
+}
+
+.yarazdelil-text h1 a,
+.yarazdelil-text h2 a {
+  position: relative;
+  color: #fff;
+}
+
+.yarazdelil-text h1 a::after,
+.yarazdelil-text h2 a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  opacity: 0;
+  background: #fff;
+  transition: width .3s, opacity .3s;
+}
+
+.yarazdelil-text h1 a:hover,
+.yarazdelil-text h2 a:hover {
+  color: #fff;
+}
+
+.yarazdelil-text h1 a:hover::after,
+.yarazdelil-text h2 a:hover::after {
+  opacity: 1;
+  width: 100%;
+}
+
+.yarazdelil-text p {
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.yarazdelil-text p span {
+  display: block;
+}
+
+.yarazdelil-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+
+.yarazdelil-form input {
+  margin: auto;
+  height: auto;
+  max-width: 500px;
+  border-radius: 30px;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.yarazdelil-btn {
+  font-family: Roboto, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  border-radius: 30px;
+  padding: 15px;
+  width: 290px;
+  text-transform: uppercase;
+}
+
+.yarazdelil-posts {
+  padding: 50px 0;
+}
+
+.yarazdelil-error {
+  display: inline;
+  padding: 5px;
+  background: #fff;
+}
+
+.yarazdelil-moderation {
+  cursor: pointer;
+  font-size: 30px;
+}
+
+.yarazdelil-moderation__ok {
+  color: green;
+}
+
+.yarazdelil-moderation__delete {
+  color: red;
+}
+
+.yarazdelil-loading {
+  display: none;
+  text-align: center;
+}
+
+.yarazdelil-loading img {
+  max-width: 100%;
+}
+
+.yarazdelil-getWinner {
+  display: none;
+  margin-top: 20px;
+}
+
+.yarazdelil-winner {
+  text-align: center;
+}
+
+.yarazdelil-winner a {
+  text-align: center;
+}
+
+.yarazdelil-vk {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 30px;
+  left: 30px;
+  z-index: 99;
+  font-size: 60px;
+  cursor: pointer;
+}
+
+.yarazdelil-vk a {
+  color: #fff;
+  transition: color .3s;
+}
+
+.yarazdelil-vk a:hover {
+  color: #ccc;
+}
+
+.yarazdelil-play {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 99;
+  -webkit-animation: play 3s infinite ease-in-out;
+          animation: play 3s infinite ease-in-out;
+  width: 100px;
+  cursor: pointer;
+}
+
+.yarazdelil-play img {
+  width: 100%;
+}
+
+.yarazdelil-play__overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 101;
+}
+
+.yarazdelil-play__popup {
+  display: none;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  z-index: 102;
+}
+
+.yarazdelil-play__popup iframe {
+  display: none;
+  width: 1000px;
+}
+
+.yarazdelil-addWinners {
+  margin-top: 30px;
+}
+
+@keyframes play {
+  from {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+
+.orange {
+  color: orange;
+}
+
+.lightgreen {
+  background-color: lightgreen !important;
+}
+
+.bg-orange {
+  background-color: orange !important;
+}
+
+@media screen and (max-width: 1199px) {
+  .yarazdelil-play__popup {
+    width: 95%;
+    justify-content: center;
+  }
+
+  .yarazdelil-play__popup iframe {
+    width: 100%;
+  }
+
+  .yarazdelil-text h1,
+  .yarazdelil-text h2 {
+    font-size: 35px;
+  }
+
+  .yarazdelil-text p {
+    font-size: 15px;
+  }
+
+  .yarazdelil-form input {
+    font-size: 15px;
+  }
+
+  .yarazdelil-btn {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .yarazdelil-posts h3 {
+    font-size: 22px;
+  }
+
+  .yarazdelil-posts__table {
+    overflow-x: scroll;
+  }
+
+  .yarazdelil-posts__table table {
+    width: 690px;
+  }
+
+  .yarazdelil-play {
+    width: 50px;
+  }
+
+  .yarazdelil-vk {
+    font-size: 30px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .yarazdelil {
+    height: 625px;
+  }
+
+  .yarazdelil-play {
+    width: 40px;
+    right: 5px;
+  }
+
+  .yarazdelil-vk {
+    left: 5px;
+  }
+
+  .yarazdelil-text h1,
+  .yarazdelil-text h2 {
+    font-size: 25px;
+  }
+
+  .yarazdelil-text p {
+    font-size: 13px;
+  }
+}
+
 footer {
   position: absolute;
   left: 0;
@@ -775,7 +1093,7 @@ footer p {
 
 footer p a {
   color: #fff;
-  transition: color 0.3s;
+  transition: color .3s;
 }
 
 footer p a:hover {

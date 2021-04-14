@@ -10,19 +10,26 @@
     <title>@yield('title') | {{config('app.name')}}</title>
 
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
         ym(65602129, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
         });
     </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/65602129" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/65602129" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
     <!-- /Yandex.Metrika counter -->
 
     <link rel="icon" href="{{ asset('img/logo.svg') }}" type="image/x-icon"/>
@@ -41,12 +48,12 @@
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     @auth
         @if(!in_array(\Request::route()->getName(), ['profile.show', 'group', 'main']))
-        <script>
-            window.addEventListener('DOMContentLoaded', (event) => {
-                document.body.classList.add('<?=auth()->user()->usermeta->getGroup->theme?>-bg');
-            });
-        </script>
-            @endif
+            <script>
+                window.addEventListener('DOMContentLoaded', (event) => {
+                    document.body.classList.add('<?=auth()->user()->usermeta->getGroup->theme?>-bg');
+                });
+            </script>
+        @endif
     @endauth
 </head>
 <body>
@@ -81,9 +88,20 @@
                     <a class="nav-link @if(\Request::route()->getName() === 'league') {{__('nav-link__active')}} @endif"
                        href="{{ route('league') }}">Участники Лиги</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(\Request::route()->getName() === 'yaubral') {{__('nav-link__active')}} @endif"
-                       href="{{ route('yaubral') }}">#яУбрал</a>
+
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle"
+                       href="#" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        Конкурсы <span class="caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="nav-link @if(\Request::route()->getName() === 'yaubral') {{__('nav-link__active')}} @endif"
+                           href="{{ route('yaubral') }}">#яУбрал</a>
+                        <a class="nav-link @if(\Request::route()->getName() === 'yarazdelil') {{__('nav-link__active')}} @endif"
+                           href="{{ route('yarazdelil') }}">#яРазделил</a>
+                    </div>
                 </li>
             </ul>
 
@@ -104,7 +122,8 @@
                 @else
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle
-                        @if(\Request::route()->getName() === 'profile.index') {{__('nav-link__active')}} @endif" href="#" role="button"
+                        @if(\Request::route()->getName() === 'profile.index') {{__('nav-link__active')}} @endif"
+                           href="#" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
