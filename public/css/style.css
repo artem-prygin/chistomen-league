@@ -756,7 +756,7 @@ main {
 }
 
 .yarazdelil {
-  background: url(/images/yaubral.jpg?e72f5eca3c6c58b100dd344126b5f937) fixed center no-repeat;
+  background: url(/images/yarazdelil.jpg?0e15dfb484a903878f8b783394fe33e2) fixed center no-repeat;
   background-size: cover;
   height: 100vh;
   width: 100%;
@@ -833,7 +833,7 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 9;
 }
 

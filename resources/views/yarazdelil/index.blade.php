@@ -29,29 +29,28 @@
                     <i class="fa fa-vk"></i>
                 </a>
             </div>
-            <div class="yarazdelil-play">
-                <img src="{{asset('img/play.png')}}" alt="play">
-            </div>
-            <div class="yarazdelil-play__overlay"></div>
-            <div class="yarazdelil-play__popup">
-                <iframe src="https://www.youtube.com/embed/3D0NNu7f7pU" frameborder="0"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-            </div>
+{{--            <div class="yarazdelil-play">--}}
+{{--                <img src="{{asset('img/play.png')}}" alt="play">--}}
+{{--            </div>--}}
+{{--            <div class="yarazdelil-play__overlay"></div>--}}
+{{--            <div class="yarazdelil-play__popup">--}}
+{{--                <iframe src="https://www.youtube.com/embed/3D0NNu7f7pU" frameborder="0"--}}
+{{--                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"--}}
+{{--                        allowfullscreen></iframe>--}}
+{{--            </div>--}}
             <div class="yarazdelil-overlay"></div>
             <div class="yarazdelil-text">
                 <div class="container">
                     <div class="yarazdelil-text__wrapper">
                         <h1>
-                            <a href="https://vk.com/yaubral" target="_blank">#яУбрал</a>
+                            <a href="https://vk.com/yaubral" target="_blank">#яРазделил, #яСортирую</a>
                         </h1>
                         <h2>1000 рублей каждую неделю</h2>
                         <hr>
                         <p>
-                            <span>Примите участие в еженедельном розыгрыше приза за уборку мусора!</span>
-                            <span>Выложите в любой социальной сети фотографию ДО|ПОСЛЕ как Вы убрали мусор в любимом городе с хэштегом
-                    #яубрал, отправьте ссылку на пост в форму ниже и участвуйте в розыгрыше.</span>
-                            <span style="font-style: italic">!!! Посты ЭкоЛиги в категории "Уборка" участвуют в конкурсе автоматически !!!</span>
+                            <span>Примите участие в еженедельном розыгрыше приза за раздельный сбор отходов (РСО)!</span>
+                            <span>Выложите в любой социальной сети фотографию, как Вы сортируете отходы с хэштегом
+                    #яРазделил или #яСортирую, отправьте ссылку на пост в форму ниже и участвуйте в розыгрыше.</span>
                         </p>
 
                         @if(session('success'))
@@ -93,7 +92,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary d-block m-auto yarazdelil-btn">Участвовать</button>
+                                    <button class="btn btn-warning d-block m-auto yarazdelil-btn">Участвовать</button>
                                 </form>
                             </div>
                         </div>
