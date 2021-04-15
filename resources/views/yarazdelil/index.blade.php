@@ -12,13 +12,13 @@
             padding-top: 0;
         }
     </style>
-    <script>
-        function popupWindow(url, title, win, w, h) {
-            const y = win.top.outerHeight / 2 + win.top.screenY - (h / 2);
-            const x = win.top.outerWidth / 2 + win.top.screenX - (w / 2);
-            return win.open(url, title, `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${w}, height=${h}, top=${y}, left=${x}`);
-        }
-    </script>
+{{--    <script>--}}
+{{--        function popupWindow(url, title, win, w, h) {--}}
+{{--            const y = win.top.outerHeight / 2 + win.top.screenY - (h / 2);--}}
+{{--            const x = win.top.outerWidth / 2 + win.top.screenX - (w / 2);--}}
+{{--            return win.open(url, title, `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${w}, height=${h}, top=${y}, left=${x}`);--}}
+{{--        }--}}
+{{--    </script>--}}
 @endsection
 
 @section('content')
@@ -161,8 +161,7 @@
                         <span>
                         Посмотреть пост:
                         </span>
-                    <a href="{{$winner->link}}" target="_blank"
-                       onclick="popupWindow(this.href, this.target, window, 1500, 800)">
+                    <a href="{{$winner->link}}" target="_blank">
                         {{$winner->link}}
                     </a>
                 </p>
@@ -186,8 +185,7 @@
                             <span>
                             Посмотреть пост:
                             </span>
-                        <a href="{{$addWinner->link}}" target="_blank"
-                           onclick="popupWindow(this.href, this.target, window, 1500, 800)">
+                        <a href="{{$addWinner->link}}" target="_blank">
                             {{$addWinner->link}}
                         </a>
                     </p>
@@ -223,8 +221,7 @@
                             <td>{{$i++}}</td>
                             <td>{{$post->author}}</td>
                             <td class="yarazdelil-link">
-                                <a href="{{$post->link}}"
-                                   onclick="popupWindow(this.href, this.target, window, 1500, 800)">
+                                <a href="{{$post->link}}" target="_blank">
                                     {{$post->link}}
                                 </a>
                             </td>
