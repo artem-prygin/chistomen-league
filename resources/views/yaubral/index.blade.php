@@ -222,7 +222,7 @@
                             <td>{{$i++}}</td>
                             <td>{{$post->author}}</td>
                             <td class="yaubral-link">
-                                <a href="{{$post->link}}">
+                                <a href="{{$post->link}}" target="_blank">
                                     {{$post->link}}
                                 </a>
                             </td>
