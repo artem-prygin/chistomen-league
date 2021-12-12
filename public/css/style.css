@@ -1076,13 +1076,14 @@ main {
 }
 
 footer {
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   padding: 15px;
   background: #666;
   text-align: center;
+  z-index: 10;
 }
 
 footer p {
