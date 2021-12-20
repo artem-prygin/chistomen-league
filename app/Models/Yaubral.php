@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\Post
@@ -50,6 +51,27 @@ class Yaubral extends Model
             ->where('win', '=', 0)
             ->where('old_winner', '=', 0)
             ->where('add_winner', '=', 0)
+            ->get();
+    }
+
+    public static function getAllPostsCount()
+    {
+        return self::where('updated_at', '>=', strval(now()->year))
+            ->where('checked', '=', 1)
+            ->where('finished', '=', 1)
+            ->count();
+    }
+
+    public static function getMostActiveUsers()
+    {
+        return DB::table('yaubrals')
+            ->select('author', DB::raw('count(author) as count'))
+            ->where('updated_at', '>=', strval(now()->year))
+            ->where('checked', '=', 1)
+            ->where('finished', '=', 1)
+            ->groupBy('author')
+            ->orderBy('count', 'desc')
+            ->take(3)
             ->get();
     }
 

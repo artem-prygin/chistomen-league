@@ -729,6 +729,10 @@ main {
   .yaubral-vk {
     font-size: 30px;
   }
+
+  .yaubral-commonInfo {
+    flex-direction: column-reverse;
+  }
 }
 
 @media screen and (max-width: 575px) {
@@ -1049,6 +1053,10 @@ main {
   .yarazdelil-vk {
     font-size: 30px;
   }
+
+  .yarazdelil-commonInfo {
+    flex-direction: column-reverse;
+  }
 }
 
 @media screen and (max-width: 575px) {
@@ -1100,6 +1108,12 @@ footer p a {
 footer p a:hover {
   text-decoration: none;
   color: #e5e5e5;
+}
+
+@media screen and (max-width: 1024px) {
+  footer {
+    position: absolute;
+  }
 }
 
 .blue {

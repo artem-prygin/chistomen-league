@@ -161,7 +161,7 @@
 <footer class="footer">
     <p>Сделано просто и с любовью на Laravel</p>
     <p>
-        Разработчик-скриптоложец: <a href="https://vk.com/grib_gribych" target="_blank">Артем Прыгин</a>
+        Разработчик-скриптоложец: <a href="https://instagram.com/grib_gribych" target="_blank">Артем Прыгин</a>
     </p>
 </footer>
 

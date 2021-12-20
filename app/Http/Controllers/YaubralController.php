@@ -17,7 +17,9 @@ class YaubralController extends Controller
         $currentWeek = Yaubral::getCurrentWeek();
         $posts = Yaubral::where('week_id', '=', $currentWeek)->get();
         $comfirmed = $posts->where('checked', '=', 1);
-        return view('yaubral.index', ['posts' => $posts, 'week' => $currentWeek, 'confirmed' => $comfirmed]);
+        $allPostsCount = Yaubral::getAllPostsCount();
+        $mostActiveUsers = Yaubral::getMostActiveUsers();
+        return view('yaubral.index', ['posts' => $posts, 'week' => $currentWeek, 'confirmed' => $comfirmed, 'allPostsCount' => $allPostsCount, 'mostActiveUsers' => $mostActiveUsers]);
     }
 
     public function store(Request $request)

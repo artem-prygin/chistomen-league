@@ -197,6 +197,25 @@
 
     <div class="yarazdelil-posts">
         <div class="container">
+            <div class="yaubral-commonInfo d-flex justify-content-between flex-wrap">
+                <div class="mr-3">
+                    <h5 class="font-weight-bold">Самые активные за {{now()->year}} год:</h5>
+                    @php $i=1 @endphp
+                    @foreach($mostActiveUsers as $user)
+                        <div class="d-flex green font-weight-bold">
+                            <div class="mr-1">{{ $i++ }}. {{ $user->author }}</div>
+                            <div>({{ $user->count }})</div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <h5 class="font-weight-bold">Всего постов в {{now()->year}} году: <span class="green">{{$allPostsCount}}</span></h5>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="container">
             <h3>Участники розыгрыша #{{$week}}</h3>
             <div class="yarazdelil-posts__table">
                 <table class="table table-striped">

@@ -17,7 +17,9 @@ class YaRazdelilController extends Controller
         $currentWeek = Yarazdelil::getCurrentWeek();
         $posts = Yarazdelil::where('week_id', '=', $currentWeek)->get();
         $comfirmed = $posts->where('checked', '=', 1);
-        return view('yarazdelil.index', ['posts' => $posts, 'week' => $currentWeek, 'confirmed' => $comfirmed]);
+        $allPostsCount = Yarazdelil::getAllPostsCount();
+        $mostActiveUsers = Yarazdelil::getMostActiveUsers();
+        return view('yarazdelil.index', ['posts' => $posts, 'week' => $currentWeek, 'confirmed' => $comfirmed, 'allPostsCount' => $allPostsCount, 'mostActiveUsers' => $mostActiveUsers]);
     }
 
     public function store(Request $request)
