@@ -56,7 +56,7 @@ class Yaubral extends Model
 
     public static function getAllPostsCount()
     {
-        return self::where('updated_at', '>=', strval(now()->year))
+        return self::where('updated_at', '>=', now()->year . '-01-01')
             ->where('checked', '=', 1)
             ->where('finished', '=', 1)
             ->count();
@@ -66,7 +66,7 @@ class Yaubral extends Model
     {
         return DB::table('yaubrals')
             ->select('author', DB::raw('count(author) as count'))
-            ->where('updated_at', '>=', strval(now()->year))
+            ->where('updated_at', '>=', now()->year . '-01-01')
             ->where('checked', '=', 1)
             ->where('finished', '=', 1)
             ->groupBy('author')
