@@ -196,7 +196,7 @@
     @endif
 
     <div class="yarazdelil-posts">
-        @if(\Request::route()->getName() === 'yaubral')
+        @if(\Request::route()->getName() === 'yarazdelil')
         <div class="container">
             <div class="yaubral-commonInfo d-flex justify-content-between flex-wrap">
                 <div class="mr-3">
