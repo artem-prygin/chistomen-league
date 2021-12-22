@@ -196,6 +196,7 @@
     @endif
 
     <div class="yarazdelil-posts">
+        @if(\Request::route()->getName() === 'yaubral')
         <div class="container">
             <div class="yaubral-commonInfo d-flex justify-content-between flex-wrap">
                 <div class="mr-3">
@@ -214,6 +215,7 @@
         </div>
 
         <hr>
+        @endif
 
         <div class="container">
             <h3>Участники розыгрыша #{{$week}}</h3>
