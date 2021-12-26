@@ -58,7 +58,6 @@ class Yaubral extends Model
     {
         return self::where('updated_at', '>=', now()->year . '-01-01')
             ->where('checked', '=', 1)
-            ->where('finished', '=', 1)
             ->count();
     }
 
