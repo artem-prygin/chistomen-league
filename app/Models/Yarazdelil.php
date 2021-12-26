@@ -67,7 +67,6 @@ class Yarazdelil extends Model
             ->select('author', DB::raw('count(author) as count'))
             ->where('updated_at', '>=', now()->year . '-01-01')
             ->where('checked', '=', 1)
-            ->where('finished', '=', 1)
             ->groupBy('author')
             ->orderBy('count', 'desc')
             ->take(3)
