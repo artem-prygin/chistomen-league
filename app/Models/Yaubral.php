@@ -29,7 +29,6 @@ use Illuminate\Support\Facades\DB;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-
 class Yaubral extends Model
 {
     protected $fillable = ['author', 'author_ip', 'link', 'finished', 'checked', 'win', 'week_id', 'video'];
@@ -46,9 +45,19 @@ class Yaubral extends Model
 
     public static function getCandidates($week)
     {
+        $winners = self::select('author')
+            ->where(function ($query) use ($week) {
+                return $query
+                    ->where('week_id', '=', $week)
+                    ->where('checked', '=', 1);
+            })->where(function ($query) {
+                return $query->where('win', '=', 1)
+                    ->orWhere('add_winner', '=', 1);
+            })->pluck('author')->toArray();
+
         return self::where('week_id', '=', $week)
+            ->whereNotIn('author', $winners)
             ->where('checked', '=', 1)
-            ->where('win', '=', 0)
             ->where('old_winner', '=', 0)
             ->where('add_winner', '=', 0)
             ->get();

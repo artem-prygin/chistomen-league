@@ -72,10 +72,20 @@ class YaRazdelilController extends Controller
     public function getWinner()
     {
         $currentWeek = Yarazdelil::getCurrentWeek();
+
+        $author = Yarazdelil::where('week_id', '=', $currentWeek)
+            ->select('author')
+            ->where('checked', '=', 1)
+            ->where('finished', '=', 0)
+            ->groupBy('author')
+            ->get()->random()->author;
+
         $winner = Yarazdelil::where('week_id', '=', $currentWeek)
             ->where('checked', '=', 1)
             ->where('finished', '=', 0)
+            ->where('author', '=', $author)
             ->get()->random();
+
         $winner->win = 1;
         $winner->save();
         Yarazdelil::where('week_id', '=', $currentWeek)->update(['finished' => 1]);

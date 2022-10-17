@@ -72,10 +72,19 @@ class YaubralController extends Controller
     public function getWinner()
     {
         $currentWeek = Yaubral::getCurrentWeek();
+        $author = Yaubral::where('week_id', '=', $currentWeek)
+            ->select('author')
+            ->where('checked', '=', 1)
+            ->where('finished', '=', 0)
+            ->groupBy('author')
+            ->get()->random()->author;
+
         $winner = Yaubral::where('week_id', '=', $currentWeek)
             ->where('checked', '=', 1)
             ->where('finished', '=', 0)
+            ->where('author', '=', $author)
             ->get()->random();
+
         $winner->win = 1;
         $winner->save();
         Yaubral::where('week_id', '=', $currentWeek)->update(['finished' => 1]);
