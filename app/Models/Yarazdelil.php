@@ -44,6 +44,7 @@ class Yarazdelil extends Model
         return self::max('week_id');
     }
 
+
     public static function getCandidates($week)
     {
         $winners = self::select('author')
